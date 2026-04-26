@@ -11,13 +11,13 @@
     <article class="bn-card">
         <div class="bn-card__header">
             <h2 class="bn-card__title">Quick preset browser source</h2>
-            <span class="bn-badge">Existing overlay</span>
+            <span class="bn-badge">Auto-selects player or caster mode</span>
         </div>
         <div class="bn-card__body">
             <label class="bn-field">
                 <span class="bn-field__label">OBS browser URL</span>
                 <input #overlayUrl class="bn-input" readonly [value]="overlayConfig.getOverlayUrl()" (click)="copyOverlayUrl(overlayUrl)">
-                <span class="bn-field__hint">Click the field to copy. Width 1920, height 1080.</span>
+                <span class="bn-field__hint">Click the field to copy. Width 1920, height 1080. Uses player mode when you stream your own game, and caster mode when you observe or replay other players.</span>
             </label>
         </div>
     </article>
@@ -25,12 +25,22 @@
     <div class="grid grid--2">
         <article class="bn-card">
             <div class="bn-card__header">
-                <h2 class="bn-card__title">Player overlay</h2>
-                <label class="bn-toggle">
-                    <input type="checkbox" [(ngModel)]="user.playerOverlaySettings.ingameOverlayEnabled" (ngModelChange)="overlayConfig.save('player')">
-                    <span class="bn-toggle__track"></span>
-                    <span>Desktop in-game</span>
-                </label>
+                <div>
+                    <h2 class="bn-card__title">Player overlay</h2>
+                    <p class="bn-text-muted" style="margin: 4px 0 0;">For streamers playing the match themselves.</p>
+                </div>
+                <div class="overlay-output-toggles">
+                    <label class="bn-toggle">
+                        <input data-testid="player-browser-source-toggle" type="checkbox" [(ngModel)]="user.playerOverlaySettings.browserSourceEnabled" (ngModelChange)="overlayConfig.save('player')">
+                        <span class="bn-toggle__track"></span>
+                        <span>OBS browser source</span>
+                    </label>
+                    <label class="bn-toggle">
+                        <input type="checkbox" [(ngModel)]="user.playerOverlaySettings.ingameOverlayEnabled" (ngModelChange)="overlayConfig.save('player')">
+                        <span class="bn-toggle__track"></span>
+                        <span>Desktop in-game</span>
+                    </label>
+                </div>
             </div>
             <div class="bn-card__body list">
                 <button *ngFor="let option of overlayConfig.sharedToggles"
@@ -50,10 +60,13 @@
 
         <article class="bn-card">
             <div class="bn-card__header">
-                <h2 class="bn-card__title">OBS / replay overlay</h2>
+                <div>
+                    <h2 class="bn-card__title">Caster overlay</h2>
+                    <p class="bn-text-muted" style="margin: 4px 0 0;">For watching, observing, casting, and replaying other players.</p>
+                </div>
                 <div class="overlay-output-toggles">
                     <label class="bn-toggle">
-                        <input data-testid="obs-browser-source-toggle" type="checkbox" [(ngModel)]="user.obsOverlaySettings.browserSourceEnabled" (ngModelChange)="overlayConfig.save('obs')">
+                        <input data-testid="caster-browser-source-toggle" type="checkbox" [(ngModel)]="user.obsOverlaySettings.browserSourceEnabled" (ngModelChange)="overlayConfig.save('obs')">
                         <span class="bn-toggle__track"></span>
                         <span>OBS browser source</span>
                     </label>

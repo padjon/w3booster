@@ -72,7 +72,10 @@ test.describe('authenticated dashboard shell', () => {
     await page.addInitScript(() => localStorage.setItem('w3b.persona.value', 'streamer'));
     await page.goto('/dashboard/overlays');
     await expect(page.getByRole('heading', { name: 'Preset library' })).toBeVisible();
-    await expect(page.getByTestId('obs-browser-source-toggle')).toBeVisible();
+    await expect(page.getByTestId('player-browser-source-toggle')).toBeVisible();
+    await expect(page.getByTestId('caster-browser-source-toggle')).toBeVisible();
+    await expect(page.getByText(/streamers playing the match themselves/i)).toBeVisible();
+    await expect(page.getByText(/watching, observing, casting, and replaying/i)).toBeVisible();
 
     const firstMatchupBar = page.getByRole('button', { name: /Matchup bar/i }).first();
     await expect(firstMatchupBar).toBeVisible();
