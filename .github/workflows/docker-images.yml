@@ -87,6 +87,8 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - name: Restart Coolify preview service
+        id: restart-preview
+        continue-on-error: true
         env:
           COOLIFY_PREVIEW_RESTART_URL: ${{ secrets.COOLIFY_PREVIEW_RESTART_URL }}
           COOLIFY_PREVIEW_API_RESTART_URL: ${{ secrets.COOLIFY_PREVIEW_API_RESTART_URL }}
@@ -103,6 +105,7 @@ jobs:
           echo "No Coolify preview restart endpoint succeeded." >&2
           exit 1
       - name: Recover Coolify preview service
+        if: steps.restart-preview.outcome == 'failure'
         env:
           COOLIFY_PREVIEW_START_URL: ${{ secrets.COOLIFY_PREVIEW_START_URL }}
           COOLIFY_PREVIEW_API_START_URL: ${{ secrets.COOLIFY_PREVIEW_API_START_URL }}

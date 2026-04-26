@@ -19,6 +19,14 @@
             <img src="assets/images/twitch-ico.png" alt="">
             <span>Continue with Twitch</span>
         </button>
+        <button
+            type="button"
+            class="battlenet-button"
+            [disabled]="!canStartTwitchLogin()"
+            (click)="openBattleNetLoginInExternalBrowser()">
+            <i class="fa fa-gamepad"></i>
+            <span>Continue with Battle.net</span>
+        </button>
 
         <div class="login-links">
             <a routerLink="/gift">Gift Pro</a>

@@ -12,6 +12,11 @@ export class ShopOrder extends BaseModel {
     private _paypalPaymentResponse: Object;
     private _paypalState: string;
     private _paypalCancelledAt: Date;
+    private _stripeSessionId: string;
+    private _stripeState: string;
+    private _stripeCheckoutRequest: Object;
+    private _stripeCheckoutResponse: Object;
+    private _stripeCancelledAt: Date;
     private _paidAt: Date;
 
     constructor() {
@@ -72,6 +77,26 @@ export class ShopOrder extends BaseModel {
 
     public get paypalCancelledAt(): Date {
         return this._paypalCancelledAt;
+    }
+
+    public get stripeSessionId(): string {
+        return this._stripeSessionId;
+    }
+
+    public get stripeState(): string {
+        return this._stripeState;
+    }
+
+    public get stripeCheckoutRequest(): Object {
+        return this._stripeCheckoutRequest;
+    }
+
+    public get stripeCheckoutResponse(): Object {
+        return this._stripeCheckoutResponse;
+    }
+
+    public get stripeCancelledAt(): Date {
+        return this._stripeCancelledAt;
     }
 
     /**
@@ -136,6 +161,26 @@ export class ShopOrder extends BaseModel {
 
     public set paypalCancelledAt(value: Date) {
         this._paypalCancelledAt = value;
+    }
+
+    public set stripeSessionId(value: string) {
+        this._stripeSessionId = value;
+    }
+
+    public set stripeState(value: string) {
+        this._stripeState = value;
+    }
+
+    public set stripeCheckoutRequest(value: Object) {
+        this._stripeCheckoutRequest = value;
+    }
+
+    public set stripeCheckoutResponse(value: Object) {
+        this._stripeCheckoutResponse = value;
+    }
+
+    public set stripeCancelledAt(value: Date) {
+        this._stripeCancelledAt = value;
     }
 
     /**

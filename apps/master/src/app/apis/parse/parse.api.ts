@@ -3,6 +3,7 @@ import { ParseServer } from 'parse-server';
 import { AsyncInitBaseAPI } from '../base/base.api';
 import { appConfig } from 'app/config';
 import { TwitchAuthAdapter } from './cloud/twitch-auth-adapter';
+import { BattleNetAuthAdapter } from './cloud/battlenet-auth-adapter';
 import * as path from 'path'
 
 export class ParseAPI extends AsyncInitBaseAPI {
@@ -38,6 +39,9 @@ export class ParseAPI extends AsyncInitBaseAPI {
             auth: {
                 twitch: {
                     class: TwitchAuthAdapter
+                },
+                battlenet: {
+                    class: BattleNetAuthAdapter
                 }
             }
         }).start()).app;

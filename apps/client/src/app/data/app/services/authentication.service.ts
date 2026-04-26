@@ -123,6 +123,8 @@ export class AuthenticationService  {
     public logout() {
         localStorage.removeItem('TWITCH_ACCESS_TOKEN');
         localStorage.removeItem('TWITCH_ID');
+        localStorage.removeItem('BATTLENET_ACCESS_TOKEN');
+        localStorage.removeItem('BATTLENET_ID');
         localStorage.removeItem('W3B_E2E_AUTH');
         this.e2eUser = null;
         Parse.User.logOut().then(() => this.initialize());

@@ -15,12 +15,14 @@ export class PaymentComponent extends View implements OnInit {
     public processing = true;
     public error = '';
     public newDate = '';
+    public providerLabel = 'payment provider';
 
     private paypalCurrentCheckIndex = 0;
     private paypalCheckCount = 0;
     private readonly PAYPAL_CHECK_INTERVAL = 5000;
     private readonly PAYPAL_MAX_CHECK_COUNT = (15 * 60 * 1000) / this.PAYPAL_CHECK_INTERVAL;
     private readonly PAYPAL_PENDING_STATE_KEY = 'PAYPAL_PENDING_STATE';
+    private readonly STRIPE_PENDING_STATE_KEY = 'STRIPE_PENDING_STATE';
     private readonly PAYPAL_PENDING_MAX_AGE_MS = 24 * 60 * 60 * 1000;
 
     public constructor(protected injector: Injector, private router: Router, private http: HttpClient) {
@@ -34,9 +36,19 @@ export class PaymentComponent extends View implements OnInit {
         const pendingState = pending?.state;
 
         if (pendingState) {
+            this.providerLabel = 'PayPal';
             this.paypalCheckCount = 0;
             const myIndex = ++this.paypalCurrentCheckIndex;
-            this.checkForPaypalResult(myIndex, pendingState);
+            this.checkForPaymentResult(myIndex, pendingState, 'paypal');
+            return;
+        }
+
+        const stripePending = this.getPendingState(this.STRIPE_PENDING_STATE_KEY);
+        if (stripePending?.state) {
+            this.providerLabel = 'Stripe';
+            this.paypalCheckCount = 0;
+            const myIndex = ++this.paypalCurrentCheckIndex;
+            this.checkForPaymentResult(myIndex, stripePending.state, 'stripe');
             return;
         }
 
@@ -47,6 +59,7 @@ export class PaymentComponent extends View implements OnInit {
         this.paypalCurrentCheckIndex++;
         this.paypalCheckCount = 0;
         localStorage.removeItem(this.PAYPAL_PENDING_STATE_KEY);
+        localStorage.removeItem(this.STRIPE_PENDING_STATE_KEY);
         this.forceReturnToDashboard();
     }
 
@@ -62,7 +75,11 @@ export class PaymentComponent extends View implements OnInit {
     }
 
     private getPaypalPendingState(): { state: string; createdAt: number } | null {
-        const raw = localStorage.getItem(this.PAYPAL_PENDING_STATE_KEY);
+        return this.getPendingState(this.PAYPAL_PENDING_STATE_KEY);
+    }
+
+    private getPendingState(storageKey: string): { state: string; createdAt: number } | null {
+        const raw = localStorage.getItem(storageKey);
         if (!raw) {
             return null;
         }
@@ -84,34 +101,33 @@ export class PaymentComponent extends View implements OnInit {
     }
 
     private cleanupStalePaypalPendingState() {
-        const pending = this.getPaypalPendingState();
-        if (!pending) {
-            return;
-        }
-
-        if (!pending.createdAt || (Date.now() - pending.createdAt) > this.PAYPAL_PENDING_MAX_AGE_MS) {
-            localStorage.removeItem(this.PAYPAL_PENDING_STATE_KEY);
+        for (const storageKey of [this.PAYPAL_PENDING_STATE_KEY, this.STRIPE_PENDING_STATE_KEY]) {
+            const pending = this.getPendingState(storageKey);
+            if (pending && (!pending.createdAt || (Date.now() - pending.createdAt) > this.PAYPAL_PENDING_MAX_AGE_MS)) {
+                localStorage.removeItem(storageKey);
+            }
         }
     }
 
-    private async checkForPaypalResult(index: number, state: string) {
+    private async checkForPaymentResult(index: number, state: string, provider: 'paypal' | 'stripe') {
+        const storageKey = provider === 'paypal' ? this.PAYPAL_PENDING_STATE_KEY : this.STRIPE_PENDING_STATE_KEY;
         try {
             this.paypalCheckCount++;
-            const result = await this.http.get(environment.REST_URL + 'paypal/state/' + state).toPromise() as any;
+            const result = await this.http.get(environment.REST_URL + provider + '/state/' + state).toPromise() as any;
             if (result?.status === 'cancelled') {
-                localStorage.removeItem(this.PAYPAL_PENDING_STATE_KEY);
+                localStorage.removeItem(storageKey);
                 this.processing = false;
-                this.error = 'Payment cancelled in PayPal.';
+                this.error = 'Payment cancelled in ' + this.providerLabel + '.';
                 return;
             }
             if (result?.status === 'error') {
-                localStorage.removeItem(this.PAYPAL_PENDING_STATE_KEY);
+                localStorage.removeItem(storageKey);
                 this.processing = false;
                 this.error = result?.message ?? 'We could not process the payment.';
                 return;
             }
             if (result?.status === 'approved') {
-                localStorage.removeItem(this.PAYPAL_PENDING_STATE_KEY);
+                localStorage.removeItem(storageKey);
                 this.processing = false;
                 this.error = '';
                 this.newDate = this.getLocalizedDate(new Date(result.planUntil));
@@ -120,8 +136,8 @@ export class PaymentComponent extends View implements OnInit {
         } catch {
             // 404 while waiting
         } finally {
-            if (this.paypalCurrentCheckIndex === index && this.paypalCheckCount < this.PAYPAL_MAX_CHECK_COUNT) {
-                setTimeout(this.checkForPaypalResult.bind(this, index, state), this.PAYPAL_CHECK_INTERVAL);
+            if (this.processing && this.paypalCurrentCheckIndex === index && this.paypalCheckCount < this.PAYPAL_MAX_CHECK_COUNT) {
+                setTimeout(this.checkForPaymentResult.bind(this, index, state, provider), this.PAYPAL_CHECK_INTERVAL);
             }
         }
     }

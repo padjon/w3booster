@@ -53,7 +53,8 @@
   margin: 0 0 22px;
 }
 
-.twitch-button {
+.twitch-button,
+.battlenet-button {
   align-items: center;
   background: #6441a4;
   border: 1px solid rgba(255, 255, 255, 0.24);
@@ -74,14 +75,32 @@
   background: #7650ba;
 }
 
-.twitch-button:disabled {
+.battlenet-button {
+  background: #0f5fa8;
+  margin-top: 12px;
+}
+
+.battlenet-button:hover {
+  background: #1470c4;
+}
+
+.twitch-button:disabled,
+.battlenet-button:disabled {
   cursor: not-allowed;
   opacity: 0.52;
 }
 
-.twitch-button img {
+.twitch-button img,
+.battlenet-button i {
   height: 24px;
   width: 24px;
+}
+
+.battlenet-button i {
+  align-items: center;
+  display: inline-flex;
+  font-size: 20px;
+  justify-content: center;
 }
 
 .login-links {

@@ -198,6 +198,7 @@ export class DashboardComponent extends View implements OnInit, AfterViewChecked
 
     private paypalModalRef: NgbModalRef | null = null;
     private readonly PAYPAL_PENDING_STATE_KEY = 'PAYPAL_PENDING_STATE';
+    private readonly STRIPE_PENDING_STATE_KEY = 'STRIPE_PENDING_STATE';
     private readonly BUILD_ORDER_STORAGE_KEY = 'W3BOOSTER_BUILD_ORDERS';
     private readonly BUILD_ORDER_SELECTED_KEY = 'W3BOOSTER_SELECTED_BUILD_ORDER';
     private readonly BUILD_ORDER_ACTIVE_KEY = 'W3BOOSTER_ACTIVE_BUILD_ORDER';
@@ -1037,6 +1038,24 @@ export class DashboardComponent extends View implements OnInit, AfterViewChecked
         return false;
     }
 
+    public buyItemStripe(itemId: string) {
+        const state = crypto['randomUUID']();
+        this.setPendingState(this.STRIPE_PENDING_STATE_KEY, state);
+        const returnTo = this.node.isAvailable() ? '' : window.location.origin + '/payment';
+        this.shopOrderService.CreateStripeCheckout(itemId, state, returnTo).then(url => {
+            if (this.node.isAvailable()) {
+                this.node.remote.shell.openExternal(url);
+                this.router.navigate(['/payment']);
+            } else {
+                window.location.href = url;
+            }
+        }).catch((e) => {
+            localStorage.removeItem(this.STRIPE_PENDING_STATE_KEY);
+            this.errorMessage((e?.message) ? e.message : 'Stripe checkout could not be started.');
+        });
+        return false;
+    }
+
     public continuePaypalProcess(modal: any) {
         if (!this.paypalPendingItemId) {
             return;
@@ -1109,7 +1128,11 @@ export class DashboardComponent extends View implements OnInit, AfterViewChecked
     }
 
     private setPaypalPendingState(state: string) {
-        localStorage.setItem(this.PAYPAL_PENDING_STATE_KEY, JSON.stringify({ state, createdAt: Date.now() }));
+        this.setPendingState(this.PAYPAL_PENDING_STATE_KEY, state);
+    }
+
+    private setPendingState(storageKey: string, state: string) {
+        localStorage.setItem(storageKey, JSON.stringify({ state, createdAt: Date.now() }));
     }
 
     private closeOpenIngameOverlay() {

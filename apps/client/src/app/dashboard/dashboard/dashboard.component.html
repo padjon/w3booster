@@ -1621,7 +1621,7 @@
                                         <br />
                                         <b>{{user.isProPlan()?'Extend your PRO account\'s lifetime' : 'Upgrade to a PRO
                                             account'}}
-                                            (Payment via PayPal)</b>
+                                            (Payment via PayPal or Stripe)</b>
                                         <br /><br />
 
                                         <a (click)="buyItem('BHNy4cogfY')" href="#" target="_blank">
@@ -1636,6 +1636,19 @@
                                                     {{user.isProPlan? 'to extend' :'for a'}} <span
                                                         class="plan-badge-1">&nbsp;</span> account until
                                                     <b>{{getProAccountDate(30)}}</b>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <a (click)="buyItemStripe('BHNy4cogfY')" href="#" target="_blank">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    Pay 30 days by card
+                                                </div>
+                                                <div class="col-md-3">
+                                                    Stripe checkout
+                                                </div>
+                                                <div class="col-md-6">
+                                                    Secure card payment without PayPal.
                                                 </div>
                                             </div>
                                         </a>
@@ -1654,6 +1667,19 @@
                                                 </div>
                                             </div>
                                         </a>
+                                        <a (click)="buyItemStripe('W8aFnVoaPw')" href="#" target="_blank">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    Pay 60 days by card
+                                                </div>
+                                                <div class="col-md-3">
+                                                    Stripe checkout
+                                                </div>
+                                                <div class="col-md-6">
+                                                    Secure card payment without PayPal.
+                                                </div>
+                                            </div>
+                                        </a>
                                         <a (click)="buyItem('TF9RMK7g4O')" href="#" target="_blank">
                                             <div class="row">
                                                 <div class="col-md-3">
@@ -1666,6 +1692,19 @@
                                                     {{user.isProPlan? 'to extend' :'for a'}} <span
                                                         class="plan-badge-1">&nbsp;</span> account until
                                                     <b>{{getProAccountDate(90)}}</b>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <a (click)="buyItemStripe('TF9RMK7g4O')" href="#" target="_blank">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    Pay 90 days by card
+                                                </div>
+                                                <div class="col-md-3">
+                                                    Stripe checkout
+                                                </div>
+                                                <div class="col-md-6">
+                                                    Secure card payment without PayPal.
                                                 </div>
                                             </div>
                                         </a>

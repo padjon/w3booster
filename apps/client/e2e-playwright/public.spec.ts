@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { enableE2EAuth, expectNoVisibleOverflow, mockApprovedPayPal } from './helpers';
+import { enableE2EAuth, expectNoVisibleOverflow, mockApprovedPayPal, mockApprovedStripe } from './helpers';
 
 test.describe('public web surfaces', () => {
   test('landing, developer portal, profile, and login render on desktop and mobile', async ({ page }) => {
@@ -21,6 +21,7 @@ test.describe('public web surfaces', () => {
     await page.goto('/login');
     await expect(page.getByRole('heading', { name: 'Login with Twitch' })).toBeVisible();
     await expect(page.getByRole('button', { name: /Continue with Twitch/i })).toBeVisible();
+    await expect(page.getByRole('button', { name: /Continue with Battle\.net/i })).toBeVisible();
     await expectNoVisibleOverflow(page);
   });
 
@@ -48,12 +49,45 @@ test.describe('public web surfaces', () => {
     expect(authUrl.searchParams.get('state')).toMatch(/^w3b:/);
   });
 
+  test('landing login can start Battle.net browser auth from the rendered page', async ({ page }) => {
+    await page.route('**/battlenet-auth/start**', async route => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'text/html',
+        body: '<title>Battle.net auth intercepted</title><main>Battle.net auth intercepted</main>'
+      });
+    });
+
+    await page.goto('/web');
+    await page.getByRole('link', { name: /^Login$/i }).click();
+    await expect(page).toHaveURL(/\/login$/);
+
+    const battleNetButton = page.getByRole('button', { name: /Continue with Battle\.net/i });
+    await expect(battleNetButton).toBeEnabled();
+    await battleNetButton.click();
+    await expect(page).toHaveURL(/battlenet-auth\/start/);
+
+    const authUrl = new URL(page.url());
+    expect(authUrl.searchParams.get('state')).toMatch(/^w3b:/);
+  });
+
   test('gift checkout can drive mocked PayPal approval in E2E mode', async ({ page }) => {
     await enableE2EAuth(page, true);
     await mockApprovedPayPal(page);
 
     await page.goto('/gift/E2EStreamer');
     await page.getByTestId('gift-paypal').click();
+
+    await expect(page.getByRole('heading', { name: 'Thank you!' })).toBeVisible();
+    await expect(page.getByText(/Your Pro Plan is now active until/i)).toBeVisible();
+  });
+
+  test('gift checkout can drive mocked Stripe approval in E2E mode', async ({ page }) => {
+    await enableE2EAuth(page, true);
+    await mockApprovedStripe(page);
+
+    await page.goto('/gift/E2EStreamer');
+    await page.getByTestId('gift-stripe').click();
 
     await expect(page.getByRole('heading', { name: 'Thank you!' })).toBeVisible();
     await expect(page.getByText(/Your Pro Plan is now active until/i)).toBeVisible();

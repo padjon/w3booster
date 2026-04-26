@@ -20,6 +20,14 @@ export class GiftPageComponent implements OnInit {
     }
 
     public continueToPaypal(): void {
+        this.startGiftCheckout('paypal');
+    }
+
+    public continueToStripe(): void {
+        this.startGiftCheckout('stripe');
+    }
+
+    private startGiftCheckout(provider: 'paypal' | 'stripe'): void {
         this.checkoutMessage = '';
         if (!this.handle.trim()) {
             this.checkoutMessage = 'Enter a Twitch handle before continuing.';
@@ -27,15 +35,15 @@ export class GiftPageComponent implements OnInit {
         }
 
         if (this.isE2EMode()) {
-            localStorage.setItem('PAYPAL_PENDING_STATE', JSON.stringify({
-                state: 'e2e-gift-' + this.duration,
+            localStorage.setItem(provider === 'paypal' ? 'PAYPAL_PENDING_STATE' : 'STRIPE_PENDING_STATE', JSON.stringify({
+                state: 'e2e-gift-' + provider + '-' + this.duration,
                 createdAt: Date.now()
             }));
             this.router.navigate(['/payment']);
             return;
         }
 
-        this.checkoutMessage = 'Gift checkout is waiting for the backend recipient lookup and PayPal order endpoint.';
+        this.checkoutMessage = 'Gift checkout is waiting for the backend recipient lookup and ' + (provider === 'paypal' ? 'PayPal' : 'Stripe') + ' order endpoint.';
     }
 
     private isE2EMode(): boolean {

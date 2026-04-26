@@ -36,6 +36,13 @@
               (click)="continueToPaypal()">
         <i class="fa fa-paypal"></i> Continue to PayPal
       </button>
+      <button type="button"
+              class="bn-btn bn-btn--block"
+              style="margin-top: 10px;"
+              data-testid="gift-stripe"
+              (click)="continueToStripe()">
+        <i class="fa fa-credit-card"></i> Continue with card
+      </button>
       <div *ngIf="checkoutMessage" class="bn-alert bn-alert--warn" style="margin-top: 12px;">
         <i class="fa fa-info-circle"></i>
         <span>{{checkoutMessage}}</span>

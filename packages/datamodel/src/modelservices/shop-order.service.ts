@@ -18,4 +18,8 @@ export class ShopOrderService extends BaseModelService<ShopOrder> {
     public ConfirmOrder(paypalPaymentId: string, PaypalPayerId): Promise<string> {
         return this.runCloudMethod('ShopOrderCloud.confirmOrder', [...Array.from(arguments)]);
     }
+
+    public CreateStripeCheckout(productId: string, state: string, returnTo?: string): Promise<string> {
+        return this.runCloudMethod('ShopOrderCloud.createStripeCheckout', [...Array.from(arguments)]);
+    }
 }

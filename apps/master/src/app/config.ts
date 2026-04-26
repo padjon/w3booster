@@ -13,6 +13,10 @@ interface IAppConfig {
     OVERLAY_BROADCAST_PORT: number,
     TWITCH_CLIENT_ID: string,
     TWITCH_CLIENT_SECRET: string,
+    BATTLENET_CLIENT_ID: string,
+    BATTLENET_CLIENT_SECRET: string,
+    BATTLENET_REGION: string,
+    STRIPE_SECRET_KEY: string,
     HTTPS_KEY_PATH: string,
     HTTPS_CERT_PATH: string,
     OVERLAY_HTTPS_KEY_PATH: string,
@@ -37,6 +41,10 @@ const configurations: {[key:string]:IAppConfig} = {
         OVERLAY_BROADCAST_PORT: 25081,
         TWITCH_CLIENT_ID: "p3optsh4af4qzs28v0xce54faocoqt",
         TWITCH_CLIENT_SECRET: "",
+        BATTLENET_CLIENT_ID: "",
+        BATTLENET_CLIENT_SECRET: "",
+        BATTLENET_REGION: "eu",
+        STRIPE_SECRET_KEY: "",
         HTTPS_KEY_PATH: "conf/localhost.key",
         HTTPS_CERT_PATH: "conf/localhost.crt",
         OVERLAY_HTTPS_KEY_PATH: "conf/localhost.key",
@@ -59,6 +67,10 @@ const configurations: {[key:string]:IAppConfig} = {
         OVERLAY_BROADCAST_PORT: 25081,
         TWITCH_CLIENT_ID: "p3optsh4af4qzs28v0xce54faocoqt",
         TWITCH_CLIENT_SECRET: "",
+        BATTLENET_CLIENT_ID: "",
+        BATTLENET_CLIENT_SECRET: "",
+        BATTLENET_REGION: "eu",
+        STRIPE_SECRET_KEY: "",
         HTTPS_KEY_PATH: "conf/localhost.key",
         HTTPS_CERT_PATH: "conf/localhost.crt",
         OVERLAY_HTTPS_KEY_PATH: "conf/localhost.key",
@@ -81,6 +93,10 @@ const configurations: {[key:string]:IAppConfig} = {
         OVERLAY_BROADCAST_PORT: 14970,
         TWITCH_CLIENT_ID: "sw2dpxriowzfaqcczg5d8ss3ymz1nu",
         TWITCH_CLIENT_SECRET: "",
+        BATTLENET_CLIENT_ID: "",
+        BATTLENET_CLIENT_SECRET: "",
+        BATTLENET_REGION: "eu",
+        STRIPE_SECRET_KEY: "",
         HTTPS_KEY_PATH: "../certs/privkey.pem",
         HTTPS_CERT_PATH: "../certs/fullchain.pem",
         OVERLAY_HTTPS_KEY_PATH: "../certs/overlayprivkey.pem",
@@ -113,6 +129,10 @@ if (selectedConfiguration) {
     selectedConfiguration.PARSE.MASTERKEY = process.env.PARSE_MASTER_KEY ?? selectedConfiguration.PARSE.MASTERKEY;
     selectedConfiguration.TWITCH_CLIENT_ID = process.env.TWITCH_CLIENT_ID ?? selectedConfiguration.TWITCH_CLIENT_ID;
     selectedConfiguration.TWITCH_CLIENT_SECRET = process.env.TWITCH_CLIENT_SECRET ?? selectedConfiguration.TWITCH_CLIENT_SECRET;
+    selectedConfiguration.BATTLENET_CLIENT_ID = process.env.BATTLENET_CLIENT_ID ?? selectedConfiguration.BATTLENET_CLIENT_ID;
+    selectedConfiguration.BATTLENET_CLIENT_SECRET = process.env.BATTLENET_CLIENT_SECRET ?? selectedConfiguration.BATTLENET_CLIENT_SECRET;
+    selectedConfiguration.BATTLENET_REGION = process.env.BATTLENET_REGION ?? selectedConfiguration.BATTLENET_REGION;
+    selectedConfiguration.STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY ?? selectedConfiguration.STRIPE_SECRET_KEY;
 }
 
 export const appConfig = Object.assign(selectedConfiguration, {

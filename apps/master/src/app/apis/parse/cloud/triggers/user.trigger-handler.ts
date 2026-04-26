@@ -13,63 +13,99 @@ class UserTriggerHandler extends TriggerHandler<User, UserService> {
     }
 
     protected async afterCreate(user: User) {
-        return ((id, token) => {
-            return ((path, token) => {
-                return new Promise(function (resolve, reject) {
-                    https.get({
-                        hostname: 'api.twitch.tv',
-                        path: '/helix/' + path,
-                        headers: {
-                            Authorization: 'Bearer ' + token,
-                            'Client-ID': appConfig.TWITCH_CLIENT_ID
-                        }
-                    }, function (res) {
-                        let data = '';
-                        res.on('data', function (chunk) {
-                            data += chunk;
-                        });
-                        res.on('end', function () {
-                            try {
-                                data = JSON.parse(data);
-                            } catch (e) {
-                                return reject(e);
-                            }
-                            resolve(data);
-                        });
-                    }).on('error', function () {
-                        reject('Failed to validate this access token with Twitch.');
-                    });
-                });
-            })('users', token).then((response: any) => {
-                if (response && (response.data) && (response.data[0]) && response.data[0].id == id) {
-                    return response.data[0];
-                }
-            });
-        })(user.authData.twitch.id, user.authData.twitch.access_token).then(async (twitchDetails) => {
-            const newUser = user.broadcasterSecret ? false : true;
-            user.twitchUserData = twitchDetails;
+        const profile = await this.getAuthProfile(user);
+        const newUser = user.broadcasterSecret ? false : true;
+
+        if (profile.provider === 'twitch') {
+            user.twitchUserData = profile.data;
             if(user.twitchUserData.email) {
                 user.email = user.twitchUserData.email;
             } else {
                 user.unsetTypeSave('email');
             }
-            
             user.displayName = user.twitchUserData.display_name;
-            if (newUser) {
-                // apply defaults
-                const userDefaults = new User();
-                for (const key of Object.keys(userDefaults).filter(k => k.startsWith('_') && user[k] === undefined)) {
-                    user[key] = userDefaults[key];
-                }
-                user.broadcasterSecret = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        } else {
+            user['battleNetUserData'] = profile.data;
+            user.unsetTypeSave('email');
+            user.displayName = profile.data?.battletag || 'Battle.net user';
+        }
 
-            	await user.obsOverlaySettings.save();
-            	await user.playerOverlaySettings.save();
+        if (newUser) {
+            // apply defaults
+            const userDefaults = new User();
+            for (const key of Object.keys(userDefaults).filter(k => k.startsWith('_') && user[k] === undefined)) {
+                user[key] = userDefaults[key];
             }
+            user.broadcasterSecret = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
-            await user.save();
-            console.log((newUser) ? 'New user created:' : 'User updated by twitch data:');
-            console.log(user);
+            await user.obsOverlaySettings.save();
+            await user.playerOverlaySettings.save();
+        }
+
+        await user.save();
+        console.log((newUser) ? 'New user created:' : 'User updated by auth data:');
+        console.log(user);
+    }
+
+    private async getAuthProfile(user: User): Promise<{ provider: 'twitch' | 'battlenet'; data: any }> {
+        const authData: any = user.authData;
+        if (authData?.twitch) {
+            const twitchDetails = await this.getTwitchUser(String(authData.twitch.id), authData.twitch.access_token);
+            return { provider: 'twitch', data: twitchDetails };
+        }
+
+        if (authData?.battlenet) {
+            const battleNetDetails = await this.getBattleNetUser(authData.battlenet.access_token);
+            return { provider: 'battlenet', data: battleNetDetails };
+        }
+
+        throw new Error('No supported auth provider found for user.');
+    }
+
+    private getTwitchUser(id: string, token: string) {
+        return this.getJson({
+            hostname: 'api.twitch.tv',
+            path: '/helix/users',
+            headers: {
+                Authorization: 'Bearer ' + token,
+                'Client-ID': appConfig.TWITCH_CLIENT_ID
+            }
+        }).then((response: any) => {
+            if (response && (response.data) && (response.data[0]) && response.data[0].id == id) {
+                return response.data[0];
+            }
+            throw new Error('Twitch profile response did not match user auth data.');
+        });
+    }
+
+    private getBattleNetUser(token: string) {
+        return this.getJson({
+            hostname: `${appConfig.BATTLENET_REGION}.battle.net`,
+            path: '/oauth/userinfo',
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
+        });
+    }
+
+    private getJson(options: https.RequestOptions) {
+        return new Promise((resolve, reject) => {
+            https.get(options, function (res) {
+                let data = '';
+                res.on('data', function (chunk) {
+                    data += chunk;
+                });
+                res.on('end', function () {
+                    try {
+                        data = JSON.parse(data);
+                    } catch (e) {
+                        return reject(e);
+                    }
+                    resolve(data);
+                });
+            }).on('error', function () {
+                reject('Failed to load auth profile.');
+            });
         });
     }
 

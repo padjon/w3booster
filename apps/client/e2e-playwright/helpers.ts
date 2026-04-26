@@ -23,6 +23,19 @@ export async function mockApprovedPayPal(page: Page) {
   });
 }
 
+export async function mockApprovedStripe(page: Page) {
+  await page.route('**/stripe/state/**', async route => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        status: 'approved',
+        planUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
+      })
+    });
+  });
+}
+
 export async function expectNoVisibleOverflow(page: Page) {
   const overflow = await page.evaluate(() => {
     const doc = document.documentElement;
