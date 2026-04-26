@@ -37,6 +37,7 @@ test.describe('public web surfaces', () => {
     await page.goto('/web');
     await page.getByRole('link', { name: /^Login$/i }).click();
     await expect(page).toHaveURL(/\/login$/);
+    const appHost = await page.evaluate(() => location.hostname);
 
     const twitchButton = page.getByRole('button', { name: /Continue with Twitch/i });
     await expect(twitchButton).toBeEnabled();
@@ -45,7 +46,13 @@ test.describe('public web surfaces', () => {
 
     const authUrl = new URL(page.url());
     expect(authUrl.searchParams.get('client_id')).toBeTruthy();
-    expect(authUrl.searchParams.get('redirect_uri')).toContain('/twitch-auth/register');
+    const redirectUri = authUrl.searchParams.get('redirect_uri') || '';
+    expect(redirectUri).toContain('/twitch-auth/register');
+    expect(redirectUri).not.toContain('app.w3booster.com');
+    expect(redirectUri).not.toContain('preview.w3booster.com:15469');
+    if (appHost === 'preview.w3booster.com') {
+      expect(redirectUri).toBe('https://api.preview.w3booster.com/twitch-auth/register');
+    }
     expect(authUrl.searchParams.get('state')).toMatch(/^w3b:/);
   });
 
