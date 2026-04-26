@@ -87,13 +87,35 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - name: Restart Coolify preview service
+        env:
+          COOLIFY_PREVIEW_RESTART_URL: ${{ secrets.COOLIFY_PREVIEW_RESTART_URL }}
+          COOLIFY_PREVIEW_API_RESTART_URL: ${{ secrets.COOLIFY_PREVIEW_API_RESTART_URL }}
+          COOLIFY_TOKEN: ${{ secrets.COOLIFY_TOKEN }}
         run: |
-          curl --fail --show-error --silent --retry 3 --retry-delay 5 \
-            --request GET "${{ secrets.COOLIFY_PREVIEW_RESTART_URL }}" \
-            --header "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}"
+          for url in "$COOLIFY_PREVIEW_RESTART_URL" "$COOLIFY_PREVIEW_API_RESTART_URL"; do
+            if [ -n "$url" ] && curl --fail --show-error --silent --retry 3 --retry-delay 5 \
+              --request GET "$url" \
+              --header "Authorization: Bearer $COOLIFY_TOKEN"; then
+              exit 0
+            fi
+          done
+
+          echo "No Coolify preview restart endpoint succeeded." >&2
+          exit 1
       - name: Recover Coolify preview service
+        env:
+          COOLIFY_PREVIEW_START_URL: ${{ secrets.COOLIFY_PREVIEW_START_URL }}
+          COOLIFY_PREVIEW_API_START_URL: ${{ secrets.COOLIFY_PREVIEW_API_START_URL }}
+          COOLIFY_TOKEN: ${{ secrets.COOLIFY_TOKEN }}
         run: |
           sleep 75
-          curl --fail --show-error --silent --retry 3 --retry-delay 5 \
-            --request GET "${{ secrets.COOLIFY_PREVIEW_START_URL }}" \
-            --header "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}"
+          for url in "$COOLIFY_PREVIEW_START_URL" "$COOLIFY_PREVIEW_API_START_URL"; do
+            if [ -n "$url" ] && curl --fail --show-error --silent --retry 3 --retry-delay 5 \
+              --request GET "$url" \
+              --header "Authorization: Bearer $COOLIFY_TOKEN"; then
+              exit 0
+            fi
+          done
+
+          echo "No Coolify preview start endpoint succeeded." >&2
+          exit 1
