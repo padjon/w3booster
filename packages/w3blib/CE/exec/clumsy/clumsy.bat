@@ -1,0 +1,1 @@
+"%~dp0clumsy.exe" --drop on --drop-chance 100.0 --filter "outbound or inbound"

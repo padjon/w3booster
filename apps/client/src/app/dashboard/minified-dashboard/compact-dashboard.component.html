@@ -1,0 +1,154 @@
+<div class="wrapper" *ngIf="p.user">
+    <div id="compact-top-resize"></div>
+    <div id="compact-dragbar">
+        <div class="compact-title">
+            W3Booster {{p.environment.version}}
+            <span>(compact mode)</span>
+        </div>
+
+        <div id="minimize" class="fa-container" (click)="minimizeWindow()"><span class="fa fa-window-minimize"></span></div>
+        <div id="maximize" class="fa-container" (click)="toggleWindowMaximize()"><span class="fa fa-window-maximize"></span></div>
+        <div id="close" class="fa-container" (click)="closeWindow()"><span class="fa fa-window-close"></span></div>
+    </div>
+    <div id="compact-dashobard-footer">
+        <div class="d-flex d-flex-row">
+            <span [style.color]="p.recorderState.color" class="fa fa-circle"
+                style="padding-top: 3px; padding-right: 4px"></span>
+            <b>{{p.recorderState.title}}</b>
+            <span *ngIf="p.recorderState.subtitle">&nbsp;({{p.recorderState.subtitle}})</span>
+
+        </div>
+    </div>
+    <div id="compact-dashboard" [style.font-size.px]="fontSize">
+        <div class="container-fluid">
+
+            <div class="row section">
+                <!--<div class="col-md-12 section-header">Score</div>-->
+                <div class="col-md-12 d-flex d-flex-row">
+                    <div class="flex-fill">
+                        <span (click)="switchToNormalDashboard()" class="ptr">
+                            <span class="fa fa-window-restore"></span> back to normal
+                            mode</span>
+                    </div>
+                    <div>
+                        <div class="flex-fill text-right">
+                            <span class="ptr" (click)="changeFont(true)" style="margin-right: 4px">
+                                <span class="fa fa-search-plus" aria-hidden="true" ></span>
+                            </span>
+                            <span class="ptr" (click)="changeFont(false)" style="margin-right: 4px">
+                                <span class="fa fa-search-minus" aria-hidden="true" ></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row section">
+                <div class="col-md-12 section-header d-flex d-flex-row">
+                    <div>Match Score of this session</div>
+                    <div class="flex-grow-1 text-right">
+                        <span class="ptr" (click)="p.resetMatchScore()">
+                            <span class="fa fa-undo" aria-hidden="true"></span>
+                        </span></div>
+                </div>
+                <div class="col-md-12 d-flex d-flex-row text-center">
+                    <div>Wins</div>
+                    <div>
+                        
+                        &nbsp;
+                        <span class="ptr" (click)="p.changeMatchScore(true, true)" style="margin-right: 4px">
+                            <span class="fa fa-plus-square" aria-hidden="true"></span>
+                        </span>
+                        <span class="ptr" (click)="p.changeMatchScore(true, false)">
+                            <span class="fa fa-minus-square" aria-hidden="true"></span>
+                        </span>
+                        &nbsp;
+                    </div>
+                    <div class="flex-grow-1">{{p.matchScore.wins}} : {{p.matchScore.losses}}</div>
+                    <div>
+                        &nbsp;
+                        <span class="ptr" (click)="p.changeMatchScore(false, true)" style="margin-right: 4px">
+                            <span class="fa fa-plus-square" aria-hidden="true"></span>
+                        </span>
+                        <span class="ptr" (click)="p.changeMatchScore(false, false)">
+                            <span class="fa fa-minus-square" aria-hidden="true"></span>
+                        </span>
+                        &nbsp;
+                    </div>
+                    <div>Losses</div>
+                </div>
+            </div>
+
+
+            <div class="row section selectable">
+                <div class="col-md-12 section-header">Current Match</div>
+                <div class="col-md-12" *ngIf="!p.currentMatch">No match running</div>
+                <div class="col-md-12" *ngIf="p.currentMatch">
+                    <div *ngFor="let team of p.currentMatch.teams" style="margin: 2px 0px">
+                        <div *ngFor="let member of team.members" class="d-flex d-flex-row">
+                            <div style="border-left: 3px solid #ccc" *ngIf="team.members.length > 1"></div>
+                            <div style="padding: 0px 2px; color: #fff; font-weight: bold; margin-right: 4px"
+                                [style.background-color]="getRaceColor(member.race.substr(0,1))">
+                                {{member.race.substr(0,1)}}
+                            </div>
+
+                            <div><span *ngIf="member.main">{{member.main.name}} as </span>{{member.name}}</div>
+                            <div class="flex-grow-1 text-right font-weight-bold">
+
+                                <ng-container *ngIf="member.stats">
+                                    <div style="display:inline-block; width: 40px; margin-left: 10px">
+                                        {{Math.floor(member.stats.winRate)}}%</div>
+                                    <div style="display:inline-block; width: 40px; margin-left: 10px; color: #2bc332">
+                                        {{member.stats.wins}}W</div>
+                                    <div style="display:inline-block; width: 40px; margin-left: 10px; color: #dc3c3c">
+                                        {{member.stats.losses}}L</div>
+
+                                </ng-container>
+                                <div *ngIf="member.stats === null" style="display:inline; padding-left: 10px">No stats
+                                    available</div>
+                                <div *ngIf="member.stats === undefined" style="display:inline; padding-left: 10px">Stats
+                                    loading...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row section selectable">
+                <div class="col-md-12 section-header">Match History</div>
+                <div class="col-md-12" *ngIf="p.matchHistory.length == 0">No history yet</div>
+                <div class="col-md-12" *ngFor="let match of p.matchHistory">
+                    <div class="row subsection">
+                        <div class="col-md-12 section-header d-flex d-flex-row">
+                            <div>{{match.time | date:'shortTime'}} | {{decodeURIComponent(match.map)}}
+                            </div>
+                            <div class="text-right flex-grow-1">
+                                <span *ngIf="match.result == 0">running</span>
+                                <span *ngIf="match.result == 1 && !match.hasAIMembers" style="color: #2bc332">won</span>
+                                <span *ngIf="match.result == 2 && !match.hasAIMembers"
+                                    style="color: #dc3c3c">lost</span>
+                                    <span *ngIf="match.result == -1"
+                                    style="color: gray">canceled</span>
+                                <span *ngIf="match.result == 1 && match.hasAIMembers">won (AI)</span>
+                                <span *ngIf="match.result == 2 && match.hasAIMembers">lost (AI)</span>
+                            </div>
+                        </div>
+                        <div class="col-md-12" class="d-flex d-flex-row flex-wrap" style="padding-left: 4px">
+                            <ng-container *ngFor="let team of match.teams; let i = index">
+                                <div *ngIf="i > 0" style="margin-right: 10px; margin-left: 10px">vs</div>
+                                <div *ngFor="let member of team.members; let mi = index" class="d-flex d-flex-row">
+                                    <div *ngIf="mi > 0">
+                                        ,&nbsp;
+                                    </div>
+                                    <div>{{member.name}} ({{member.race.substr(0,1)}})</div>
+                                </div>
+
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

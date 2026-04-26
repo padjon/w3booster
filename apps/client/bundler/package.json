@@ -1,0 +1,21 @@
+{
+  "name": "@w3booster/client-bundler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack && node postbuild.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    
+    "ws": "^8.18.1"
+  },
+  "devDependencies": {
+    "replace-in-file": "^5.0.2",
+    "webpack": "^5.99.7",
+    "webpack-cli": "^6.0.1"
+  }
+}

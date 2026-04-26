@@ -1,0 +1,429 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="NODE Debug x86|Win32">
+      <Configuration>NODE Debug x86</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="NODE Debug x86|x64">
+      <Configuration>NODE Debug x86</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="NODE Debug|Win32">
+      <Configuration>NODE Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="NODE Debug|x64">
+      <Configuration>NODE Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="NODE Release X86|Win32">
+      <Configuration>NODE Release X86</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="NODE Release X86|x64">
+      <Configuration>NODE Release X86</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="NODE Release|Win32">
+      <Configuration>NODE Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="NODE Release|x64">
+      <Configuration>NODE Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{E80316C9-A824-45FA-997F-491509A04AB7}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>DLL_Injector</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>w3blib</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='NODE Release|x64'">
+    <PlatformToolset>v142</PlatformToolset>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NODE Release|Win32'" Label="Configuration">
+    <PlatformToolset>v142</PlatformToolset>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NODE Release X86|x64'" Label="Configuration">
+    <PlatformToolset>v142</PlatformToolset>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NODE Release X86|Win32'" Label="Configuration">
+    <PlatformToolset>v142</PlatformToolset>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NODE Debug|x64'" Label="Configuration">
+    <PlatformToolset>v142</PlatformToolset>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NODE Debug|Win32'" Label="Configuration">
+    <PlatformToolset>v142</PlatformToolset>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NODE Debug x86|x64'" Label="Configuration">
+    <PlatformToolset>v142</PlatformToolset>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NODE Debug x86|Win32'" Label="Configuration">
+    <PlatformToolset>v142</PlatformToolset>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NODE Release|x64'">
+    <TargetName>w3blib</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NODE Release|Win32'">
+    <TargetName>w3blib</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NODE Release X86|x64'">
+    <TargetName>w3blib-32</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NODE Release X86|Win32'">
+    <TargetName>w3blib-32</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NODE Debug|x64'">
+    <TargetName>w3blib</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NODE Debug|Win32'">
+    <TargetName>w3blib.x86</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NODE Debug x86|x64'">
+    <TargetName>w3blib-32</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NODE Debug x86|Win32'">
+    <TargetName>w3blib-32</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <TargetName>Warcraft III Recorder</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetName>Warcraft III Recorder</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <TargetName>Warcraft III Recorder</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <TargetName>Warcraft III Recorder</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='NODE Release|x64'">
+    <Link>
+      <AdditionalLibraryDirectories>$(MSBuildThisFileDirectory)..\packages\curlcpp-vc140-static-32_64.1.0.2\lib\native\libs\$(PlatformTarget)\static\Release;$(MSBuildThisFileDirectory)..\packages\curl-vc140-static-32_64.7.53.0\lib\native\libs\$(PlatformTarget)\static\Release;$(MSBuildThisFileDirectory)..\packages\openssl-vc140-static-32_64.1.1.0\lib\native\libs\$(PlatformTarget)\static\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Ws2_32.lib;Version.lib;%(AdditionalDependencies);</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <ClCompile />
+    <ClCompile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <CustomBuildStep>
+      <Command>
+      </Command>
+    </CustomBuildStep>
+    <PostBuildEvent>
+      <Command>copy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)..\w3booster-master\src\app\public\patch\current\$(TargetName).dll"
+copy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)..\w3booster-master\dist\app\public\patch\current\$(TargetName).dll"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='NODE Release|Win32'">
+    <Link>
+      <AdditionalLibraryDirectories>$(MSBuildThisFileDirectory)..\packages\curlcpp-vc140-static-32_64.1.0.2\lib\native\libs\$(PlatformTarget)\static\Release;$(MSBuildThisFileDirectory)..\packages\curl-vc140-static-32_64.7.53.0\lib\native\libs\$(PlatformTarget)\static\Release;$(MSBuildThisFileDirectory)..\packages\openssl-vc140-static-32_64.1.1.0\lib\native\libs\$(PlatformTarget)\static\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Ws2_32.lib;Version.lib;%(AdditionalDependencies);</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <ClCompile />
+    <ClCompile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <CustomBuildStep>
+      <Command>
+      </Command>
+    </CustomBuildStep>
+    <PostBuildEvent>
+      <Command>copy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)..\w3booster-master\src\app\public\patch\current\$(TargetName).dll"
+copy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)..\w3booster-master\dist\app\public\patch\current\$(TargetName).dll"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='NODE Release X86|x64'">
+    <Link>
+      <AdditionalLibraryDirectories>$(MSBuildThisFileDirectory)..\packages\curlcpp-vc140-static-32_64.1.0.2\lib\native\libs\$(PlatformTarget)\static\Release;$(MSBuildThisFileDirectory)..\packages\curl-vc140-static-32_64.7.53.0\lib\native\libs\$(PlatformTarget)\static\Release;$(MSBuildThisFileDirectory)..\packages\openssl-vc140-static-32_64.1.1.0\lib\native\libs\$(PlatformTarget)\static\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Ws2_32.lib;Version.lib;%(AdditionalDependencies);</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <ClCompile />
+    <ClCompile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PreprocessorDefinitions>_WINDLL;WC3X86;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <CustomBuildStep>
+      <Command>
+      </Command>
+    </CustomBuildStep>
+    <PostBuildEvent>
+      <Command>copy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)..\w3booster-master\src\app\public\patch\current\$(TargetName).dll"
+copy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)..\w3booster-master\dist\app\public\patch\current\$(TargetName).dll"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='NODE Release X86|Win32'">
+    <Link>
+      <AdditionalLibraryDirectories>$(MSBuildThisFileDirectory)..\packages\curlcpp-vc140-static-32_64.1.0.2\lib\native\libs\$(PlatformTarget)\static\Release;$(MSBuildThisFileDirectory)..\packages\curl-vc140-static-32_64.7.53.0\lib\native\libs\$(PlatformTarget)\static\Release;$(MSBuildThisFileDirectory)..\packages\openssl-vc140-static-32_64.1.1.0\lib\native\libs\$(PlatformTarget)\static\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Ws2_32.lib;Version.lib;%(AdditionalDependencies);</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <ClCompile />
+    <ClCompile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PreprocessorDefinitions>_WINDLL;WC3X86;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <CustomBuildStep>
+      <Command>
+      </Command>
+    </CustomBuildStep>
+    <PostBuildEvent>
+      <Command>copy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)..\w3booster-master\src\app\public\patch\current\$(TargetName).dll"
+copy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)..\w3booster-master\dist\app\public\patch\current\$(TargetName).dll"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='NODE Debug|x64'">
+    <Link>
+      <AdditionalLibraryDirectories>$(MSBuildThisFileDirectory)..\packages\curlcpp-vc140-static-32_64.1.0.2\lib\native\libs\$(PlatformTarget)\static\Release;$(MSBuildThisFileDirectory)..\packages\curl-vc140-static-32_64.7.53.0\lib\native\libs\$(PlatformTarget)\static\Release;$(MSBuildThisFileDirectory)..\packages\openssl-vc140-static-32_64.1.1.0\lib\native\libs\$(PlatformTarget)\static\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Ws2_32.lib;Version.lib;%(AdditionalDependencies);</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <ClCompile />
+    <ClCompile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>W3BDBG;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <CustomBuildStep />
+    <PostBuildEvent>
+      <Command>copy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)..\w3booster-master\src\app\public\patch\current\$(TargetName).dll"
+copy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)..\w3booster-master\dist\app\public\patch\current\$(TargetName).dll"</Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <CustomBuildStep />
+    <CustomBuildStep />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='NODE Debug|Win32'">
+    <Link>
+      <AdditionalLibraryDirectories>$(MSBuildThisFileDirectory)..\packages\curlcpp-vc140-static-32_64.1.0.2\lib\native\libs\$(PlatformTarget)\static\Release;$(MSBuildThisFileDirectory)..\packages\curl-vc140-static-32_64.7.53.0\lib\native\libs\$(PlatformTarget)\static\Release;$(MSBuildThisFileDirectory)..\packages\openssl-vc140-static-32_64.1.1.0\lib\native\libs\$(PlatformTarget)\static\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Ws2_32.lib;Version.lib;%(AdditionalDependencies);</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <ClCompile />
+    <ClCompile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <CustomBuildStep>
+      <Command>
+      </Command>
+    </CustomBuildStep>
+    <PostBuildEvent>
+      <Command>copy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)..\w3booster-master\src\app\public\patch\current\$(TargetName).dll"
+copy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)..\w3booster-master\dist\app\public\patch\current\$(TargetName).dll"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='NODE Debug x86|x64'">
+    <Link>
+      <AdditionalLibraryDirectories>$(MSBuildThisFileDirectory)..\packages\curlcpp-vc140-static-32_64.1.0.2\lib\native\libs\$(PlatformTarget)\static\Release;$(MSBuildThisFileDirectory)..\packages\curl-vc140-static-32_64.7.53.0\lib\native\libs\$(PlatformTarget)\static\Release;$(MSBuildThisFileDirectory)..\packages\openssl-vc140-static-32_64.1.1.0\lib\native\libs\$(PlatformTarget)\static\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Ws2_32.lib;Version.lib;%(AdditionalDependencies);</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <ClCompile />
+    <ClCompile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_WINDLL;WC3X86;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <CustomBuildStep>
+      <Command>
+      </Command>
+    </CustomBuildStep>
+    <PostBuildEvent>
+      <Command>copy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)..\w3booster-master\src\app\public\patch\current\$(TargetName).dll"
+copy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)..\w3booster-master\dist\app\public\patch\current\$(TargetName).dll"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='NODE Debug x86|Win32'">
+    <Link>
+      <AdditionalLibraryDirectories>$(MSBuildThisFileDirectory)..\packages\curlcpp-vc140-static-32_64.1.0.2\lib\native\libs\$(PlatformTarget)\static\Release;$(MSBuildThisFileDirectory)..\packages\curl-vc140-static-32_64.7.53.0\lib\native\libs\$(PlatformTarget)\static\Release;$(MSBuildThisFileDirectory)..\packages\openssl-vc140-static-32_64.1.1.0\lib\native\libs\$(PlatformTarget)\static\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Ws2_32.lib;Version.lib;%(AdditionalDependencies);</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <ClCompile />
+    <ClCompile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_WINDLL;WC3X86;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <CustomBuildStep>
+      <Command>
+      </Command>
+    </CustomBuildStep>
+    <PostBuildEvent>
+      <Command>copy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)..\w3booster-master\src\app\public\patch\current\$(TargetName).dll"
+copy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)..\w3booster-master\dist\app\public\patch\current\$(TargetName).dll"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Link>
+      <AdditionalDependencies>Ws2_32.lib;Version.lib;%(AdditionalDependencies);</AdditionalDependencies>
+    </Link>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Link>
+      <AdditionalDependencies>Ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Link>
+      <AdditionalDependencies>Ws2_32.lib;%(AdditionalDependencies);</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Link>
+      <AdditionalDependencies>Ws2_32.lib;%(AdditionalDependencies);</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="StackWalker.cpp" />
+    <ClCompile Include="TurnManager.cpp" />
+    <ClCompile Include="W3Collections.cpp" />
+    <ClCompile Include="W3GlobalGameInfo.cpp" />
+    <ClCompile Include="W3ItemManager.cpp" />
+    <ClCompile Include="W3ListManager.cpp" />
+    <ClCompile Include="W3InMemMatchAnalyzer.cpp" />
+    <ClCompile Include="DataPipeWriter.cpp" />
+    <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="RecorderStateMachine.cpp" />
+    <ClCompile Include="W3Entity.cpp" />
+    <ClCompile Include="W3MemoryUtils.cpp" />
+    <ClCompile Include="Settings.cpp" />
+    <ClCompile Include="Source.cpp" />
+    <ClCompile Include="W3Process.cpp" />
+    <ClCompile Include="W3ResourceListIterator.h" />
+    <ClCompile Include="W3Settings.cpp" />
+    <ClCompile Include="W3StateTracker.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Logger.h" />
+    <None Include="packages.config" />
+    <None Include="W3MemoryUtils.h" />
+    <None Include="Settings.h" />
+    <None Include="RecorderStateMachine.h" />
+    <None Include="W3AbilityIterator.h" />
+    <None Include="README.md" />
+    <None Include="Utils.h" />
+    <None Include="W3Ability.h" />
+    <None Include="W3Unit.h" />
+    <None Include="W3Process.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DataPipeWriter.h" />
+    <ClInclude Include="StackWalker.h" />
+    <ClInclude Include="W3GlobalGameInfo.h" />
+    <ClInclude Include="json.h" />
+    <ClInclude Include="ProcInfo.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="TurnManager.h" />
+    <ClInclude Include="W3AbilityHero.h" />
+    <ClInclude Include="W3AbilityInventory.h" />
+    <ClInclude Include="W3AbilitySkill.h" />
+    <ClInclude Include="W3Collections.h" />
+    <ClInclude Include="W3ControlGroups.h" />
+    <ClInclude Include="W3Entity.h" />
+    <ClInclude Include="W3EntityWithoutChangeDetection.h" />
+    <ClInclude Include="W3Item.h" />
+    <ClInclude Include="W3ItemManager.h" />
+    <ClInclude Include="W3List.h" />
+    <ClInclude Include="W3ListIterator.h" />
+    <ClInclude Include="W3ListManager.h" />
+    <ClInclude Include="W3InMemMatchAnalyzer.h" />
+    <ClInclude Include="W3MatchAnalyzerBase.h" />
+    <ClInclude Include="W3Player.h" />
+    <ClInclude Include="W3Research.h" />
+    <ClInclude Include="W3Resource.h" />
+    <ClInclude Include="W3Reverse.h" />
+    <ClInclude Include="W3Settings.h" />
+    <ClInclude Include="W3StateTracker.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DLL_Injector.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon.ico" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\zeroc.openssl.v142.1.0.2.6\build\native\zeroc.openssl.v142.targets" Condition="Exists('..\packages\zeroc.openssl.v142.1.0.2.6\build\native\zeroc.openssl.v142.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\zeroc.openssl.v142.1.0.2.6\build\native\zeroc.openssl.v142.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\zeroc.openssl.v142.1.0.2.6\build\native\zeroc.openssl.v142.targets'))" />
+  </Target>
+</Project>

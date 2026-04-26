@@ -1,0 +1,293 @@
+/*
+Template Name: Admin Press Admin
+Author: Themedesigner
+Email: niravjoshi87@gmail.com
+File: scss
+*/
+/**
+ * Table Of Content
+ *
+ * 	1. Globals
+ *	2. Headers
+ *	3. Navigations
+ *	4. Banners
+ *	5. Footers
+ *	6. app
+ *	7. Widgets
+ *	8. Custom Templates
+ */
+
+@import 'variable';
+@import "bootstrap/scss/bootstrap";
+@import 'app';
+@import 'pages';
+@import 'responsive';
+
+/*@import 'ngx-toastr/toastr-bs4-alert';
+*/
+
+a:not([href]){
+  &,
+  &:hover {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+* {
+  user-select: none;
+}
+
+.selectable * {
+  user-select: text !important;
+}
+
+[class*='col'] {
+  position: static !important;
+}
+
+$dragbarHeight: 56px;
+
+.progress {
+  border-radius: 0px !important;
+  background-color: #888;
+}
+
+.hvisible {
+  display: none;
+}
+
+.hvisible:hover {
+  display: inherit;
+}
+
+.plan-badge {
+  @extend .badge !optional;
+  font-size: 12px;
+  font-weight: bold;
+  white-space: pre;
+  text-transform: uppercase
+}
+
+.plan-badge-0 {
+  @extend .plan-badge,
+  .badge-secondary !optional;
+}
+
+.plan-badge-0:before {
+  content: " Basic";
+}
+
+.plan-badge-1 {
+  @extend .plan-badge,
+  .badge-success !optional;
+}
+
+.plan-badge-1:before {
+  content: " Pro";
+}
+
+#dragbar {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  padding: 24px 20px 4px 0px;
+  -webkit-app-region: drag;
+
+  cursor: move;
+  background: url('assets/images/logo.png') no-repeat 10px 6px #202829;
+  height: $dragbarHeight;
+
+  a {
+    -webkit-app-region: no-drag;
+  }
+}
+
+a {
+  cursor: pointer !important;
+}
+
+a {
+  color: #4f8db6;
+}
+
+#content-area {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  top: $dragbarHeight;
+}
+
+.full-size-abs {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+}
+
+
+.title {
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 20px;
+  background-color: #f3f3f3;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  margin: 0px;
+}
+
+.mainNav {
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 20px;
+  margin: 0px;
+  opacity: 0.8;
+  padding: 10px;
+}
+
+.mainNav.active {
+  opacity: 1.0;
+  border-bottom: 4px solid #677f73;
+}
+
+.mainNav.deactivated {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+b {
+  font-weight: 600 !important;
+}
+
+
+.news .card-header {
+  padding: 0px !important;
+}
+
+.news .card {
+  border-radius: 0px !important;
+}
+
+.news .card-body {
+  padding: 0px;
+
+}
+
+.news * {
+  border: none;
+
+}
+
+.news .card-body ul {
+  list-style-type: square;
+  padding: 4px 4px 4px 26px;
+}
+
+.news .card-header {
+  background-color: #fff;
+}
+
+.news .card-header button {
+  padding: 0px 10px !important;
+  font-size: 12px;
+  display: block;
+  width: 100%;
+  text-align: left;
+  text-decoration: none !important;
+}
+
+.btn-link:hover {
+  text-decoration: none !important;
+}
+
+
+.ce-backdrop {
+  opacity: 0.4 !important;
+  transition: none !important;
+}
+
+/* Ensure ng-bootstrap modal is above the backdrop.
+   Bootstrap defaults: backdrop 1040, modal 1050. */
+ngb-modal-backdrop {
+  z-index: 1040 !important;
+}
+
+ngb-modal-window {
+  z-index: 1050 !important;
+}
+
+.card-header>h2 {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0px;
+}
+
+
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Track */
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+
+::-webkit-scrollbar-thumb {
+  background: #ddd;
+  width: 6px;
+}
+
+/* Handle on hover */
+
+::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
+@mixin loading-spinner($activeColor: #EF6565, $selector: "&::before", $time: 1.5s) {
+  @keyframes spinner {
+      0% {
+          transform: translate3d(-50%, -50%, 0) rotate(0deg);
+      }
+
+      100% {
+          transform: translate3d(-50%, -50%, 0) rotate(360deg);
+      }
+  }
+  
+  animation-play-state: running;
+  opacity: 1;
+  position: relative;
+  
+  &.-paused { 
+      animation-play-state: paused; 
+      opacity: 0.2;
+      transition: opacity linear 0.1s;
+  }
+
+  #{$selector} {
+      animation: $time linear infinite spinner;
+      animation-play-state: inherit;
+      border: solid 3px #dedede;
+      border-bottom-color: #678ab8;
+      border-radius: 50%;
+      content: "";
+      height: 40px;
+      left: 50%;
+      opacity: inherit;
+      position: absolute;
+      top: 50%; 
+      transform: translate3d(-50%, -50%, 0);
+      width: 40px;
+      will-change: transform;
+  }
+}
+
+
+.loading-spinner {
+  @include loading-spinner;
+}

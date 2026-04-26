@@ -1,0 +1,28 @@
+{
+  "name": "w3booster",
+  "version": "0.0.0",
+  "private": true,
+  "description": "W3Booster monorepo",
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "compose:build": "docker compose build",
+    "compose:up": "docker compose up",
+    "compose:down": "docker compose down",
+    "compose:dev:up": "docker compose -f docker-compose.dev.yml up -d",
+    "compose:dev:down": "docker compose -f docker-compose.dev.yml down",
+    "lint": "turbo lint",
+    "test": "turbo test",
+    "check-types": "turbo check-types",
+    "format": "prettier --write \"**/*.{ts,js,json,md,yml,yaml,scss,css,html}\""
+  },
+  "devDependencies": {
+    "prettier": "^3.6.2",
+    "turbo": "^2.5.8",
+    "typescript": "5.4.5"
+  },
+  "packageManager": "pnpm@10.26.1",
+  "engines": {
+    "node": ">=18.19"
+  }
+}

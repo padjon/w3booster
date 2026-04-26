@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\W3InMem">
+      <UniqueIdentifier>{7e4035fd-2eac-4c69-be20-6d9ef255dc99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\W3InMem\Lists_Iterators">
+      <UniqueIdentifier>{bf1d35a1-47ea-42ba-b404-8da1506a9985}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\W3InMem\Entities">
+      <UniqueIdentifier>{dcf8e573-dddf-457e-ae83-129b0cd74513}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\W3InMem\Entities\AbilityDetails">
+      <UniqueIdentifier>{39e43edb-7c8f-4271-b6ab-ed70d9c4b506}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\W3InMem">
+      <UniqueIdentifier>{872c9db3-a391-40c9-9415-26bdf94e924d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utils">
+      <UniqueIdentifier>{516ba2cb-fa2b-409f-bef9-2b921fe469ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utils">
+      <UniqueIdentifier>{aac36a34-ea3f-4d18-9d06-83dcbc314240}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\W3InMem\Entities\W3Player">
+      <UniqueIdentifier>{6208bf15-0a07-4cb9-a128-48b1b0380533}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Settings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="W3MemoryUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="W3Process.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RecorderStateMachine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DataPipeWriter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="W3Collections.cpp">
+      <Filter>Source Files\W3InMem</Filter>
+    </ClCompile>
+    <ClCompile Include="W3ListManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="W3Entity.cpp">
+      <Filter>Source Files\W3InMem</Filter>
+    </ClCompile>
+    <ClCompile Include="W3ItemManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TurnManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="W3InMemMatchAnalyzer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="W3GlobalGameInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StackWalker.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="W3Settings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="W3StateTracker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="W3ResourceListIterator.h">
+      <Filter>Header Files\W3InMem\Lists_Iterators</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" />
+    <None Include="Utils.h">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Logger.h">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Settings.h">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="RecorderStateMachine.h">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="W3MemoryUtils.h">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="W3Process.h">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="packages.config" />
+    <None Include="W3Ability.h">
+      <Filter>Header Files\W3InMem\Entities\AbilityDetails</Filter>
+    </None>
+    <None Include="W3Unit.h">
+      <Filter>Header Files\W3InMem\Entities</Filter>
+    </None>
+    <None Include="W3AbilityIterator.h">
+      <Filter>Header Files\W3InMem\Lists_Iterators</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="json.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DataPipeWriter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="W3Collections.h">
+      <Filter>Header Files\W3InMem</Filter>
+    </ClInclude>
+    <ClInclude Include="W3ListManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="W3AbilitySkill.h">
+      <Filter>Header Files\W3InMem\Entities\AbilityDetails</Filter>
+    </ClInclude>
+    <ClInclude Include="W3ListIterator.h">
+      <Filter>Header Files\W3InMem\Lists_Iterators</Filter>
+    </ClInclude>
+    <ClInclude Include="W3List.h">
+      <Filter>Header Files\W3InMem\Lists_Iterators</Filter>
+    </ClInclude>
+    <ClInclude Include="W3Entity.h">
+      <Filter>Header Files\W3InMem\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="W3Research.h">
+      <Filter>Header Files\W3InMem\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="W3AbilityHero.h">
+      <Filter>Header Files\W3InMem\Entities\AbilityDetails</Filter>
+    </ClInclude>
+    <ClInclude Include="W3AbilityInventory.h">
+      <Filter>Header Files\W3InMem\Entities\AbilityDetails</Filter>
+    </ClInclude>
+    <ClInclude Include="W3Item.h">
+      <Filter>Header Files\W3InMem\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="W3ItemManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="W3Player.h">
+      <Filter>Header Files\W3InMem\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="W3ControlGroups.h">
+      <Filter>Header Files\W3InMem\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="W3EntityWithoutChangeDetection.h">
+      <Filter>Header Files\W3InMem\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="TurnManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="W3InMemMatchAnalyzer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="W3MatchAnalyzerBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="W3GlobalGameInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StackWalker.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="W3Reverse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="W3Settings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="W3StateTracker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="W3Resource.h">
+      <Filter>Header Files\W3InMem\Entities</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DLL_Injector.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

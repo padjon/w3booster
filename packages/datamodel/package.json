@@ -1,0 +1,20 @@
+{
+  "name": "@w3booster/datamodel",
+  "version": "0.0.0",
+  "private": true,
+  "type": "commonjs",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "echo \"Datamodel build is deferred until legacy app-local imports are removed\"",
+    "check-types": "echo \"Standalone datamodel typecheck is not configured until legacy app-local imports are removed\""
+  },
+  "dependencies": {
+    "@angular/core": "^18.2.13",
+    "parse": "^5.3.0",
+    "rxjs": "^6.6.7"
+  },
+  "devDependencies": {
+    "typescript": "~5.4.5"
+  }
+}

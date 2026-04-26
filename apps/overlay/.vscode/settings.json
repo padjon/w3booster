@@ -1,0 +1,23 @@
+{
+    "typescriptHero.resolver.stringQuoteStyle": "\"",
+    "typescriptHero.resolver.ignorePatterns": [
+        "build",
+        "out",
+        "dist",
+        "node_modules"
+    ],
+    "multiCommand.commands": [
+        {
+            "command": "multiCommand.processIncludes",
+            "interval": 100,
+            "sequence": [
+                "tslint.fixAllProblems",
+                "editor.action.formatDocument",
+                "workbench.action.files.save"
+            ]
+        }
+    ],
+    "prettier.disableLanguages": [
+        "vue", "typescript"
+    ]
+  }

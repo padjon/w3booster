@@ -1,0 +1,55 @@
+<br /><br /><br /><br /><br /><br /><br /><br />
+<div *ngIf="state == ELoginState.LOGIN_REQUIRED">
+    <div
+        style="width:406px; height: 100px; position: absolute; margin-top:-140px; top: 50%; left: 50%; margin-left: -200px; text-align:justify">
+        <h2>Login (via external Browser)</h2>
+        <br/>
+        W3Booster uses Twitch for authentication. By clicking the following button, the authentication opens in your default browser. Switch back to W3Booster after authentication. <br/>
+        <br/>
+        <a style="background-color: #6441a4; display:inline-block;"
+        (click)="openTwitchLoginInExternalBrowser()">
+            <img src="assets/images/twitch-ico.png" style="width:24px; margin: 6px 10px;">
+            <div
+                style="display:inline-block; width: 360px; line-height: 40px; text-align:center; color:#fff; border-left: 1px solid rgba(255,255,255,0.5)">
+                Login with Twitch (opens Browser) </div>
+        </a>
+    </div>
+</div>
+
+<div *ngIf="state == ELoginState.WAITING_FOR_CONFIRMATION">
+    <div
+        style="width:406px; height: 100px; position: absolute; margin-top:-140px; top: 50%; left: 50%; margin-left: -200px; text-align:justify">
+        <h2>Waiting...</h2>
+        <br/>
+        Twitch authentication was opened in your browser. Please finish the authentication process there.
+        <br/><br/>
+        Problems? 
+        <a style="color: #6441a4; display:inline-block;"
+        (click)="openTwitchLoginInExternalBrowser()">
+                Open the Twitch login again in your default browser.
+        </a>
+    </div>
+</div>
+
+<div *ngIf="state == ELoginState.LOGGED_IN">
+    Logged in!
+</div>
+
+
+<div *ngIf="state == ELoginState.LOGGING_IN">
+    <div
+        style="width:100px; height: 100px; position: absolute; margin-top:-50px; top: 50%; left: 50%; margin-left: -50px; text-align:center">
+        <div class="lds-ring">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <br />
+        Logging in...
+    </div>
+</div>
+
+<div *ngIf="state == ELoginState.LOGIN_DISABLED">
+    Login is not allowed
+</div>

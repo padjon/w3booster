@@ -1,0 +1,29 @@
+name: w3booster-dev
+
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - "127.0.0.1:27017:27017"
+
+  parse-dashboard:
+    image: parseplatform/parse-dashboard:latest
+    restart: unless-stopped
+    depends_on:
+      - mongo
+    network_mode: host
+    environment:
+      PARSE_DASHBOARD_ALLOW_INSECURE_HTTP: "true"
+      PARSE_DASHBOARD_SERVER_URL: https://localhost:25080/parse
+      PARSE_DASHBOARD_MASTER_KEY: ${PARSE_MASTER_KEY:-local-master-key-change-me}
+      PARSE_DASHBOARD_APP_ID: PSBdEx46ycVok7grEcdOMKPMsLYUl1OZ
+      PARSE_DASHBOARD_APP_NAME: W3Booster
+      PARSE_DASHBOARD_USER_ID: psadmin
+      PARSE_DASHBOARD_USER_PASSWORD: change-me
+      MOUNT_PATH: /dashboard/
+
+volumes:
+  mongo-data:

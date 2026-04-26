@@ -1,0 +1,6 @@
+03-24 17:40:58: UNABLE TO DECODE SOME COMPONENT!
+03-24 17:40:58: {"broadcaster":"Green%232618","broadcasterId":0,"class":"W3Game","game":{"map":"Last Refuge v1.5","name":"undefined","creator":"undefined"},"id":6396281,"isObserver":false,"isReforged":true,"isReplay":false,"players":{"0":{"class":"W3Player","colorId":1,"controlgroups":{"0":{"frontunit":"Udea","size":10},"1":{"frontunit":"ubsp","size":2},"2":{"frontunit":"usep","size":2},"3":{"frontunit":"ugrv","size":1},"4":{"frontunit":"unp2","size":1},"5":{"frontunit":"uaod","size":1}},"id":0,"isAI":false,"name":"Green#2618","name_buffer":[71,114,101,101,110,35,50,54,49,56],"race":3,"startPosition":{"x":0,"y":0},"team":0},"1":{"class":"W3Player","colorId":0,"controlgroups":null,"id":1,"isAI":true,"name":"Po%C4%8D%C3%ADta%C4%8D%20%28%C5%A1%C3%ADlen%C3","name_buffer":[80,111,196,141,195,173,116,97,196,141,32,40,197,161,195,173,108,101,110,195],"race":2,"startPosition":{"x":0,"y":0},"team":1}},"realm":"Reforged"}
+
+---
+
+Firs item slot bugs - not recognized

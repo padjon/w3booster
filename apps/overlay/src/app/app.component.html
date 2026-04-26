@@ -1,0 +1,412 @@
+<div *ngIf="this.state.error; then errorBlock else nonErrorBlock"></div>
+<ng-template #errorBlock>
+    <div class='error'> {{this.state.error}} </div>
+</ng-template>
+<ng-template #nonErrorBlock>
+    <div [class]='(isReforged) ? "w3-reforged" : "w3-classic"'
+        *ngIf="!isIngameOverlay || state && state.serviceState && state.serviceState.settings.ingameOverlayEnabled !== false">
+        <div class='App' *ngIf="state && state.serviceState && state.serviceState.settings && streamer">
+            <div class="{{additionalCSSClasses}}">
+                <div *ngIf="state.serviceState.game">
+                    <div class="build-order-overlay" *ngIf="getBuildOrderOverlay() as buildOrderState">
+                        <div class="build-order-overlay-title">
+                            <span>{{buildOrderState.order.completion}}%</span>
+                            {{buildOrderState.order.name}}
+                        </div>
+                        <div class="build-order-overlay-step {{step.status}}" *ngFor="let step of getVisibleBuildOrderSteps(buildOrderState)">
+                            <span>{{formatBuildOrderTime(step.atSeconds)}}</span>
+                            <b>{{step.label || step.target}}</b>
+                            <em>{{step.status}}</em>
+                        </div>
+                    </div>
+                    <div class="wc3-ui-area" [style.zoom]="state.serviceState.misc.hudScale">
+                        <div class="wc3-ui-area-container">
+                            <app-mapbar [game]="state.serviceState.game" [settings]="state.serviceState.settings"
+                                [misc]="state.serviceState.misc"></app-mapbar>
+
+                            <div *ngIf="state.serviceState.settings.controlgroupsEnabled !== false && !isObserverOrReplay() && streamer && streamer.controlgroups && state.serviceState.misc.chatbarOpen !== true"
+                                class="ctrlgroup-wrapper">
+                                <ng-container *ngFor="let index of [0,1,2,3,4,5,6,7,8,9]">
+                                    <div [style.visibility]="(streamer.controlgroups[index] ? 'visible' : 'hidden')"
+                                        class="ctrlgroup">
+                                        <ng-container *ngIf="streamer.controlgroups[index]">
+                                            <div class="ctrlgroup-index">
+                                                {{(index + 1) % 10}}
+                                            </div>
+                                            <div class="ctrlgroup-icon"
+                                                [style.backgroundImage]="'url(' + getIconPath('all', streamer.controlgroups[index].frontunit) + ')'">
+                                            </div>
+                                            <div class="ctrlgroup-text">
+                                                {{ streamer.controlgroups[index].size }}
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wc3-ui-area">
+                        <div class="wc3-ui-area-container">
+
+                            <app-matchbar [game]="state.serviceState.game" [gameTime]="state.serviceState.game.gameTime"
+                                [settings]="state.serviceState.settings" [misc]="state.serviceState.misc"
+                                *ngIf="state.serviceState.settings.topBarEnabled && state.serviceState.game && !showObserverBar() && !showObserverBar4v4() ">
+                            </app-matchbar>
+
+                            <app-obs-matchbar [game]="state.serviceState.game" [resources]="state.serviceState.resources"
+                                [gameTime]="state.serviceState.game.gameTime" [settings]="state.serviceState.settings"
+                                [misc]="state.serviceState.misc"
+                                *ngIf="state.serviceState.settings.topBarEnabled && state.serviceState.game && showObserverBar()">
+                            </app-obs-matchbar>
+
+                            <app-obs-matchbar-4v4 [game]="state.serviceState.game" [resources]="state.serviceState.resources"
+                                [heroes]="state.serviceState.heroes"
+                                [gameTime]="state.serviceState.game.gameTime" [settings]="state.serviceState.settings"
+                                [misc]="state.serviceState.misc"
+                                *ngIf="state.serviceState.settings.topBarEnabled && state.serviceState.game && showObserverBar4v4()">
+                            </app-obs-matchbar-4v4>
+
+                            <div
+                                *ngIf="!showObserverBar4v4() && state.serviceState.settings.researchesEnabled && state.serviceState.settings.researchesOfAttackAndArmorEnabled">
+                                <div
+                                    *ngIf="state.serviceState.upgrades[streamer.id] && state.serviceState.upgrades[streamer.id].upgrades && state.serviceState.upgrades[streamer.id].upgrades.length > 0">
+                                    <div class="upgrade-box">
+                                        <div *ngFor="let research of getActiveResearches(streamer.id)"
+                                            class="upgrade-icon"
+                                            [style.backgroundImage]="'url(' + getIconPath('upgrades', research.name + (research.level > 1 ? research.level : '')) + ')'">
+                                            <div *ngIf="isAttackOrDefenseResearch(research.name)"
+                                                class="level-indicator current-level-{{research.level}}">
+                                                <div class="level-3"></div>
+                                                <div class="level-2"></div>
+                                                <div class="level-1"></div>
+                                            </div>
+                                        </div>
+                                        <!--                    {researchedUpgrades.length > 0 && researchingUpgrades.length > 0 ? <div class="research-spacer"></div> : <p />}
+                    {researchingUpgrades.map(upgrade => {
+                        const start = new Date(upgrade.researchStart).getTime();
+                        const end = new Date(upgrade.researchFinish).getTime()
+                        const now = new Date().getTime()
+                        const researchDurationAbsolute = end - start;
+                        const researchDurationRemaining = end - now;
+                        const researchPercentage = (start > now) ? 0 : (researchDurationAbsolute - researchDurationRemaining) / researchDurationAbsolute;
+                        const progressLabel = Math.floor(researchDurationRemaining / 1000);
+                        return (
+                            <div class="upgrade-icon research-icon" style={{ backgroundImage: 'url(img/icons/upgrades/' + upgrade.name + '.bmp' }} >
+                                <div class={"level-indicator current-level-" + upgrade.level}>
+                                    <div class="level-3"></div>
+                                    <div class="level-2"></div>
+                                    <div class="level-1"></div>
+                                </div>
+                                <div class="upgrade-icon-progress-bg">
+                                </div>
+                                <div class="upgrade-icon-label">{progressLabel}
+                                </div>
+                            </div>)-->
+                                    </div>
+                                </div>
+                                <div
+                                    *ngIf="opponent && state.serviceState.upgrades[opponent.id] && state.serviceState.upgrades[opponent.id].upgrades && state.serviceState.upgrades[opponent.id].upgrades.length > 0">
+                                    <div class="upgrade-box opponent">
+                                        <div *ngFor="let research of getActiveResearches(opponent.id)"
+                                            class="upgrade-icon"
+                                            [style.backgroundImage]="'url(' + getIconPath('upgrades', research.name + (research.level > 1 ? research.level : '')) + ')'">
+                                            <div *ngIf="isAttackOrDefenseResearch(research.name)"
+                                                class="level-indicator current-level-{{research.level}}">
+                                                <div class="level-3"></div>
+                                                <div class="level-2"></div>
+                                                <div class="level-1"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div *ngIf="isObserverOrReplay() && !showObserverBar4v4()">
+                        <div *ngIf="state.serviceState.heroes[streamer.id]">
+                            <div *ngFor="let heroKey of state.serviceState.heroes[streamer.id] | keys"
+                                class="hero-area hero-area-streamer" id="ID_AVATAR_{{heroKey}}">
+                                <div [class]="'hero-avatar' + ((state.serviceState.heroes[streamer.id][heroKey].hitpoints && state.serviceState.heroes[streamer.id][heroKey].hitpoints.current <= 0) ? ' grayscaled-filter' : ' ')"
+                                    [style.backgroundImage]="'url(' + getIconPath('heroes', heroKey) + ')'">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngFor="let item of  [].constructor(requiredAvatarCoverCount); let i = index"
+                            class="hero-area hero-area-streamer hero-area-cover" id="ID_AVATAR_COVER_{{i}}">
+                            <div class="hero-avatar hero-avatar-cover">
+                            </div>
+                        </div>
+
+                        <div *ngIf="opponent && state.serviceState.heroes[opponent.id]">
+                            <div *ngFor="let heroKey of state.serviceState.heroes[opponent.id] | keys"
+                                class="hero-area hero-area-opponent" id="ID_AVATAR_{heroKey}}">
+                                <div [class]="'hero-avatar' + ((state.serviceState.heroes[opponent.id][heroKey].hitpoints && state.serviceState.heroes[opponent.id][heroKey].hitpoints.current <= 0) ? ' grayscaled-filter' : ' ')"
+                                    [style.backgroundImage]="'url(' + getIconPath('heroes', heroKey) + ')'">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="showObserverBar4v4() && state.serviceState.game.isReplay && !state.serviceState.game.isObserver">
+                        <div *ngFor="let item of [].constructor(getRequiredAvatarCoverCount4v4()); let i = index"
+                            class="hero-area hero-area-streamer hero-area-cover" id="ID_AVATAR_COVER_4V4_{{i}}"
+                            [style.top]="getAvatarCoverTop(i)">
+                            <div class="hero-avatar hero-avatar-cover">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        *ngIf="!showObserverBar4v4() && (state.serviceState.settings.heroAbilitiesEnabled || state.serviceState.settings.heroExpProgressEnabled !== false)">
+
+                        <div *ngIf="state.serviceState.settings.heroExpProgressEnabled !== false">
+                            <div *ngIf="state.serviceState.heroes[streamer.id]">
+                                <div *ngFor="let heroKey of state.serviceState.heroes[streamer.id] | keys"
+                                    class="hero-area hero-area-streamer hero-exp-area" id="ID_HEROEXP_{{heroKey}}">
+                                    <ng-template let-hero="hero"
+                                        [ngTemplateOutletContext]="{ hero: state.serviceState.heroes[streamer.id][heroKey] }"
+                                        [ngTemplateOutlet]="selfie" #selfie>
+                                        <div class="hero-exp-bar-wrapper">
+                                            <div class="hero-exp-bar-background">
+                                                <div class="hero-exp-bar"
+                                                    [style.height]="(getHeroExperienceProgess(hero)*100) + '%'">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </div>
+                            </div>
+
+                            <div *ngIf="opponent && state.serviceState.heroes[opponent.id]">
+                                <div *ngFor="let heroKey of state.serviceState.heroes[opponent.id] | keys"
+                                    class="hero-area hero-area-opponent hero-exp-area"
+                                    id="ID_OPPONENT_HEROEXP_{{heroKey}}">
+                                    <ng-template let-hero="hero"
+                                        [ngTemplateOutletContext]="{ hero: state.serviceState.heroes[opponent.id][heroKey] }"
+                                        [ngTemplateOutlet]="selfie" #selfie>
+                                        <div class="hero-exp-bar-wrapper">
+                                            <div class="hero-exp-bar-background">
+                                                <div class="hero-exp-bar"
+                                                    [style.height]="(getHeroExperienceProgess(hero)*100) + '%'">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div *ngIf="state.serviceState.heroes[streamer.id]">
+                                <div *ngFor="let heroKey of state.serviceState.heroes[streamer.id] | keys"
+                                    class="hero-area hero-area-streamer hero-hp-area" id="ID_HEROHP_{{heroKey}}">
+                                    <ng-template
+                                        *ngIf="state.serviceState.heroes[streamer.id][heroKey].hitpoints && state.serviceState.heroes[streamer.id][heroKey].hitpoints.current > 0"
+                                        let-heroHPPercentage="heroHPPercentage"
+                                        [ngTemplateOutletContext]="{ heroHPPercentage: state.serviceState.heroes[streamer.id][heroKey].hitpoints.current / state.serviceState.heroes[streamer.id][heroKey].hitpoints.max}"
+                                        [ngTemplateOutlet]="selfie" #selfie>
+                                        <div class="hero-hp-bar-wrapper">
+                                            <div class="hero-hp-bar-background">
+                                                <div class="hero-hp-bar" [style.width]="(heroHPPercentage * 100) + '%'"
+                                                    [style.background]="'rgb(' + ((heroHPPercentage <= 0.6 ? 1 : (1 - ((heroHPPercentage - 0.6) / 0.4)))  *255)  + ' , ' + ((heroHPPercentage > 0.6 ? 1 : (heroHPPercentage / 0.6))  *255) + ',0)'">
+                                                    <div class="hero-bar-gradient"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </div>
+                            </div>
+
+                            <div *ngIf="opponent && state.serviceState.heroes[opponent.id]">
+                                <div *ngFor="let heroKey of state.serviceState.heroes[opponent.id] | keys"
+                                    class="hero-area hero-area-opponent hero-hp-area" id="ID_HEROHP_{{heroKey}}">
+                                    <ng-template
+                                        *ngIf="state.serviceState.heroes[opponent.id][heroKey].hitpoints && state.serviceState.heroes[opponent.id][heroKey].hitpoints.current > 0"
+                                        let-heroHPPercentage="heroHPPercentage"
+                                        [ngTemplateOutletContext]="{ heroHPPercentage: state.serviceState.heroes[opponent.id][heroKey].hitpoints.current / state.serviceState.heroes[opponent.id][heroKey].hitpoints.max}"
+                                        [ngTemplateOutlet]="selfie" #selfie>
+                                        <div class="hero-hp-bar-wrapper">
+                                            <div class="hero-hp-bar-background">
+                                                <div class="hero-hp-bar" [style.width]="(heroHPPercentage * 100) + '%'"
+                                                    [style.background]="'rgb(' + ((heroHPPercentage <= 0.6 ? 1 : (1 - ((heroHPPercentage - 0.6) / 0.4)))  *255)  + ' , ' + ((heroHPPercentage > 0.6 ? 1 : (heroHPPercentage / 0.6))  *255) + ',0)'">
+                                                    <div class="hero-bar-gradient"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div *ngIf="state.serviceState.heroes[streamer.id]">
+                                <div *ngFor="let heroKey of state.serviceState.heroes[streamer.id] | keys"
+                                    class="hero-area hero-area-streamer hero-mana-area" id="ID_HEROHP_{{heroKey}}">
+                                    <ng-template let-hero="hero"
+                                        [ngTemplateOutletContext]="{ hero: state.serviceState.heroes[streamer.id][heroKey] }"
+                                        [ngTemplateOutlet]="selfie" #selfie>
+                                        <div class="hero-mana-bar-wrapper"
+                                            *ngIf="hero.mana && hero.hitpoints && hero.hitpoints.current > 0">
+                                            <div class="hero-mana-bar-background">
+                                                <div class="hero-mana-bar"
+                                                    [style.width]="(hero.mana.current / hero.mana.max*100) + '%'">
+                                                    <div class="hero-bar-gradient"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </div>
+                            </div>
+
+                            <div *ngIf="opponent && state.serviceState.heroes[opponent.id]">
+                                <div *ngFor="let heroKey of state.serviceState.heroes[opponent.id] | keys"
+                                    class="hero-area hero-area-opponent hero-mana-area" id="ID_HEROHP_{{heroKey}}">
+                                    <ng-template let-hero="hero"
+                                        [ngTemplateOutletContext]="{ hero: state.serviceState.heroes[opponent.id][heroKey] }"
+                                        [ngTemplateOutlet]="selfie" #selfie>
+                                        <div class="hero-mana-bar-wrapper"
+                                            *ngIf="hero.mana && hero.hitpoints && hero.hitpoints.current > 0">
+                                            <div class="hero-mana-bar-background">
+                                                <div class="hero-mana-bar"
+                                                    [style.width]="(hero.mana.current / hero.mana.max*100) + '%'">
+                                                    <div class="hero-bar-gradient"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="state.serviceState.settings.heroLevelEnabled !== false">
+                            <div *ngIf="state.serviceState.heroes[streamer.id]">
+                                <div *ngFor="let heroKey of state.serviceState.heroes[streamer.id] | keys"
+                                    class="hero-area hero-area-streamer" id="ID_HEROLVL_{{heroKey}}">
+                                    <ng-template let-hero="hero"
+                                        [ngTemplateOutletContext]="{ hero: state.serviceState.heroes[streamer.id][heroKey] }"
+                                        [ngTemplateOutlet]="selfie" #selfie>
+                                        <div class="hero-level">{{getHeroLevel(hero)}}</div>
+                                    </ng-template>
+                                </div>
+                            </div>
+
+                            <div *ngIf="opponent && state.serviceState.heroes[opponent.id]">
+                                <div *ngFor="let heroKey of state.serviceState.heroes[opponent.id] | keys"
+                                    class="hero-area hero-area-opponent" id="ID_OPPONENT_HEROLVL_{{heroKey}}">
+                                    <ng-template let-hero="hero"
+                                        [ngTemplateOutletContext]="{ hero: state.serviceState.heroes[opponent.id][heroKey] }"
+                                        [ngTemplateOutlet]="selfie" #selfie>
+                                        <div class="hero-level">{{getHeroLevel(hero)}}</div>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="state.serviceState.settings.heroAbilitiesEnabled">
+                            <div *ngIf="state.serviceState.heroes[streamer.id]">
+                                <div *ngFor="let heroKey of state.serviceState.heroes[streamer.id] | keys"
+                                    class="hero-area hero-area-streamer" id="ID_HEROABILITY_{{heroKey}}">
+                                    <ng-template let-hero="hero"
+                                        [ngTemplateOutletContext]="{ hero: state.serviceState.heroes[streamer.id][heroKey] }"
+                                        [ngTemplateOutlet]="selfie" #selfie>
+
+                                        <div *ngFor="let ability of hero.abilities" id="ID_ABILITY_{{ability.name}}"
+                                            [class]="'ability-icon-wrapper ' + (state.serviceState.settings.heroItemsEnabled !== false ? 'inventory-spacer' : '') ">
+
+                                            <div class="ability-icon {{ability.level == 0 ? 'ulti' : '' }}"
+                                                [style.backgroundImage]="'url(' + getIconPath('heroabilities', ability.name) + ')'">
+                                                <div *ngIf="abilityCooldowns.get(ability.id) && abilityCooldowns.get(ability.id).remaining > 0"
+                                                    class="cooldown-wrapper">
+                                                    <div class="cooldown">
+                                                        {{abilityCooldowns.get(ability.id).remaining}}
+                                                    </div>
+                                                    <div class="cooldown-animation"
+                                                        [style.height]="(abilityCooldowns.get(ability.id).remaining / abilityCooldowns.get(ability.id).total) * 100 + '%'">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="level-indicator current-level-{{ability.level}}">
+                                                <div class=" level-3"></div>
+                                                <div class="level-2"></div>
+                                                <div class="level-1"></div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </div>
+                            </div>
+
+                            <div *ngIf="opponent && state.serviceState.heroes[opponent.id]">
+                                <div *ngFor="let heroKey of state.serviceState.heroes[opponent.id] | keys"
+                                    class="hero-area hero-area-opponent" id="ID_OPPONENT_HEROABILITY_{{heroKey}}">
+                                    <ng-template let-hero="hero"
+                                        [ngTemplateOutletContext]="{ hero: state.serviceState.heroes[opponent.id][heroKey] }"
+                                        [ngTemplateOutlet]="selfie" #selfie>
+                                        <div *ngFor="let ability of hero.abilities"
+                                            id="ID_OPPONENT_ABILITY_{{ability.name}}"
+                                            [class]="'ability-icon-wrapper ' + (state.serviceState.settings.heroItemsEnabled !== false ? 'inventory-spacer' : '') ">
+                                            <div class="ability-icon"
+                                                [style.backgroundImage]="'url(' + getIconPath('heroabilities', ability.name) + ')'">
+                                                <div *ngIf="abilityCooldowns.get(ability.id) && abilityCooldowns.get(ability.id).remaining > 0"
+                                                    class="cooldown-wrapper">
+                                                    <div class="cooldown">
+                                                        {{abilityCooldowns.get(ability.id).remaining}}
+                                                    </div>
+                                                    <div class="cooldown-animation"
+                                                        [style.height]="(abilityCooldowns.get(ability.id).remaining / abilityCooldowns.get(ability.id).total) * 100 + '%'">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="level-indicator current-level-{{ability.level}}">
+                                                <div class="level-3"></div>
+                                                <div class="level-2"></div>
+                                                <div class="level-1"></div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="state.serviceState.settings.heroItemsEnabled !== false">
+                            <div *ngIf="state.serviceState.heroes[streamer.id]">
+                                <div *ngFor="let heroKey of state.serviceState.heroes[streamer.id] | keys"
+                                    class="hero-area hero-area-streamer inventory" id="ID_HEROABILITY_{{heroKey}}">
+                                    <ng-template let-hero="hero"
+                                        [ngTemplateOutletContext]="{ hero: state.serviceState.heroes[streamer.id][heroKey] }"
+                                        [ngTemplateOutlet]="selfie" #selfie>
+                                        <div *ngFor="let item of hero.items" id="ID_ITEM_{{item}}"
+                                            class="item-icon-wrapper">
+                                            <div class="item-icon" *ngIf="item != ''"
+                                                [style.backgroundImage]="'url(' + getIconPath('item', item) + ')'">
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </div>
+                            </div>
+
+                            <div *ngIf="opponent && state.serviceState.heroes[opponent.id]">
+                                <div *ngFor="let heroKey of state.serviceState.heroes[opponent.id] | keys"
+                                    class="hero-area hero-area-opponent inventory"
+                                    id="ID_HEROABILITY_OPPONENT_{{heroKey}}">
+                                    <ng-template let-hero="hero"
+                                        [ngTemplateOutletContext]="{ hero: state.serviceState.heroes[opponent.id][heroKey] }"
+                                        [ngTemplateOutlet]="selfie" #selfie>
+                                        <div *ngFor="let item of hero.items" id="ID_ITEM_{{item}}"
+                                            class="item-icon-wrapper">
+                                            <div class="item-icon" *ngIf="item != ''"
+                                                [style.backgroundImage]="'url(' + getIconPath('item', item) + ')'">
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

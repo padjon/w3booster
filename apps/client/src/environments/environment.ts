@@ -1,0 +1,26 @@
+// This file can be replaced during build by using the `fileReplacements` array.
+// `ng build ---prod` replaces `environment.ts` with `environment.prod.ts`.
+// The list of file replacements can be found in `angular.json`.
+import { IParseConfiguration } from '@app/data/services';
+import { version } from '../../package.json';
+
+export const environment = {
+  env: 'DEFAULT',
+  production: false,
+  REST_URL: 'https://localhost:25080/',
+  PARSE: {
+    URL: 'https://localhost:25080/parse',
+    APP_ID: 'PSBdEx46ycVok7grEcdOMKPMsLYUl0OZ',
+    JS_KEY: 'stnDsBFS454z78FSBFu36bscjxhbv'
+  } as IParseConfiguration,
+  LIVESERVER_URL: 'https://localhost:25081/',
+  version: version
+};
+
+/*
+ * In development mode, for easier debugging, you can ignore zone related error
+ * stack frames such as `zone.run`/`zoneDelegate.invokeTask` by importing the
+ * below file. Don't forget to comment it out in production mode
+ * because it will have a performance impact when errors are thrown
+ */
+// import 'zone.js/plugins/zone-error';  // Included with Angular CLI.

@@ -1,0 +1,48 @@
+{
+  "compileOnSave": false,
+  "typingOptions": {
+    "enableAutoDiscovery": true
+  },
+  "compilerOptions": {
+    "importHelpers": true,
+    "outDir": "./dist/out-tsc",
+    "esModuleInterop": true,
+    "noImplicitAny": false,
+    "sourceMap": true,
+    "declaration": false,
+    "resolveJsonModule": true,
+    "module": "es2022",
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "removeComments": false,
+    "target": "ES2022",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2017",
+      "dom"
+    ],
+    "baseUrl": "src",
+    "paths": {
+      "@app/*": [
+        "app/*"
+      ],
+      "@env/*": [
+        "environments/*"
+      ],
+      "@core/*": [
+        "app/core/*"
+      ],
+      "@shared/*": [
+        "app/shared/*"
+      ]
+    },
+    "useDefineForClassFields": false
+  },
+  "angularCompilerOptions": {
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "outDir": "dist",
+    "rootDir": "src",
+    "skipLibCheck": true,
+    "target": "es2018",
+    "lib": ["es2018", "dom"]
+  },
+  "include": ["src/**/*.ts"]
+}

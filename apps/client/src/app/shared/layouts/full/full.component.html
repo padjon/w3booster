@@ -1,0 +1,97 @@
+<!-- ============================================================== -->
+<!-- Main wrapper - style you can find in pages.scss -->
+<!-- ============================================================== -->
+<style>
+  #close {
+    color: #fff;
+    position: absolute;
+    top: 2px;
+    right: 6px;
+    -webkit-app-region: no-drag;
+    cursor: pointer;
+  }
+
+  #minimize {
+    color: #fff;
+    position: absolute;
+    top: 2px;
+    right: 28px;
+    -webkit-app-region: no-drag;
+    cursor: pointer;
+    font-size:12px;
+  }
+
+  #maximize {
+    color: #fff;
+    position: absolute;
+    top: 2px;
+    right: 50px;
+    -webkit-app-region: no-drag;
+    cursor: pointer;
+    font-size:12px;
+  }
+
+  #close:hover, #minimize:hover, #maximize:hover {
+    cursor: pointer;
+    color: #999 !important;
+  }
+
+  a:hover {
+    text-decoration: none;
+  }
+</style>
+<div class="main-frame">
+  <div id="main-wrapper">
+    <!-- ============================================================== -->
+    <!-- Page wrapper  -->
+    <!-- ============================================================== -->
+    <div class="page-wrapper">
+      <div id="dragbar">
+          <div id="minimize" (click)="minimizeWindow()"><span class="fa fa-window-minimize"></span></div>
+          <div id="maximize" (click)="toggleWindowMaximize()"><span class="fa fa-window-maximize"></span></div>
+          <div id="close" (click)="closeWindow()"><span class="fa fa-window-close"></span></div>
+        <p class="text-right">
+          &nbsp;
+          <a class="btn btn-link btn-sm text-white" target="_blank" href="http://www.tricider.com/brainstorming/2rlIMFqUPB3"
+          role="button"><span class="fa fa-lightbulb"></span> Vote for / add new feature requests!</a> &nbsp;|&nbsp;
+          <a class="btn btn-link btn-sm text-white" target="_blank" href="https://discord.gg/JwDFqp6"
+            role="button"><span class="fa fa-question-circle"></span> Need support? Join our discord!</a> &nbsp;|&nbsp;
+          <a class="btn btn-link btn-sm text-white" (click)="logout()" role="button"><span
+              class="fa fa-sign-out-alt"></span> logout</a>
+          <span
+            style="position: absolute; right:74px; top:6px; font-size:9px; color:#fff">
+
+            <span style="color:#fff">Made with <span class="fa fa-heart" style="color: #dba7b1"></span> by Pad &nbsp;|</span>&nbsp; v{{version}}</span>
+        </p>
+      </div>
+      <!-- ============================================================== -->
+      <!-- Container fluid  -->
+      <!-- ============================================================== -->
+      <div class="container-fluid" id="content-area">
+
+        <app-breadcrumb></app-breadcrumb>
+        <!-- ============================================================== -->
+        <!-- Start Page Content -->
+        <!-- ============================================================== -->
+        <router-outlet></router-outlet>
+        <!-- ============================================================== -->
+        <!-- End Start Page Content -->
+        <!-- ============================================================== -->
+      </div>
+      <!-- ============================================================== -->
+      <!-- End Container fluid  -->
+      <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Page wrapper  -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- footer -->
+    <!-- ============================================================== -->
+
+    <!-- ============================================================== -->
+    <!-- End footer -->
+    <!-- ============================================================== -->
+
+  </div>
+</div>

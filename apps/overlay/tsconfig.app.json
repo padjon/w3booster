@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "outDir": "./out-tsc/app",
+    "types": []
+  },
+  "include": [
+    "src/**/*.ts",
+    "../../packages/datamodel/src/**/*.ts"
+  ],
+  "exclude": [
+    "src/test.ts",
+    "src/**/*.spec.ts"
+  ]
+}

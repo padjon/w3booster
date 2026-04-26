@@ -1,0 +1,10 @@
+{
+  "name": "@w3booster/w3blib",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Native Warcraft III integration library and DLL injector sources",
+  "scripts": {
+    "build": "echo \"Build packages/w3blib with Visual Studio using w3booster-w3blib.sln\"",
+    "test": "echo \"No automated native tests configured\""
+  }
+}

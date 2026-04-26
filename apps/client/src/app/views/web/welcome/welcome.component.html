@@ -1,0 +1,37 @@
+<div *ngIf="processing">
+    <div style="position: absolute; left: 0px; right:0px; top: 200px; bottom: 0px; text-align:center">
+
+        <h1 class="text-center">Payment-Processing, please wait...</h1>
+        <br /><br />
+        We are currently waiting for your payment's confirmation by PayPal.<br />
+        This usually takes between a few seconds and up to five minutes.
+        <br /><br /><br /><br /><br /><br />
+
+        <div class="loading-spinner"></div>
+    </div>
+</div>
+
+<div *ngIf="!processing && error">
+    <div style="position: absolute; left: 0px; right:0px; top: 200px; bottom: 0px; text-align:center">
+
+        <h1 class="text-center" style="color:darkred">Error in Payment-Process</h1>
+        <br /><br />
+        An error occoured while processing your payment.<br /> <br>
+        Error Details: {{error}}<br />
+        Please contact the W3Booster support via Discord or mail (pad&#64;w3booster.com) for further help.
+        <br /><br /><br /><br />
+        <button (click)="continue()" class="btn btn-primary">Continue to W3Booster</button>
+    </div>
+</div>
+
+<div *ngIf="!processing && !error">
+    <div style="position: absolute; left: 0px; right:0px; top: 200px; bottom: 0px; text-align:center">
+
+        <h1 class="text-center">Thank you!</h1>
+        <br /><br />
+        <b>Your Pro Plan is now active until : {{newDate}}</b><br />
+        Thank you for using W3Booster. Enjoy your brand new <span class="plan-badge-1">&nbsp;</span> account!
+        <br /><br /><br /><br /><br /><br />
+        <button (click)="continue()" class="btn btn-success">Continue to W3Booster</button>
+    </div>
+</div>

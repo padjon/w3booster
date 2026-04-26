@@ -1,0 +1,67 @@
+Array
+(
+    [meta-data] => Array
+        (
+            [RequestDate] => 2014-09-27 22:10:00
+            [RequestUri] => /c/igames/account/accountid/2879.120?identities=strife
+            [ServerHostname] => 50.22.63.203
+            [ServerName] => prod.s2ogi.strife.com
+            [ClientIP] => 58.8.209.79
+            [ClientAgent] => S2 Games/Strife/0.4.1.2/windows/x86
+            [RequestTime] => 0.013898134231567
+        )
+
+    [body] => Array
+        (
+            [email] => cd8630f82904102.ppni@asiasoft.s2games.com
+            [display] => asinpp.20140928f0368dc
+            [status] => enabled
+            [type] => player
+            [provider] => 3
+            [info] => Array
+                (
+                )
+
+            [identities] => Array
+                (
+                    [game] => strife
+                    [identities] => Array
+                        (
+                            [strife.2857.121] => Array
+                                (
+                                    [nickname] => NGTH
+                                    [uniqid] => 1894
+                                    [status] => enabled
+                                    [playerType] => player
+                                    [level] => 1
+                                    [experience] => 0
+                                    [description] => None
+                                    [tutorialProgress] => 1
+                                    [canCraft] => 
+                                    [canPlayRanked] => 
+                                    [lanBoosts] => 
+                                    [ident_id] => 2857.121
+                                )
+
+                        )
+
+                )
+
+            [chatServerIdentity] => Array
+                (
+                    [serverList] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [host] => rc.chat.strife.com
+                                    [port] => 7033
+                                )
+
+                        )
+
+                )
+
+            [account_id] => 2879.120
+        )
+
+)

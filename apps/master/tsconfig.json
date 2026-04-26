@@ -1,0 +1,26 @@
+{
+    "compilerOptions": {
+	"skipLibCheck": true,
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "target": "es6",
+        "noImplicitAny": false,
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "outDir": "dist",
+        "baseUrl": "src",
+        "experimentalDecorators": true,
+        "rootDir": "src",
+        "lib": ["esnext.asynciterable", "dom"],
+        "paths": {
+            "*": [
+                "../node_modules/*",
+                "*"
+            ],
+            "@angular/core": ["app/data/common-compatibility/@angular.core"]
+        }   
+    },
+    "include": [
+        "src/**/*"
+    ]
+}

@@ -1,0 +1,4 @@
+- Feature Hud-Scale
+- Updated Client, Overlay and Server to use latest software components
+- disabled usage of reforged-icons. Classic icons are used now. Reforged detection disabled
+- 

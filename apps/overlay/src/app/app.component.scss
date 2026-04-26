@@ -1,0 +1,76 @@
+.hero-area-cover {
+    z-index: -99999;
+    pointer-events: none;
+}
+
+.build-order-overlay {
+    position: absolute;
+    top: 110px;
+    left: 28px;
+    z-index: 20000;
+    width: 330px;
+    color: #dcecff;
+    font-family: Arial, sans-serif;
+    pointer-events: none;
+    background: linear-gradient(135deg, rgba(6, 16, 28, 0.9), rgba(18, 34, 48, 0.78));
+    border: 1px solid rgba(98, 176, 255, 0.4);
+    box-shadow: 0 0 34px rgba(24, 114, 220, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.build-order-overlay-title {
+    padding: 10px 12px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    background: rgba(64, 151, 245, 0.18);
+    border-bottom: 1px solid rgba(98, 176, 255, 0.24);
+}
+
+.build-order-overlay-title span {
+    display: inline-block;
+    margin-right: 8px;
+    color: #f0a53a;
+}
+
+.build-order-overlay-step {
+    display: grid;
+    grid-template-columns: 48px 1fr 54px;
+    gap: 8px;
+    align-items: center;
+    padding: 8px 10px;
+    font-size: 12px;
+    border-left: 3px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.035);
+}
+
+.build-order-overlay-step span,
+.build-order-overlay-step em {
+    color: #8eaac4;
+    font-style: normal;
+    text-transform: uppercase;
+}
+
+.build-order-overlay-step b {
+    color: #fff;
+    font-weight: 700;
+}
+
+.build-order-overlay-step.active {
+    border-left-color: #43a6ff;
+    background: rgba(67, 166, 255, 0.16);
+}
+
+.build-order-overlay-step.done {
+    border-left-color: #42c483;
+    opacity: 0.72;
+}
+
+.build-order-overlay-step.late {
+    border-left-color: #f0a53a;
+}
+
+.build-order-overlay-step.missed {
+    border-left-color: #dc5b52;
+}

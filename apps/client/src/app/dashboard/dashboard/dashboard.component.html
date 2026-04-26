@@ -1,0 +1,1759 @@
+<ng-container *ngIf="!showCompactDashboard">
+
+    <div *ngIf="loadingScreen"
+        style="position:absolute; left:0px; right:0px; top:0px; bottom:0px; background-color: white; opacity:0.9; z-index: 99999999999">
+        <img src="assets/images/loading.gif"
+            style="position:absolute; left: 50%; top:50%; width:200px; margin-left:-100px; margin-top:-120px " />
+        <div
+            style="position:absolute; left:50%; top:50%; width:400px; margin-left:-200px; text-align: center; margin-top:50px;">
+            <h1>Please wait..</h1>
+        </div>
+    </div>
+
+    <div class="row h-100 w3b-launcher-shell" *ngIf="user">
+        <div class="col-md-12 d-flex flex-column w3b-shell-column" style="padding-right: 0px; padding-left: 0px">
+            <div class="row flex-fill d-flex">
+                <div class="col-md-12 flex-fill d-flex flex-column">
+                    <div class="card flex-fill d-flex w3b-client-frame" style="border: none;">
+                        <div class="card-header w3b-command-bar">
+                            <div class="w3b-brand-panel">
+                                <div class="w3b-logo-mark">W3</div>
+                                <div>
+                                    <div class="w3b-product-title">W3Booster</div>
+                                    <div class="w3b-product-subtitle">{{isDesktopClient ? 'Desktop command center' : 'Web command center'}}</div>
+                                </div>
+                            </div>
+                            <div class="w3b-nav-strip">
+                                <ng-template ng-template ngFor let-tab [ngForOf]="getAttributes(mainMenuTabs)">
+                                    <a class="mainNav {{((tab.active) ? 'active' :'')}}  {{((tab.disabled) ? 'disabled' :'')}}"
+                                        *ngIf="(tab.hide !== true)" (click)="switchTab(mainMenuTabs, tab)">
+                                        <span [class]="tab.icon"></span> {{tab.name}}
+                                    </a>
+                                </ng-template>
+                            </div>
+                            <div class="w3b-status-cluster">
+                                <a class="mainNav user-chip {{((mainMenuTabs.SUBSCRIPTION.active) ? 'active' :'')}}  {{((mainMenuTabs.SUBSCRIPTION.disabled) ? 'disabled' :'')}}"
+                                    *ngIf="user" (click)="switchTab(mainMenuTabs, mainMenuTabs.SUBSCRIPTION)">
+                                    <span [class]="mainMenuTabs.SUBSCRIPTION.icon"></span> {{user.displayName}} <span
+                                        [class]="'plan-badge-' + user.plan">&nbsp;</span>
+                                </a>
+
+                                <a class="mainNav recorder-chip {{((mainMenuTabs.RECORDER.active) ? 'active' :'')}}  {{((mainMenuTabs.RECORDER.disabled) ? 'disabled' :'')}}"
+                                    *ngIf="isDesktopClient" (click)="switchTab(mainMenuTabs, mainMenuTabs.RECORDER)">
+                                    <span [style.color]="recorderState.color"><span
+                                                [class]="mainMenuTabs.RECORDER.icon"></span></span>
+                                    <span><b>{{recorderState.title}}</b><span *ngIf="recorderState.subtitle"> / {{recorderState.subtitle}}</span></span>
+                                </a>
+
+                                <a class="mainNav mode-chip" *ngIf="isDesktopClient" (click)="toggleDashboardMode()">
+                                    <span class="fa fa-window-restore"></span> Compact
+                                </a>
+                            </div>
+                        </div>
+                        <div *ngIf="mainMenuTabs.DASHBOARD.active" class="card-body  d-flex flex-column">
+                            <div *ngIf="!isDesktopClient" class="w3b-web-mode-banner">
+                                <b>Web mode:</b> overlay configuration, build orders, subscription, and sharing remain available.
+                                Recorder, in-game overlay attachment, local websocket, and all w3blib-backed actions are disabled in the browser.
+                            </div>
+                            <div class="row flex-fill d-flex">
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h2>How to embed W3Booster?</h2>
+                                        </div>
+                                        <div class="card-body" style="overflow: hidden">
+                                            <b>Integrate W3Booster in your stream</b><br />
+                                            <table style="width: 100%">
+                                                <tr>
+                                                    <td>
+                                                        To embed W3Booster in your stream, add a <i>Browser</i> source
+                                                        in
+                                                        your <br />
+                                                        recording tool (e.g. OBS or Steamlabs). Set the following
+                                                        properties:
+                                                    </td>
+                                                    <td>
+                                                        <button *ngIf="!showUrl" (click)="showUrl=true;"
+                                                            class="float-right">Show</button>
+                                                        <button *ngIf="showUrl" (click)="showUrl=false;"
+                                                            class="float-right">Hide</button>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <div *ngIf="showUrl" style="margin-top:20px">
+                                                <table>
+                                                    <tr>
+                                                        <td>url:</td>
+                                                        <td>
+                                                            <input type="text"
+                                                                (click)="$event.target.select(); document.execCommand('copy');"
+                                                                style="font-size:10px; margin-bottom: 0px; width: 520px"
+                                                                [value]="overlayUrl" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>width:</td>
+                                                        <td>1920</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>height:</td>
+                                                        <td>1080</td>
+                                                    </tr>
+                                                </table>
+                                                <div
+                                                    style="margin-top:20px; width: 100%; height: 260px; background: url('assets/images/tutorial.png') no-repeat">
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <b>Integrate W3Booster in Warcraft III (not visible on stream)</b>
+                                            <br />
+                                            <div *ngIf="!isDesktopClient">
+                                                Native Warcraft III integration is available only in the desktop client.
+                                            </div>
+                                            <div *ngIf="isDesktopClient && osVersion < 10">
+                                                The ingame integration requires Windows 10. Your operating
+                                                system is not supported for ingame integration.
+                                            </div>
+                                            <div *ngIf="isDesktopClient && osVersion >= 10">
+                                                Show the W3Booster-overlay directly in Warcraft III
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="gridCheckingameOverlayWhilePlayingEnabled"
+                                                        [(ngModel)]="user.playerOverlaySettings.ingameOverlayEnabled"
+                                                        (change)="user.playerOverlaySettings.save(); afterIngameIntegrationToggle()">
+                                                    <label class="form-check-label"
+                                                        for="gridCheckingameOverlayWhilePlayingEnabled">
+                                                        Show the Ingame-Overlay while playing yourself
+                                                    </label>
+                                                </div>
+
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="gridCheckingameOverlayWhileWatchingEnabled"
+                                                        [(ngModel)]="user.obsOverlaySettings.ingameOverlayEnabled"
+                                                        (change)="user.obsOverlaySettings.save(); afterIngameIntegrationToggle()">
+                                                    <label class="form-check-label"
+                                                        for="gridCheckingameOverlayWhileWatchingEnabled">
+                                                        Show the Ingame-Overlay while observing or watching
+                                                        replays
+                                                    </label>
+                                                </div>
+
+                                                <div style="padding-top:10px">
+                                                    This feature does not support the WC3 argument
+                                                    "-graphicsapi
+                                                    Direct3D9"
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card" style="margin-top:20px">
+                                        <div class="card-header">
+                                            <h2>Latest News</h2>
+                                        </div>
+                                        <div class="card-body selectable" style="max-height: 320px; overflow:auto">
+                                            <div>
+                                                <b *ngIf="this.versionIsNew" style="color: red">NEW: </b>
+                                                <b>{{getLocalizedDate(1777075200000)}} - Update v1.2.0 |
+                                                    Feature- and Bugfix-Update</b><br />
+                                                <br />
+                                                <i>New Features</i>
+                                                <ul>
+                                                    <li>New 4vs4 Overlay showing both teams at the same time left/right, gold/supply for every player, and all heroes with their levels per player.</li>
+                                                    <li>Added a new option to show all researches instead of only attack/defence researches.</li>
+                                                </ul>
+                                                <i>Fixes</i>
+                                                <ul>
+                                                    <li>Fixed multiple crash bugs.</li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <b>{{getLocalizedDate(1748277108000)}} - Update v1.1.0 |
+                                                    Feature-Update</b><br />
+                                                <br/>
+                                                <ul>
+                                                    <li>Multi-Warcraft3-Instance support (Fixing Replays)</li>
+                                                </ul>
+                                                W3Booster now supports multiple Warcraft 3 instances at the same time. This feature restores the ability to display the overlay for replays when W3Champions is running.
+                                                <br/><br/>
+                                            </div>
+                                            <div>
+                                                <b>{{getLocalizedDate(1742855856000)}} - Update v1.0.2 |
+                                                    Hotfix-Update</b><br />
+                                                <ul>
+                                                    <li>Fix: Flickering of Mapname and Controlgroups</li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <b>{{getLocalizedDate(1742855856000)}} - Update v1.0.1 |
+                                                    Feature- and Bugfix-Update</b><br />
+                                                <i>New Features</i>
+                                                    <ul>
+                                                        <li>Overlay now scales with the HUD-Scale setting of Warcraft 3 for better UI consistency.</li>
+                                                    </ul>
+                                                
+                                                    <i>Fixes</i>
+                                                    <ul>
+                                                        <li>Overlay no longer disappears when opening the quest or last hit screen.</li>
+                                                        <li>Wins and losses are now correctly detected.</li>
+                                                        <li>Game start detection is now more reliable and accurate.</li>
+                                                        <li>Classic icons will now consistently appear instead of Reforged ones.</li>
+                                                    </ul>
+                                                
+                                                    <i>Maintainability</i>
+                                                    <ul>
+                                                        <li>All core components of W3Booster — Client, Server, and Overlays — have been updated to a modern tech stack to ensure long-term maintainability and support for future features.</li>
+                                                    </ul>
+                                                
+                                                    <p>This looks like a small update, but the technical modernizations under the hood were massive. There might be new issues you haven't seen before, and it will take some time to stabilize everything again. These changes were necessary for the future of W3Booster. Please report every bug you face and I’ll make sure to take care of them.</p>
+                                            </div>
+                                            <div>
+                                                <b>{{getLocalizedDate(1742855856000)}} - Update v0.14.0 |
+                                                    Feature-Update</b><br />
+                                                <ul>
+                                                    <li>Support of 4K and any other resolutions for InGame and Streaming-Overlays</li>
+                                                    <li>Switch Player Positions in Observer-Games</li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <b>{{getLocalizedDate(1696776801000)}} - Update v0.13.3 |
+                                                    Feature-Update</b><br />
+                                                <ul>
+                                                    <li>Updated Twitch authentication integration to reestablish login
+                                                        functionality</li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <b>{{getLocalizedDate(1616168607000)}} - Update v0.13.0 |
+                                                    Feature-Update</b><br />
+                                                <ul>
+                                                    <li>Replays / Obs: healthbars and manabars are shown now</li>
+                                                    <li>Replays / Obs: fix of an issue, which lead to swapped hero
+                                                        avatars</li>
+                                                    <li>W3Booster-Discord connection for community- and <span
+                                                            class="plan-badge-1">&nbsp;</span> support</li>
+                                                    <li>2on2 RT stats are fixed for W3Champions</li>
+                                                    <li>FFA stats are added for W3Champions FFA games</li>
+                                                    <li>New W3Champions leagues are supported now</li>
+                                                    <li>Fix: improved the detection of stale WC3 processes and process
+                                                        selection</li>
+
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <b>{{getLocalizedDate(1614966470000)}} - Update v0.12.0 |
+                                                    Feature-Update</b><br />
+                                                <ul>
+                                                    <li>Replays / Obs: Players sorted based on start positions</li>
+                                                    <li>Replays / Obs: Option to switch to textual race representation
+                                                    </li>
+                                                    <li>Game time is now embeddable as a file source (see the "Current
+                                                        Match" section) </li>
+                                                    <li>W3Champions "badping"-games are not counted as losses anymore
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <b>{{getLocalizedDate(1611784091000)}} - Update v0.11.0 |
+                                                    QoL and Bugfix-Update</b><br />
+                                                <ul>
+                                                    <li>New option to show/hide match score in Replays and/or Observer
+                                                        games</li>
+                                                    <li>Improved stability and extended error output on crashes</li>
+                                                    <li>Bugfix: W3Champions FFA games are anonymous now</li>
+                                                    <li>Bugfix: Reforged Icons not shown in classic mode anymore in some
+                                                        circumstances</li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <b>{{getLocalizedDate(1583965570573)}} - Update v0.10.1 |
+                                                    Bugfix-Patch</b><br />
+                                                <ul>
+                                                    <li>Bugfix: ingame integration is working again as expected</li>
+                                                    <li>Bugfix: races are shown in the client and its compact-mode
+                                                        correctly again</li>
+                                                    <li>Bugfix: observers are no more listed as players in compact-mode
+                                                    </li>
+                                                    <li>Netease-Bugfix: Ingame-Overlay is shown in Watch-Mode again
+                                                        (player-overlay, not observer overlay)</li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <b>{{getLocalizedDate(1583876440904)}} - Update v0.10.0 |
+                                                    Observer/Replay Update #1:</b><br />
+                                                <ul>
+                                                    <li>Completely redesigned match bar for observer/replay games</li>
+                                                    <li>Shows ressources and supply of all players</li>
+                                                    <li>Shows the score of the current players clash</li>
+                                                    <li><span class="plan-badge-1">&nbsp;</span> Two freely editable
+                                                        textfields for seamless integrated event descriptions</li>
+                                                    <li>Separate overlay configuration page for observer/replay games
+                                                    </li>
+                                                    <li>Extensive refactoring of the underlaying technologies to enable
+                                                        even more observer/replay features in future</li>
+                                                    <li>Bugfix: Ability-Countdown is now also shown for the player on
+                                                        the right-hand side</li>
+                                                    <li>Bugfix: Flickering ability/inventory icons were fixed, when a
+                                                        new hero was built</li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <b>{{getLocalizedDate(1581168830553)}} - Update v0.9.4</b><br />
+                                                <ul>
+                                                    <li>Full compatibility to latest Netease-Version (Reforged &#64;
+                                                        Netease)</li>
+                                                    <li>BNET-Bugfix: A Bug was fixed which sometimes made the
+                                                        ingame-overlay invisible</li>
+                                                    <li>Netease-Bugfix: Ingame-Overlay stability in Netease Watch-Mode
+                                                        improved</li>
+                                                    <li>Global Bugfix: In rare cases the wrong player's information was
+                                                        displayed</li>
+                                                    <li>Bugfix: The automated PRO-Account activation works now also for
+                                                        early renewals</li>
+                                                    <li>Bugfix: Match Score was sometimes not updated in the overlay
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <b>{{getLocalizedDate(1581127683335)}} - Update v0.9.3</b><br />
+                                                <ul>
+                                                    <li>Compatibility to latest Reforged version (1.32.0.14604)</li>
+                                                    <li>Account alias detection supports Reforged now (thanks to
+                                                        warcraft3.info)</li>
+                                                    <li>Icons and avatars are now shown in classics mode, if HD-models
+                                                        are disabled</li>
+                                                    <li><span class="plan-badge-1">&nbsp;</span> account activation is
+                                                        now automated and happens instantly</li>
+                                                    <li>Bugfix: Replay game detection works again as intended</li>
+                                                    <li>Bugfix: Non-available Netease stats will not hide the Matchbar
+                                                        forever anymore</li>
+                                                    <li>Bugfix: W3Booster doesn't ask for admin rights anymore when
+                                                        closing Reforged</li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <b>{{getLocalizedDate(1579645180867)}} - Update v0.9.0</b><br />
+                                                <ul>
+                                                    <li><span class="plan-badge-1">&nbsp;</span> Ability cooldowns are
+                                                        shown now</li>
+                                                    <li>Compatibility to latest Reforged version (1.32.0.14411)</li>
+                                                    <li>Bugfix: Observer games are not counted as losses anymore</li>
+                                                    <li>Bugfix: Player aliases are fixed in compact mode while playing
+                                                        on Netease</li>
+                                                    <li>Bugfix: player-names and other match relevant information is
+                                                        selectable in the client again </li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <b>{{getLocalizedDate(1578358189866)}} - Update v0.8.9</b><br />
+                                                <ul>
+                                                    <li>Match score of the session is now shown in the overlay
+                                                        <br />(above minimap, alternating with map name)
+                                                    </li>
+                                                    <li>Option to show the ingame-overlay only in replays / as observer
+                                                    </li>
+                                                    <li>Controlgroups hide while chatting (ingame and stream overlay)
+                                                    </li>
+                                                    <li>Player-colors are shown with team-color setting taken into
+                                                        account</li>
+                                                    <li>Netease 2on2 stats are now supported</li>
+                                                    <li>Player aliases are shown in compact mode</li>
+                                                    <li>Fix: Netease Watchmode is now recognized as watching of a replay
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <b>{{getLocalizedDate(1576814240722)}} - Update v0.8.6</b><br />
+                                                <ul>
+                                                    <li>Fixed Netease stats, which broke because of the recent Netease
+                                                        update</li>
+                                                    <li>Fixed a bug, which broke the W3Booster client from time to time
+                                                        (blackscreen)</li>
+                                                    <li>Minor Match Box fixes </li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <b>{{getLocalizedDate(1576694023128)}} - Update v0.8.5</b><br />
+                                                <ul>
+                                                    <li>W3Booster Client in compact mode:<br />
+                                                        The compact mode shows all relevant information you need while
+                                                        broadcasting in a responsive and resizable way. That way you can
+                                                        optimize your broadcasting-setup.
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <b>{{getLocalizedDate(1576367007236)}} - Update v0.8.1</b><br />
+                                                <ul>
+                                                    <li>BASIC: Match Bar 2on2 overhaul</li>
+                                                    <li>BASIC: Match Bar formation and animation fixes for all modes
+                                                    </li>
+                                                    <li>BASIC/PRO: fixed ingame overlay scaling if Windows scaling
+                                                        differed
+                                                        from 100%</li>
+                                                    <li>BASIC/PRO: fixed focus/tabout issue for ingame overlay</li>
+                                                    <li>BASIC/PRO: disabled ingame overlay for Windows 7 (incompatible)
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <b>{{getLocalizedDate(1576284339318)}} - Update v0.8.0</b><br />
+                                                <ul>
+                                                    <li>BASIC/PRO: Ingame-Overlay of W3Booster</li>
+                                                    <li>BASIC: Match Bar fixes of formatting errors</li>
+                                                    <li *ngIf="user && user.id == 'B3yK1eJqAj'"><b>Grubby: localized
+                                                            news-dates ;)</b></li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <b>{{getLocalizedDate(1575766193000)}} - Update v0.7.0</b><br />
+                                                <ul>
+                                                    <li>BASIC: Match Bar player colors (configurable)</li>
+                                                    <li>BASIC: Match Bar player alias support extended to all realms
+                                                    </li>
+                                                    <li>BASIC: Match Bar 2on2 suppport</li>
+                                                    <li>BASIC: Match Bar 3on3 suppport</li>
+                                                    <li>BASIC: Match Bar 4on4 suppport</li>
+                                                    <li>BASIC: Match Bar FFA3 suppport</li>
+                                                    <li>BASIC: Match Bar FFA4 suppport</li>
+                                                    <li>PRO: Fix of wrongly shown abilities of Alchemist</li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <b>{{getLocalizedDate(1575247793000)}} - Hotfix-Update v0.6.6</b><br />
+                                                Fixed the following issues:
+                                                <ul>
+                                                    <li>Classic: overlay stopped updating in the middle of a game and
+                                                        was
+                                                        not disappearing after leaving a match</li>
+                                                    <li>Classic: multiple ability and hero icons were not shown</li>
+                                                    <li>Reforged: no icons were shown at all</li>
+                                                    <li>Reforged: support for russian localization was not given</li>
+                                                    <li>Netease: overlay didn't work anymore at all with latest patch
+                                                    </li>
+                                                    <li>Netease: no stats of players with chinese signs in their name
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <b>{{getLocalizedDate(1575161393000)}} - Update v0.6.5</b>
+                                                <ul>
+                                                    <li>BASIC: Added control groups to the overlay</li>
+                                                    <li>Alot of bugfixes for observer- and replay mode</li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <b>{{getLocalizedDate(1575074993000)}} - Update v0.6.0</b>
+                                                <ul>
+                                                    <li>PRO: Added inventory of heroes to the overlay</li>
+                                                    <li>Improved and fixed winner detection</li>
+                                                    <li>No more win/loss count in AI games or replays</li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <b>{{getLocalizedDate(1574556593000)}} - Update v0.5.0</b>
+                                                <ul>
+                                                    <li>PRO: Added hero level indicator above avatars</li>
+                                                    <li>BASIC: Updated Observer mode (you see both players now)</li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <b>{{getLocalizedDate(1574383793000)}} - Update v0.4.0</b>
+                                                <ul>
+                                                    <li>Implemented <span class="plan-badge-1">&nbsp;</span> Accounts
+                                                    </li>
+                                                    <li>Fixed client resize bug</li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <b>{{getLocalizedDate(1573951793000)}} - Update v0.3.1</b>
+                                                <ul>
+                                                    <li>Compatibility with latest Reforged patch</li>
+                                                    <li>Current match and player stats shown in the client</li>
+                                                    <li>Massively improved Reforged-stability</li>
+                                                    <li>Alchemist-bug fix</li>
+                                                    <li>Match score autoreset fix</li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <b>{{getLocalizedDate(1573260593000)}} - Update v0.3.0</b>
+                                                <ul>
+                                                    <li>Hero experience bar for classic battle.net</li>
+                                                    <li>Winner / loser detection in match history</li>
+                                                    <li>Score count (embeddable in your stream!)</li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <b>{{getLocalizedDate(1573001393000)}} - Update v0.2.1</b>
+                                                <ul>
+                                                    <li>Hero experience bar added to the overlay (Reforged only for now)
+                                                    </li>
+                                                    <li>Fixed missing Reforged icons</li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <b>{{getLocalizedDate(1572742193000)}} - Update v0.2.0</b>
+                                                <ul>
+                                                    <li>Support of Reforged Beta</li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <b>{{getLocalizedDate(1572223793000)}} - Update v0.1.0</b>
+                                                <ul>
+                                                    <li>Full support for all realms incl. <b>Netease</b> reached</li>
+                                                    <li>Switching between players in replays is now supported</li>
+                                                    <li>Fixed multiple minor bugs</li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <b>{{getLocalizedDate(1571874593000)}} - Update v0.0.4</b>
+                                                <ul>
+                                                    <li>Fixed stats for U.S. East and U.S. West</li>
+                                                    <li>Fixed wrong abilities shown on Netease</li>
+                                                    <li>Added alternative position for Match Bar (Bottom center)</li>
+                                                    <li>Fixed multiple minor bugs regarding abilities</li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <b>{{getLocalizedDate(1571356193000)}} - Update v0.0.3</b>
+                                                <ul>
+                                                    <li>Added gametime to to the top-bar</li>
+                                                    <li>Improved information mining</li>
+                                                    <li>Fixed several bugs</li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <b>{{getLocalizedDate(1570924193000)}} - Update v0.0.2</b>
+                                                <ul>
+                                                    <li>Added 32 Bit support (required for Netease)</li>
+                                                    <li>Fixed several bugs</li>
+                                                    <li>Added Overlay customization configuration</li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <b>{{getLocalizedDate(1570319393000)}} - Update v0.0.1</b>
+                                                <ul>
+                                                    <li>Added Upgrades</li>
+                                                    <li>Added Support for replays (only one player for now)</li>
+                                                    <li>Fixed several bugs</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div>
+                                        <div class="row" style="border-bottom: 1px solid #ddd">
+                                            <div class="col-md-12"><b style="font-size: 17px">
+                                                    Match score of this session</b>
+                                                <button style="float:right" ngbTooltip="Reset current match score"
+                                                    (click)="resetMatchScore()" placement="left" type="button"
+                                                    class="btn btn-secondary btn-sm">
+                                                    <span class="fa fa-undo" aria-hidden="true"></span>
+                                                </button>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <br /><br />
+                                                <div class="row">
+                                                    <div class="col-md-4" style="padding-top: 16px;">
+                                                        <button type="button" class="btn btn-secondary btn-sm"
+                                                            (click)="changeMatchScore(true, true)">
+                                                            <span class="fa fa-plus" aria-hidden="true"></span>
+                                                        </button> &nbsp;
+                                                        <button type="button" class="btn btn-secondary btn-sm"
+                                                            (click)="changeMatchScore(true, false)">
+                                                            <span class="fa fa-minus" aria-hidden="true"></span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="col-md-4 text-center">
+                                                        <span style="font-size: 30px;">
+                                                            <span style="color: darkgreen">{{matchScore.wins}}</span>
+                                                            :
+                                                            <span style="color: darkred">{{matchScore.losses}}</span>
+                                                        </span><br />
+                                                        ({{ (matchScore.losses > 0) ? (Math.floor((matchScore.wins /
+                                                        (matchScore.wins + matchScore.losses))*100)) : 100}}%
+                                                        won)
+                                                    </div>
+                                                    <div class="col-md-4 text-right" style="padding-top: 16px;">
+                                                        <button type="button" class="btn btn-secondary btn-sm"
+                                                            (click)="changeMatchScore(false, true)">
+                                                            <span class="fa fa-plus" aria-hidden="true"></span>
+                                                        </button> &nbsp;
+                                                        <button type="button" class="btn btn-secondary btn-sm"
+                                                            (click)="changeMatchScore(false, false)">
+                                                            <span class="fa fa-minus" aria-hidden="true"></span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <br /><br />
+
+                                                <div class="row" style="margin-bottom: 10px;">
+                                                    <div class="col-md-6">
+                                                        <div style="margin-left: 20px">
+                                                            <input type="checkbox" class="form-check-input"
+                                                                id="exampleCheck1"
+                                                                [(ngModel)]="updateMatchScoreAutomatically"
+                                                                (change)="user.setSetting(EUserSettingEnum.UPDATE_MATCH_SCORE_AUTOMATICALLY, updateMatchScoreAutomatically, true)">
+                                                            <label class="form-check-label" for="exampleCheck1">Update
+                                                                automatically</label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 text-right">
+                                                        <a (click)="showEmbeddInfoMatchScore=!showEmbeddInfoMatchScore">How
+                                                            to embed this in my stream?</a>
+                                                    </div>
+
+                                                    <div class="col-md-12" *ngIf="showEmbeddInfoMatchScore">
+                                                        <div style="padding-top:10px">
+                                                            <b>How to embed my match count to my stream</b><br />
+                                                            Add two Text-Sources in your streaming software and select
+                                                            "Read
+                                                            from file":<br />
+                                                            <pre>Wins:   <input type="text"
+                                                            (click)="$event.target.select(); document.execCommand('copy');"
+                                                            style="font-size:10px; margin-bottom: 0px; width: 520px"
+                                                            value="{{matchScoreWinsFilePath}}" /></pre>
+                                                            <pre>Losses: <input type="text"
+                                                            (click)="$event.target.select(); document.execCommand('copy');"
+                                                            style="font-size:10px; margin-bottom: 0px; width: 520px"
+                                                            value="{{matchScoreLossFilePath}}" /></pre>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row"
+                                            style="border-bottom: 1px solid #ddd; margin-top: 18px; min-height: 140px; vertical-align: top">
+                                            <div class="col-md-12 selectable">
+                                                <b style="font-size: 17px">Current Match</b>
+                                                <div style="height: 0px"></div>
+                                                <div class="row" *ngIf="!currentMatch"  style="min-height:90px">
+                                                    <div class="col-md-12">
+                                                        <i>No running match at the moment</i>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row" *ngIf="currentMatch">
+                                                    <div class="col-md-12">
+                                                        <div
+                                                            style="display:inline-block; width: 230px; font-weight: bold">
+                                                            Player name</div>
+                                                        <div
+                                                            style="display:inline-block; width: 120px; padding-left: 10px; font-weight: bold">
+                                                            Race</div>
+                                                        <div
+                                                            style="display:inline-block; width: 80px; padding-left: 10px; font-weight: bold">
+                                                            Wins</div>
+                                                        <div
+                                                            style="display:inline-block; width: 80px; padding-left: 10px; font-weight: bold">
+                                                            Losses</div>
+                                                        <div
+                                                            style="display:inline-block; width: 80px; padding-left: 10px; font-weight: bold">
+                                                            Win %</div>
+                                                    </div>
+                                                    <ng-container *ngFor="let team of getTeamsSorted()">
+                                                        <ng-container *ngFor="let member of team.members">
+                                                            <div class="col-md-12">
+                                                                <div style="display:inline-block; width: 230px;">
+                                                                    {{member.name}}</div>
+                                                                <div
+                                                                    style="display:inline-block; width: 120px; padding-left: 10px">
+                                                                    {{member.race}}</div>
+                                                                <ng-container *ngIf="member.stats">
+                                                                    <div
+                                                                        style="display:inline-block; width: 80px; padding-left: 10px">
+                                                                        {{member.stats.wins}}</div>
+                                                                    <div
+                                                                        style="display:inline-block; width: 80px; padding-left: 10px">
+                                                                        {{member.stats.losses}}</div>
+                                                                    <div
+                                                                        style="display:inline-block; width: 80px; padding-left: 10px">
+                                                                        {{Math.floor(member.stats.winRate)}}%</div>
+                                                                </ng-container>
+                                                                <div *ngIf="member.stats === null"
+                                                                    style="display:inline; padding-left: 10px">No stats
+                                                                    available</div>
+                                                                <div *ngIf="member.stats === undefined"
+                                                                    style="display:inline; padding-left: 10px">Stats
+                                                                    loading...
+                                                                </div>
+                                                            </div>
+                                                        </ng-container>
+                                                    </ng-container>
+
+                                                    <div class="col-md-12" style="height:20px"></div>
+                                                    <div class="col-md-6" *ngIf="currentMatch.isReplay || currentMatch.isObserver">
+                                                        <button type="button" class="btn btn-secondary btn-sm"
+                                                            (click)="handleObsOverlayToggle('reversePlayerOrder', true)">
+                                                            <span class="fa fa-sort" aria-hidden="true"></span> Reverse the Player Order
+                                                        </button>
+                                                    </div>
+                                                    <div class="col-md-6 text-right">
+                                                        Match time: {{(gameTime != "" ? gameTime : "0:00" )}}
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12 text-right">
+                                                        <a (click)="showEmbeddInfoGameTime=!showEmbeddInfoGameTime">How
+                                                            to embed the match time in my stream?</a>
+                                                    </div>
+
+                                                    <div class="col-md-12" *ngIf="showEmbeddInfoGameTime">
+                                                        <div style="padding-top:10px">
+                                                            <b>How to embed the current match's gametime to my
+                                                                stream</b><br />
+                                                            Add a Text-Sources in your streaming software and select
+                                                            "Read
+                                                            from file":<br />
+                                                            <pre>File:   <input type="text"
+                                                                (click)="$event.target.select(); document.execCommand('copy');"
+                                                                style="font-size:10px; margin-bottom: 0px; width: 520px"
+                                                                value="{{gameTimeFilePath}}" /></pre>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12" style="height:10px">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row" style=" margin-top: 20px;">
+                                            <div class="col-md-12">
+                                                <b style="font-size: 17px">Latest matches</b>
+                                            </div>
+                                        </div>
+                                        <div style="min-height:160px; max-height: 200px; overflow:auto"
+                                            class="selectable">
+                                            <div *ngIf="matchHistory.length == 0">
+                                                <i>No matches yet</i>
+                                            </div>
+                                            <div *ngFor="let match of matchHistory">
+                                                {{match.isReplay? 'REPLAY: ' : (match.isObserver ? 'WATCH: ' : 'MATCH:
+                                                ')}}
+                                                [{{ match.time | date:'shortTime' }}]
+                                                <ng-container *ngFor="let team of match.teams">
+                                                    <ng-container *ngFor="let member of team.members">
+                                                        {{member.name}} {{member.race}}
+                                                    </ng-container>
+                                                    <ng-container
+                                                        *ngIf="match.teams.indexOf(team) != match.teams.length - 1">
+                                                        &nbsp;vs&nbsp;
+                                                    </ng-container>
+                                                </ng-container>
+                                                <span style="color: darkgreen" *ngIf="match.result == 1">won</span>
+                                                <span style="color: darkred" *ngIf="match.result == 2">lost</span>
+                                                <span style="color: gray" *ngIf="match.result == -1">canceled</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="mainMenuTabs.EVENTSYSTEM.active" class="eventsystem">
+                            <app-eventsystem></app-eventsystem>
+                        </div>
+                        <div *ngIf="mainMenuTabs.BUILD_ORDERS.active" class="build-order-workshop">
+                            <div class="card-body">
+                                <div class="w3b-feature-hero">
+                                    <div>
+                                        <div class="w3b-eyebrow">Training room</div>
+                                        <h2>Build Orders</h2>
+                                        <p>Create a precise opener, activate it for the next match, and let W3Booster check steps against local game data while broadcasting progress to the overlay.</p>
+                                    </div>
+                                    <div class="w3b-hero-meter" *ngIf="getActiveBuildOrder()">
+                                        <span>{{getBuildOrderCompletion(getActiveBuildOrder())}}%</span>
+                                        active
+                                    </div>
+                                </div>
+
+                                <div class="w3b-build-grid">
+                                    <div class="w3b-build-library">
+                                        <div class="w3b-panel-title">Library</div>
+                                        <button class="btn btn-sm btn-primary" (click)="createBuildOrder()">New build</button>
+                                        <button class="btn btn-sm btn-outline-light" (click)="duplicateSelectedBuildOrder()">Duplicate</button>
+                                        <button class="btn btn-sm btn-outline-danger" (click)="deleteSelectedBuildOrder()">Delete</button>
+
+                                        <div class="w3b-build-card {{order.id === selectedBuildOrderId ? 'selected' : ''}} {{order.id === activeBuildOrderId ? 'active' : ''}}"
+                                            *ngFor="let order of buildOrders" (click)="selectedBuildOrderId = order.id; exportSelectedBuildOrder()">
+                                            <div class="w3b-build-name">{{order.name}}</div>
+                                            <div class="w3b-build-meta">{{order.race}} / {{order.matchup}} / {{order.steps.length}} steps</div>
+                                            <div class="w3b-build-progress">
+                                                <div [style.width.%]="getBuildOrderCompletion(order)"></div>
+                                            </div>
+                                        </div>
+
+                                        <label class="w3b-toggle-line">
+                                            <input type="checkbox" [(ngModel)]="buildOrderAutoSelectEnabled">
+                                            Auto-select best matching build at match start
+                                        </label>
+                                    </div>
+
+                                    <div class="w3b-build-editor" *ngIf="getSelectedBuildOrder() as selectedBuildOrder">
+                                        <div class="w3b-editor-header">
+                                            <div>
+                                                <div class="w3b-panel-title">Editor</div>
+                                                <h3>{{selectedBuildOrder.name}}</h3>
+                                            </div>
+                                            <div>
+                                                <button class="btn btn-success" (click)="activateSelectedBuildOrder()">Activate for overlay</button>
+                                                <button class="btn btn-outline-light" *ngIf="activeBuildOrderId === selectedBuildOrder.id" (click)="stopActiveBuildOrder()">Stop</button>
+                                            </div>
+                                        </div>
+
+                                        <div class="w3b-editor-fields">
+                                            <label>
+                                                Name
+                                                <input class="form-control" [(ngModel)]="selectedBuildOrder.name" (change)="saveBuildOrders()">
+                                            </label>
+                                            <label>
+                                                Race
+                                                <select class="form-control" [(ngModel)]="selectedBuildOrder.race" (change)="saveBuildOrders()">
+                                                    <option *ngFor="let race of buildOrderRaces" [value]="race">{{race}}</option>
+                                                </select>
+                                            </label>
+                                            <label>
+                                                Matchup
+                                                <input class="form-control" [(ngModel)]="selectedBuildOrder.matchup" (change)="saveBuildOrders()" placeholder="any, humanvorc, orcvundead">
+                                            </label>
+                                            <label>
+                                                Sharing
+                                                <select class="form-control" [(ngModel)]="selectedBuildOrder.visibility" (change)="saveBuildOrders()">
+                                                    <option value="private">Private</option>
+                                                    <option value="shared">Shared</option>
+                                                </select>
+                                            </label>
+                                        </div>
+
+                                        <label class="w3b-description-field">
+                                            Notes
+                                            <textarea class="form-control" [(ngModel)]="selectedBuildOrder.description" (change)="saveBuildOrders()" rows="2"></textarea>
+                                        </label>
+
+                                        <div class="w3b-steps-header">
+                                            <div class="w3b-panel-title">Timeline</div>
+                                            <button class="btn btn-sm btn-outline-light" (click)="addBuildOrderStep()">Add step</button>
+                                        </div>
+
+                                        <div class="w3b-step-row {{step.status}}" *ngFor="let step of selectedBuildOrder.steps">
+                                            <input class="form-control time-input" [value]="formatBuildOrderTime(step.atSeconds)" (change)="updateBuildOrderStepTime(step, $any($event.target).value)">
+                                            <select class="form-control action-input" [(ngModel)]="step.action" (change)="saveBuildOrders()">
+                                                <option *ngFor="let action of buildOrderActions" [value]="action">{{action}}</option>
+                                            </select>
+                                            <input class="form-control target-input" [(ngModel)]="step.target" (change)="saveBuildOrders()" placeholder="worker, altar, burrow">
+                                            <input class="form-control label-input" [(ngModel)]="step.label" (change)="saveBuildOrders()" placeholder="Instruction">
+                                            <input class="form-control tolerance-input" type="number" [(ngModel)]="step.toleranceSeconds" (change)="saveBuildOrders()" title="Tolerance in seconds">
+                                            <div class="w3b-step-status">{{getBuildOrderStatusLabel(step)}}</div>
+                                            <button class="btn btn-sm btn-outline-danger" (click)="removeBuildOrderStep(step)">Remove</button>
+                                        </div>
+
+                                        <div class="w3b-share-grid">
+                                            <label>
+                                                Share code
+                                                <textarea class="form-control" rows="3" readonly [value]="buildOrderShareCode" (click)="$any($event.target).select()"></textarea>
+                                            </label>
+                                            <label>
+                                                Import code
+                                                <textarea class="form-control" rows="3" [(ngModel)]="buildOrderImportCode" placeholder="Paste a shared build order"></textarea>
+                                                <button class="btn btn-sm btn-outline-light" (click)="importBuildOrder()">Import</button>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="w3b-build-runtime">
+                                        <div class="w3b-panel-title">Live Checklist</div>
+                                        <ng-container *ngIf="getActiveBuildOrder() as activeBuildOrder; else noActiveBuildOrder">
+                                            <h3>{{activeBuildOrder.name}}</h3>
+                                            <div class="w3b-runtime-clock">{{gameTime || '0:00'}}</div>
+                                            <div class="w3b-runtime-step {{step.status}}" *ngFor="let step of activeBuildOrder.steps">
+                                                <span>{{formatBuildOrderTime(step.atSeconds)}}</span>
+                                                <b>{{step.label || step.target}}</b>
+                                                <em>{{getBuildOrderStatusLabel(step)}}</em>
+                                            </div>
+                                        </ng-container>
+                                        <ng-template #noActiveBuildOrder>
+                                            <p>No active build order. Pick one from the library and activate it to stream progress to the in-game overlay.</p>
+                                        </ng-template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="mainMenuTabs.PLAY_OVERLAY_CONFIG.active" class="overlay-configuration">
+                            <div class="card-body">
+                                <h5>Overlay configuration</h5>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <ng-toggle onText="On" offText="Off" size="sm"
+                                                    [value]="user.playerOverlaySettings.topBarEnabled"
+                                                    (click)="handlePlayerOverlayToggle('topBarEnabled')">
+                                                </ng-toggle> <span
+                                                    style="font-size: 18px; font-weight:bold; vertical-align: middle">
+                                                    Match
+                                                    Bar
+                                                    (Stats, Player Names, Gametime) </span>
+                                                <div class="float-right" style="padding-top:6px">
+                                                    <span class="plan-badge-0">&nbsp;</span>&nbsp;<span
+                                                        class="plan-badge-1">&nbsp;</span>
+                                                </div>
+                                            </div>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item">
+                                                    The Match Bar is used to show information about you and your
+                                                    opponent:
+                                                    Name, Alias
+                                                    (BNet-Name), Statistics, Country. Additionally you can show the
+                                                    current
+                                                    game
+                                                    duration.
+                                                </li>
+                                                <li class="list-group-item"
+                                                    *ngIf="user.playerOverlaySettings.topBarEnabled">
+                                                    <div>
+                                                        <div class="form-group row">
+                                                            <label for="inputPassword3"
+                                                                class="col-sm-2 col-form-label">Placement</label>
+                                                            <div class="col-sm-10">
+                                                                <select class="form-control"
+                                                                    [(ngModel)]="user.playerOverlaySettings.additionalCSSClasses[EClassCategory.MATCHUP_BAR]"
+                                                                    (change)="user.playerOverlaySettings.save()">
+                                                                    <option value="MatchupBarIsTopLeft">Top Left
+                                                                    </option>
+                                                                    <option value="MatchupBarIsBottomCenter">Bottom
+                                                                        Center
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label for="inputUsername"
+                                                                class="col-sm-2 col-form-label">Name</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" class="form-control"
+                                                                    id="inputUsername"
+                                                                    [(ngModel)]="user.playerOverlaySettings.username"
+                                                                    (change)="user.playerOverlaySettings.save()"
+                                                                    placeholder="">
+                                                                If you dont set a name, your Twitch username is show in
+                                                                the
+                                                                Match Bar.
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label for="inputPassword3"
+                                                                class="col-sm-2 col-form-label">Nationality</label>
+                                                            <div class="col-sm-10">
+                                                                <ng-select [items]="countries" bindLabel="label"
+                                                                    bindValue="code" placeholder="Select your country"
+                                                                    [(ngModel)]="user.playerOverlaySettings.nationality"
+                                                                    (change)="user.playerOverlaySettings.save()">
+                                                                    <ng-template ng-label-tmp let-item="item">
+                                                                        <div><img
+                                                                                src="assets/images/icons/flags/{{item.code}}.png"
+                                                                                style="display:inline-block; width: 16px; margin-right: 6px" />
+                                                                            {{item.label}}</div>
+                                                                    </ng-template>
+                                                                    <ng-template ng-option-tmp let-item="item"
+                                                                        let-index="index" let-search="searchTerm">
+                                                                        <div><img
+                                                                                src="assets/images/icons/flags/{{item.code}}.png"
+                                                                                style="display:inline-block; width: 16px; margin-right: 6px" />
+                                                                            <span
+                                                                                [ngOptionHighlight]="search">{{item.label}}</span>
+                                                                        </div>
+                                                                    </ng-template>
+                                                                </ng-select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <div class="col-sm-2">Visibility</div>
+                                                            <div class="col-sm-5">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox"
+                                                                        id="gridCheck1"
+                                                                        [(ngModel)]="user.playerOverlaySettings.topBarStatisticsOfMeEnabled"
+                                                                        (change)="user.playerOverlaySettings.save()">
+                                                                    <label class="form-check-label" for="gridCheck1">
+                                                                        Show statistics of me
+                                                                    </label>
+                                                                </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox"
+                                                                        id="gridCheck2"
+                                                                        [(ngModel)]="user.playerOverlaySettings.topBarStatisticsOfOpponentEnabled"
+                                                                        (change)="user.playerOverlaySettings.save()">
+                                                                    <label class="form-check-label" for="gridCheck2">
+                                                                        Shows statistics of opponent
+                                                                    </label>
+                                                                </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox"
+                                                                        id="gridCheck4"
+                                                                        [(ngModel)]="user.playerOverlaySettings.topBarGameDurationEnabled"
+                                                                        (change)="user.playerOverlaySettings.save()">
+                                                                    <label class="form-check-label" for="gridCheck4">
+                                                                        Show game duration
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-5">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox"
+                                                                        id="gridCheck5"
+                                                                        [(ngModel)]="user.playerOverlaySettings.topBarPlayerColorsEnabledIn1V1"
+                                                                        (change)="user.playerOverlaySettings.save()">
+                                                                    <label class="form-check-label" for="gridCheck5">
+                                                                        Show player colors in 1on1
+                                                                    </label>
+                                                                </div>
+
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox"
+                                                                        id="gridCheck3"
+                                                                        [(ngModel)]="user.playerOverlaySettings.topBarPlayerColorsEnabled"
+                                                                        (change)="user.playerOverlaySettings.save()">
+                                                                    <label class="form-check-label" for="gridCheck3">
+                                                                        Show player colors in 2on2, 3on3, 4on4, FFA
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <div class="card-header">
+                                                <ng-toggle onText="On" offText="Off" size="sm"
+                                                    [value]="user.playerOverlaySettings.mapBarEnabled"
+                                                    (click)="handlePlayerOverlayToggle('mapBarEnabled')">
+                                                </ng-toggle> <span
+                                                    style="font-size: 18px; font-weight:bold; vertical-align: middle">
+                                                    Map Bar</span>
+                                                <div class="float-right" style="padding-top:6px">
+                                                    <span class="plan-badge-0">&nbsp;</span>&nbsp;<span
+                                                        class="plan-badge-1">&nbsp;</span>
+                                                </div>
+                                            </div>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item">
+                                                    Shows the sessions match score and the map name (alternating) above
+                                                    the minimap.
+                                                </li>
+                                                <li class="list-group-item"
+                                                    *ngIf="user.playerOverlaySettings.mapBarEnabled">
+                                                    <div>
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox"
+                                                                        id="gridCheckmapNameEnabled"
+                                                                        [(ngModel)]="user.playerOverlaySettings.mapNameEnabled"
+                                                                        (change)="user.playerOverlaySettings.save()">
+                                                                    <label class="form-check-label"
+                                                                        for="gridCheckmapNameEnabled">
+                                                                        Show the map name
+                                                                    </label>
+                                                                </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox"
+                                                                        id="gridCheckmatchscoreEnabled"
+                                                                        [(ngModel)]="user.playerOverlaySettings.matchscoreEnabled"
+                                                                        (change)="user.playerOverlaySettings.save()">
+                                                                    <label class="form-check-label"
+                                                                        for="gridCheckmatchscoreEnabled">
+                                                                        Show the match score of the current session
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+
+                                            <div class="card-header">
+                                                <ng-toggle onText="On" offText="Off" size="sm"
+                                                    [value]="user.playerOverlaySettings.controlgroupsEnabled"
+                                                    (click)="handlePlayerOverlayToggle('controlgroupsEnabled')">
+                                                </ng-toggle> <span
+                                                    style="font-size: 18px; font-weight:bold; vertical-align: middle">
+                                                    Control Groups</span>
+                                                <div class="float-right" style="padding-top:6px">
+                                                    <span class="plan-badge-0">&nbsp;</span>&nbsp;<span
+                                                        class="plan-badge-1">&nbsp;</span>
+                                                </div>
+                                            </div>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item">
+                                                    Control groups (first unit of the group + group size) in the bottom
+                                                    center of the screen.
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <br />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <ng-toggle onText="On" offText="Off" size="sm"
+                                                    [ngbTooltip]="!user.isProPlan() ? 'Requires a PRO subscription' :''"
+                                                    placement="left"
+                                                    [value]="user.isProPlan() && user.playerOverlaySettings.heroAbilitiesEnabled"
+                                                    [disabled]="!user.isProPlan()"
+                                                    (click)="handlePlayerOverlayToggle('heroAbilitiesEnabled', user.isProPlan())">
+                                                </ng-toggle> <span
+                                                    style="font-size: 18px; font-weight:bold; vertical-align: middle">
+                                                    Hero Abilities</span>
+
+                                                <div class="float-right" style="padding-top:6px">
+                                                    <span class="plan-badge-1">&nbsp;</span>
+                                                </div>
+
+                                            </div>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item">
+                                                    Show the skilled abilities of an hero right beside the hero icon in
+                                                    the
+                                                    top left.
+                                                </li>
+                                            </ul>
+                                            <div class="card-header">
+                                                <ng-toggle onText="On" offText="Off" size="sm"
+                                                    [ngbTooltip]="!user.isProPlan() ? 'Requires a PRO subscription' :''"
+                                                    placement="left"
+                                                    [value]="user.isProPlan() && user.playerOverlaySettings.heroItemsEnabled"
+                                                    [disabled]="!user.isProPlan()"
+                                                    (click)="handlePlayerOverlayToggle('heroItemsEnabled', user.isProPlan())">
+                                                </ng-toggle> <span
+                                                    style="font-size: 18px; font-weight:bold; vertical-align: middle">
+                                                    Hero Items</span>
+
+                                                <div class="float-right" style="padding-top:6px">
+                                                    <span class="plan-badge-1">&nbsp;</span>
+                                                </div>
+
+                                            </div>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item">
+                                                    Show the hero inventory next to the hero's avatar.
+                                                </li>
+                                            </ul>
+                                            <div class="card-header">
+                                                <ng-toggle onText="On" offText="Off" size="sm"
+                                                    [ngbTooltip]="!user.isProPlan() ? 'Requires a PRO subscription' :''"
+                                                    placement="left"
+                                                    [value]="user.isProPlan() && user.playerOverlaySettings.heroExpProgressEnabled"
+                                                    [disabled]="!user.isProPlan()"
+                                                    (click)="handlePlayerOverlayToggle('heroExpProgressEnabled', user.isProPlan())">
+                                                </ng-toggle> <span
+                                                    style="font-size: 18px; font-weight:bold; vertical-align: middle">
+                                                    Hero Experience</span>
+                                                <div class="float-right" style="padding-top:6px">
+                                                    <span class="plan-badge-1">&nbsp;</span>
+                                                </div>
+                                            </div>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item">
+                                                    Show a progress bar regarding reaching the next level. Placed on
+                                                    the
+                                                    left of the hero icon.
+                                                </li>
+                                            </ul>
+                                            <div class="card-header">
+                                                <ng-toggle onText="On" offText="Off" size="sm"
+                                                    [ngbTooltip]="!user.isProPlan() ? 'Requires a PRO subscription' :''"
+                                                    placement="left"
+                                                    [value]="user.isProPlan() && user.playerOverlaySettings.heroLevelEnabled"
+                                                    [disabled]="!user.isProPlan()"
+                                                    (click)="handlePlayerOverlayToggle('heroLevelEnabled', user.isProPlan())">
+                                                </ng-toggle> <span
+                                                    style="font-size: 18px; font-weight:bold; vertical-align: middle">
+                                                    Hero Level</span>
+                                                <div class="float-right" style="padding-top:6px">
+                                                    <span class="plan-badge-1">&nbsp;</span>
+                                                </div>
+                                            </div>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item">
+                                                    Show the hero level above the avatar of the hero. Includes one digit
+                                                    indicating the level progress (e.g. "1.7" for level 1 and 70% to
+                                                    level 2
+                                                    )
+                                                </li>
+                                            </ul>
+                                            <div class="card-header">
+                                                <ng-toggle onText="On" offText="Off" size="sm"
+                                                    [ngbTooltip]="!user.isProPlan() ? 'Requires a PRO subscription' :''"
+                                                    placement="left"
+                                                    [value]="user.isProPlan() && user.playerOverlaySettings.researchesEnabled"
+                                                    [disabled]="!user.isProPlan()"
+                                                    (click)="handlePlayerOverlayToggle('researchesEnabled', user.isProPlan())">
+                                                </ng-toggle>&nbsp;<span
+                                                    style="font-size: 18px; font-weight:bold; vertical-align: middle">Researches</span>
+                                                <div class="float-right" style="padding-top:6px">
+                                                    <span class="plan-badge-1">&nbsp;</span>
+                                                </div>
+                                            </div>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item">
+                                                    Show researched upgrades on the top of the screen (like armor-
+                                                    and
+                                                    attack upgrades)
+                                                </li>
+                                                <li class="list-group-item"
+                                                    *ngIf="user.playerOverlaySettings.researchesEnabled">
+                                                    <div class="form-group row" style="margin-bottom:0px">
+                                                        <label class="col-sm-4 col-form-label"
+                                                            for="playerResearchesShowAll">
+                                                            Research Display
+                                                        </label>
+                                                        <div class="col-sm-8">
+                                                            <select class="form-control" id="playerResearchesShowAll"
+                                                                [(ngModel)]="user.playerOverlaySettings.researchesShowAllEnabled"
+                                                                (change)="user.playerOverlaySettings.researchesShowAllEnabled = user.playerOverlaySettings.researchesShowAllEnabled=='true'; user.playerOverlaySettings.save()">
+                                                                <option [value]="false">Only Attack/Defense Researches</option>
+                                                                <option [value]="true">All Researches</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item" style="display:none">
+                                                    <h5>Options</h5>
+                                                    <div *ngIf="!user.playerOverlaySettings.researchesEnabled">
+                                                        <i>Options are not available until you enabled the Match
+                                                            Bar</i>
+                                                    </div>
+                                                    <div *ngIf="user.playerOverlaySettings.researchesEnabled">
+                                                        <div class="form-group row">
+                                                            <div class="col-sm-12">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox"
+                                                                        id="gridCheck4"
+                                                                        [(ngModel)]="user.playerOverlaySettings.researchesOfAttackAndArmorEnabled"
+                                                                        (change)="user.playerOverlaySettings.save()">
+                                                                    <label class="form-check-label" for="gridCheck4">
+                                                                        Show attack- and armor upgrades
+                                                                    </label>
+                                                                </div>
+                                                                <!--
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="gridCheck5"
+                                                                    [(ngModel)]="user.playerOverlaySettings.researchesInQueueEnabled"
+                                                                    (change)="user.playerOverlaySettings.save()">
+                                                                <label class="form-check-label" for="gridCheck5">
+                                                                    Show the selected researches already when being in
+                                                                    research (with a timer)
+                                                                </label>
+                                                            </div>-->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="mainMenuTabs.OBS_OVERLAY_CONFIG.active" class="overlay-configuration">
+                            <div class="card-body">
+                                <h5>Overlay configuration</h5>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <ng-toggle onText="On" offText="Off" size="sm"
+                                                    [value]="user.obsOverlaySettings.topBarEnabled"
+                                                    (click)="handleObsOverlayToggle('topBarEnabled')">
+                                                </ng-toggle> <span
+                                                    style="font-size: 18px; font-weight:bold; vertical-align: middle">
+                                                    Match
+                                                    Bar
+                                                    (Stats, Player Names, Gametime) </span>
+                                                <div class="float-right" style="padding-top:6px">
+                                                    <span class="plan-badge-0">&nbsp;</span>&nbsp;<span
+                                                        class="plan-badge-1">&nbsp;</span>
+                                                </div>
+                                            </div>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item">
+                                                    The Match Bar is used to show information about the players:
+                                                    Name, Country, Race, Ressources, Supply, Gametime and two freely
+                                                    configurable Headlines.
+                                                </li>
+                                                <li class="list-group-item"
+                                                    *ngIf="user.obsOverlaySettings.topBarEnabled">
+                                                    <div>
+                                                        <div class="form-group row">
+                                                            <label for="inputUsername"
+                                                                class="col-sm-3 col-form-label">Headline
+                                                                1</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="text" class="form-control"
+                                                                    [disabled]="!user.isProPlan()" id="inputUsername"
+                                                                    [(ngModel)]="user.obsOverlaySettings.headlineTop"
+                                                                    (change)="user.obsOverlaySettings.save()"
+                                                                    placeholder="">
+                                                            </div>
+                                                            <div class="col-sm-1  col-form-label"
+                                                                style="padding-left: 0px;">
+                                                                <span class="plan-badge-1"
+                                                                    style="margin-right: 8px;">&nbsp;</span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group row">
+                                                            <label for="inputUsername"
+                                                                class="col-sm-3 col-form-label">Headline
+                                                                2</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="text" class="form-control"
+                                                                    [disabled]="!user.isProPlan()" id="inputUsername"
+                                                                    [(ngModel)]="user.obsOverlaySettings.headlineBot"
+                                                                    (change)="user.obsOverlaySettings.save()"
+                                                                    placeholder="">
+                                                            </div>
+                                                            <div class="col-sm-1  col-form-label"
+                                                                style="padding-left: 0px;">
+                                                                <span class="plan-badge-1"
+                                                                    style="margin-right: 8px;">&nbsp;</span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group row">
+                                                            <label for="inputPassword3" class="col-sm-3 col-form-label">
+                                                                Main Headline</label>
+                                                            <div class="col-sm-8">
+                                                                <select class="form-control"
+                                                                    [disabled]="!user.isProPlan()"
+                                                                    [(ngModel)]="user.obsOverlaySettings.headlineTopIsMainHeadline"
+                                                                    (change)="user.obsOverlaySettings.headlineTopIsMainHeadline = user.obsOverlaySettings.headlineTopIsMainHeadline=='true'; user.obsOverlaySettings.save()">
+                                                                    <option [value]="true">Headline 1</option>
+                                                                    <option [value]="false">Headline 2</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-sm-1  col-form-label"
+                                                                style="padding-left: 0px;">
+                                                                <span class="plan-badge-1"
+                                                                    style="margin-right: 8px;">&nbsp;</span>
+                                                            </div>
+                                                            <div class="col-sm-12" style="font-size: 10px">
+                                                                <i>The Main Headline is bigger and more visible then the
+                                                                    other one. Use it to show your event's name, like
+                                                                    "Great Player Cup". Use the non-main headline as for
+                                                                    additional information like "Best Of 3".</i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item"
+                                                    *ngIf="user.obsOverlaySettings.topBarEnabled">
+
+                                                    <div class="form-group row" style="margin-bottom:0px">
+                                                        <label class="col-sm-3">
+                                                            Match Score</label>
+                                                        <div class="col-sm-4">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="gridCheck1"
+                                                                    [(ngModel)]="user.obsOverlaySettings.matchscoreEnabledInReplay"
+                                                                    (change)="user.obsOverlaySettings.save()">
+                                                                <label class="form-check-label" for="gridCheck1">
+                                                                    in replays
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="gridCheck2"
+                                                                    [(ngModel)]="user.obsOverlaySettings.matchscoreEnabled"
+                                                                    (change)="user.obsOverlaySettings.save()">
+                                                                <label class="form-check-label" for="gridCheck2">
+                                                                    as observer
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row" style="margin-bottom:0px">
+                                                        <label class="col-sm-3">
+                                                            Additional Settings</label>
+                                                        <div class="col-sm-8">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="gridCheckRacesTextOnly"
+                                                                    [(ngModel)]="user.obsOverlaySettings.showRacesOnlyTextual"
+                                                                    (change)="user.obsOverlaySettings.save()">
+                                                                <label class="form-check-label"
+                                                                    for="gridCheckRacesTextOnly">
+                                                                    races as text
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <div class="card-header">
+                                                <ng-toggle onText="On" offText="Off" size="sm"
+                                                    [value]="user.obsOverlaySettings.mapBarEnabled"
+                                                    (click)="handleObsOverlayToggle('mapBarEnabled')">
+                                                </ng-toggle> <span
+                                                    style="font-size: 18px; font-weight:bold; vertical-align: middle">
+                                                    Map Bar</span>
+                                                <div class="float-right" style="padding-top:6px">
+                                                    <span class="plan-badge-0">&nbsp;</span>&nbsp;<span
+                                                        class="plan-badge-1">&nbsp;</span>
+                                                </div>
+                                            </div>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item">
+                                                    Shows the map name above the minimap.
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <br />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <ng-toggle onText="On" offText="Off" size="sm" placement="left"
+                                                    [value]="user.obsOverlaySettings.heroAbilitiesEnabled"
+                                                    (click)="handleObsOverlayToggle('heroAbilitiesEnabled')">
+                                                </ng-toggle> <span
+                                                    style="font-size: 18px; font-weight:bold; vertical-align: middle">
+                                                    Hero Abilities</span>
+
+                                                <div class="float-right" style="padding-top:6px">
+                                                    <span class="plan-badge-0">&nbsp;</span>&nbsp;<span
+                                                        class="plan-badge-1">&nbsp;</span>
+                                                </div>
+
+                                            </div>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item">
+                                                    Show the skilled abilities of an hero right beside the hero icon in
+                                                    the
+                                                    top left.
+                                                </li>
+                                            </ul>
+                                            <div class="card-header">
+                                                <ng-toggle onText="On" offText="Off" size="sm" placement="left"
+                                                    [value]="user.obsOverlaySettings.heroItemsEnabled"
+                                                    (click)="handleObsOverlayToggle('heroItemsEnabled')">
+                                                </ng-toggle> <span
+                                                    style="font-size: 18px; font-weight:bold; vertical-align: middle">
+                                                    Hero Items</span>
+
+                                                <div class="float-right" style="padding-top:6px">
+                                                    <span class="plan-badge-0">&nbsp;</span>&nbsp;<span
+                                                        class="plan-badge-1">&nbsp;</span>
+                                                </div>
+
+                                            </div>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item">
+                                                    Show the hero inventory next to the hero's avatar.
+                                                </li>
+                                            </ul>
+                                            <div class="card-header">
+                                                <ng-toggle onText="On" offText="Off" size="sm" placement="left"
+                                                    [value]="user.obsOverlaySettings.heroExpProgressEnabled"
+                                                    (click)="handleObsOverlayToggle('heroExpProgressEnabled')">
+                                                </ng-toggle> <span
+                                                    style="font-size: 18px; font-weight:bold; vertical-align: middle">
+                                                    Hero Experience</span>
+                                                <div class="float-right" style="padding-top:6px">
+                                                    <span class="plan-badge-0">&nbsp;</span>&nbsp;<span
+                                                        class="plan-badge-1">&nbsp;</span>
+                                                </div>
+                                            </div>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item">
+                                                    Show a progress bar regarding reaching the next level. Placed on
+                                                    the
+                                                    left of the hero icon.
+                                                </li>
+                                            </ul>
+                                            <div class="card-header">
+                                                <ng-toggle onText="On" offText="Off" size="sm" placement="left"
+                                                    [value]="user.obsOverlaySettings.heroLevelEnabled"
+                                                    (click)="handleObsOverlayToggle('heroLevelEnabled')">
+                                                </ng-toggle> <span
+                                                    style="font-size: 18px; font-weight:bold; vertical-align: middle">
+                                                    Hero Level</span>
+                                                <div class="float-right" style="padding-top:6px">
+                                                    <span class="plan-badge-0">&nbsp;</span>&nbsp;<span
+                                                        class="plan-badge-1">&nbsp;</span>
+                                                </div>
+                                            </div>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item">
+                                                    Show the hero level above the avatar of the hero. Includes one digit
+                                                    indicating the level progress (e.g. "1.7" for level 1 and 70% to
+                                                    level 2
+                                                    )
+                                                </li>
+                                            </ul>
+                                            <div class="card-header">
+                                                <ng-toggle onText="On" offText="Off" size="sm" placement="left"
+                                                    [value]=" user.obsOverlaySettings.researchesEnabled"
+                                                    (click)="handleObsOverlayToggle('researchesEnabled')">
+                                                </ng-toggle>&nbsp;<span
+                                                    style="font-size: 18px; font-weight:bold; vertical-align: middle">Researches</span>
+                                                <div class="float-right" style="padding-top:6px">
+                                                    <span class="plan-badge-0">&nbsp;</span>&nbsp;<span
+                                                        class="plan-badge-1">&nbsp;</span>
+                                                </div>
+                                            </div>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item">
+                                                    Show researched upgrades on the top of the screen (like armor-
+                                                    and
+                                                    attack upgrades)
+                                                </li>
+                                                <li class="list-group-item"
+                                                    *ngIf="user.obsOverlaySettings.researchesEnabled">
+                                                    <div class="form-group row" style="margin-bottom:0px">
+                                                        <label class="col-sm-4 col-form-label"
+                                                            for="obsResearchesShowAll">
+                                                            Research Display
+                                                        </label>
+                                                        <div class="col-sm-8">
+                                                            <select class="form-control" id="obsResearchesShowAll"
+                                                                [(ngModel)]="user.obsOverlaySettings.researchesShowAllEnabled"
+                                                                (change)="user.obsOverlaySettings.researchesShowAllEnabled = user.obsOverlaySettings.researchesShowAllEnabled=='true'; user.obsOverlaySettings.save()">
+                                                                <option [value]="false">Only Attack/Defense Researches</option>
+                                                                <option [value]="true">All Researches</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item" style="display:none">
+                                                    <h5>Options</h5>
+                                                    <div *ngIf="!user.obsOverlaySettings.researchesEnabled">
+                                                        <i>Options are not available until you enabled the Match
+                                                            Bar</i>
+                                                    </div>
+                                                    <div *ngIf="user.obsOverlaySettings.researchesEnabled">
+                                                        <div class="form-group row">
+                                                            <div class="col-sm-12">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox"
+                                                                        id="gridCheck4"
+                                                                        [(ngModel)]="user.obsOverlaySettings.researchesOfAttackAndArmorEnabled"
+                                                                        (change)="user.obsOverlaySettings.save()">
+                                                                    <label class="form-check-label" for="gridCheck4">
+                                                                        Show attack- and armor upgrades
+                                                                    </label>
+                                                                </div>
+                                                                <!--
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="gridCheck5"
+                                                                    [(ngModel)]="user.obsOverlaySettings.researchesInQueueEnabled"
+                                                                    (change)="user.obsOverlaySettings.save()">
+                                                                <label class="form-check-label" for="gridCheck5">
+                                                                    Show the selected researches already when being in
+                                                                    research (with a timer)
+                                                                </label>
+                                                            </div>-->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="mainMenuTabs.SUBSCRIPTION.active">
+                            <div class="card-body">
+
+                                <div class="row"
+                                    style="height:100%; position: absolute; top:46px; bottom:0px; left:0px; right:0px; padding-left:20px">
+
+                                    <div class="col-md-7">
+                                        <br />
+                                        <h3>Pro Status</h3>
+                                        <div *ngIf="!user.isProPlan()">
+                                            Currently you own a <span class="plan-badge-0">&nbsp;</span> account.
+                                        </div>
+                                        <div *ngIf="user.isProPlan()">
+                                            Currently you own a <span class="plan-badge-1">&nbsp;</span> account until
+                                            {{getProAccountDate(0)}}.
+                                        </div>
+                                        <br />
+                                        <b>{{user.isProPlan()?'Extend your PRO account\'s lifetime' : 'Upgrade to a PRO
+                                            account'}}
+                                            (Payment via PayPal)</b>
+                                        <br /><br />
+
+                                        <a (click)="buyItem('BHNy4cogfY')" href="#" target="_blank">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    Order 30 days
+                                                </div>
+                                                <div class="col-md-3">
+                                                    for 12€
+                                                </div>
+                                                <div class="col-md-6">
+                                                    {{user.isProPlan? 'to extend' :'for a'}} <span
+                                                        class="plan-badge-1">&nbsp;</span> account until
+                                                    <b>{{getProAccountDate(30)}}</b>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <a (click)="buyItem('W8aFnVoaPw')" href="#" target="_blank">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    Order 60 days
+                                                </div>
+                                                <div class="col-md-3">
+                                                    for 20€ (save 4€)
+                                                </div>
+                                                <div class="col-md-6">
+                                                    {{user.isProPlan? 'to extend' :'for a'}} <span
+                                                        class="plan-badge-1">&nbsp;</span> account until
+                                                    <b>{{getProAccountDate(60)}}</b>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <a (click)="buyItem('TF9RMK7g4O')" href="#" target="_blank">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    Order 90 days
+                                                </div>
+                                                <div class="col-md-3">
+                                                    for 28€ (save 8€)
+                                                </div>
+                                                <div class="col-md-6">
+                                                    {{user.isProPlan? 'to extend' :'for a'}} <span
+                                                        class="plan-badge-1">&nbsp;</span> account until
+                                                    <b>{{getProAccountDate(90)}}</b>
+                                                </div>
+                                            </div>
+                                        </a>
+
+                                        <br />
+                                        <hr />
+                                        <h3>Connect with <img src="assets/images/discord.png" style="width:120px" />
+                                        </h3>
+
+                                        You can connect your Discord account with W3Booster to receive the PRO-role as
+                                        pro user. <br>
+                                        This way you get access to the <b>privileged PRO-support on Discord</b>.
+                                        <br />
+                                        <br />
+                                        <div>
+                                            <input *ngIf="!user.discordUserData" type="button" class="btn btn-secondary"
+                                                value="Connect with Discord" (click)="connectDiscord()" />
+                                            <div *ngIf="user.discordUserData">
+                                                Connected as: <b>{{user.discordUserData.username}}</b><br />
+                                                <input type="button" class="btn btn-secondary"
+                                                    value="Disconnect from Discord" (click)="disconnectDiscord()" />
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <a href="#" (click)="osBrowser('https://discordapp.com/invite/JwDFqp6')">Not yet
+                                            on our discord server? Join the W3Booster Discord</a>
+                                    </div>
+                                    <div class="col-md-5" style="background-color: #eee;">
+                                        <br />
+                                        <h5>Highlights of the PRO-subscription</h5>
+                                        <ul>
+                                            <li>Show abilities of your heroes</li>
+                                            <li>Show researches</li>
+                                            <li>Show hero experience bar</li>
+                                            <li>Remove W3Booster advertisement in observer mode</li>
+                                            <li>Privileged PRO-support on Discord and <i>feature request</i>
+                                                consideration</li>
+                                            <li><b>Support the further development of W3Booster</b></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="mainMenuTabs.RECORDER.active">
+                            <div class="card-body">
+                                <h3>W3Booster State</h3>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <pre style="background-color:#eee; font-size: 12px; padding:6px; height:620px; overflow:auto;"
+                                            class="selectable"
+                                            #logScrollContainer><span *ngFor="let log of recorderLog.split('\n')"><span *ngIf="log.indexOf('ERROR:') >= 0" style="color:darkred; font-weight: bold">{{log}}<br/></span><span *ngIf="log.indexOf('ERROR:') < 0">{{log}}<br/></span></span></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <ng-template #xmasEvent let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">A little Christmas gift for you</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.close()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                Dear friend,<br /><br />
+                the last days of 2019 have begun. As an early Christmas present, I would like to celebrate this with
+                you. <br /><br />The <span class="plan-badge-1">&nbsp;</span> functions of W3Booster are available free
+                of charge for the next 14 days (from now
+                until
+                December 31st inclusive).
+                <br /><br />
+                If you already own <span class="plan-badge-1">&nbsp;</span>, your term will be extended by 14 days free
+                of charge.
+                <br /><br />
+                I hope you have a lot of fun with our little gift and wish you great christmas broadcasts.
+                <br /><br />
+                If you face any issues, please do not hesitate to contact me at the <a href="https://discord.gg/JwDFqp6"
+                    target="_blank"> W3Booster Discord server</a>.
+                <br /><br />
+                Yours, Pad
+                <div class="text-center">
+                    <button type="button" class="btn btn-primary" (click)="modal.close()">Close</button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #paypalForward let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">{{paypalUiTitle}}</h4>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                {{paypalUiText}}
+                <br /><br />
+                <div *ngIf="paypalUiStep !== 'confirm'">
+                    <br /><br />
+                    <div class="loading-spinner"></div>
+                    <br /><br />
+                </div>
+                <div class="text-center">
+                    <button type="button" class="btn btn-primary" style="margin-right: 10px" (click)="continuePaypalProcess(modal)" *ngIf="paypalUiStep === 'confirm'">Continue</button>
+                    <button type="button" class="btn btn-outline-danger" (click)="cancelPaypalProcess(modal)" *ngIf="paypalUiCanCancel">Abort</button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</ng-container>
+
+<app-compact-dashboard *ngIf="showCompactDashboard"></app-compact-dashboard>

@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build output
+dist/
+build/
+coverage/
+.angular/
+.turbo/
+
+# Logs and local env
+logs/
+*.log
+.env
+.env.*
+!.env.example
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+
+# Native build output
+.vs/
+x64/
+Debug/
+Release/
+packages/w3blib/packages/

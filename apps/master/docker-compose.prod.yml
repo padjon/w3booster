@@ -1,0 +1,5 @@
+name: 'w3booster-prod'
+services:
+  mongo:
+    ports:
+      - 7017:27017

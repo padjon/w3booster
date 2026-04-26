@@ -1,0 +1,85 @@
+name: w3booster
+
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+
+  master:
+    image: w3booster-master:local
+    build:
+      context: .
+      dockerfile: apps/master/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - mongo
+    environment:
+      config: dev
+      MONGOLAB_URI: mongodb://mongo:27017/w3booster
+      PARSE_SERVER_URL: https://localhost:25080
+      PORT: 25080
+      OVERLAY_BROADCAST_PORT: 25081
+      HTTPS_KEY_PATH: conf/localhost.key
+      HTTPS_CERT_PATH: conf/localhost.crt
+      OVERLAY_HTTPS_KEY_PATH: conf/localhost.key
+      OVERLAY_HTTPS_CERT_PATH: conf/localhost.crt
+    ports:
+      - "25080:25080"
+      - "25081:25081"
+
+  client:
+    image: w3booster-client:local
+    build:
+      context: .
+      dockerfile: apps/client/Dockerfile
+      args:
+        BUILD_CONFIGURATION: local
+    restart: unless-stopped
+    depends_on:
+      - master
+    ports:
+      - "4200:8080"
+
+  overlay:
+    image: w3booster-overlay:local
+    build:
+      context: .
+      dockerfile: apps/overlay/Dockerfile
+      args:
+        BUILD_CONFIGURATION: production
+    restart: unless-stopped
+    depends_on:
+      - master
+    ports:
+      - "8080:8080"
+
+  overlay-mockup:
+    image: w3booster-overlay-mockup:local
+    build:
+      context: .
+      dockerfile: apps/overlay/mockup/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "25082:25082"
+
+  parse-dashboard:
+    image: parseplatform/parse-dashboard:latest
+    restart: unless-stopped
+    depends_on:
+      - master
+    environment:
+      PARSE_DASHBOARD_ALLOW_INSECURE_HTTP: "true"
+      PARSE_DASHBOARD_SERVER_URL: https://localhost:25080/parse
+      PARSE_DASHBOARD_MASTER_KEY: ${PARSE_MASTER_KEY:-local-master-key-change-me}
+      PARSE_DASHBOARD_APP_ID: PSBdEx46ycVok7grEcdOMKPMsLYUl1OZ
+      PARSE_DASHBOARD_APP_NAME: W3Booster
+      PARSE_DASHBOARD_USER_ID: psadmin
+      PARSE_DASHBOARD_USER_PASSWORD: change-me
+      MOUNT_PATH: /dashboard/
+    ports:
+      - "4040:4040"
+
+volumes:
+  mongo-data:

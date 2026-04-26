@@ -1,0 +1,109 @@
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 11946343 (0xb64967)
+    Signature Algorithm: sha256WithRSAEncryption
+        Issuer: C=US, ST=California, L=San Francisco, O=Twitch, OU=Twitch Developer Rig, CN=Twitch Developer Rig CA/emailAddress=twitchdev@twitch.tv
+        Validity
+            Not Before: Nov 25 00:49:14 2018 GMT
+            Not After : Sep  8 00:49:14 2292 GMT
+        Subject: C=US, ST=California, L=San Francisco, O=Twitch, OU=Twitch Developer Rig, CN=Twitch Developer Rig
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:d5:18:7e:7e:f8:94:b9:c7:dc:ab:99:c7:f3:8b:
+                    b5:2d:5f:9f:c2:ef:5d:38:32:26:d6:08:bd:d4:ec:
+                    b7:24:4d:73:fe:07:8d:da:07:b2:cb:74:4b:b0:80:
+                    39:d4:f4:0e:7e:4f:66:a8:30:19:6a:b0:ec:04:02:
+                    b2:b3:ce:0d:3f:f5:4e:7c:07:e8:fb:73:5f:16:6d:
+                    82:fa:91:eb:96:a4:fd:73:e8:19:29:85:02:81:b6:
+                    67:d6:18:1d:14:db:9d:af:6d:c3:0e:24:bf:de:56:
+                    f8:27:2f:c3:55:44:49:24:24:c4:f0:5e:18:35:5f:
+                    dc:46:c8:14:b9:c1:ab:e6:5c:1f:26:b4:8a:b4:19:
+                    7a:03:2b:cf:9d:bc:56:ff:ee:b8:7d:44:9b:06:b2:
+                    3a:38:fa:6f:6f:80:da:50:35:46:6d:55:63:52:3a:
+                    f9:04:26:16:c5:3c:77:c4:0d:1a:68:15:74:9b:df:
+                    fb:40:91:fd:57:08:d7:30:fe:cf:d6:ed:51:b8:12:
+                    1d:13:43:22:c4:2e:6a:46:0a:5c:cc:67:25:78:ae:
+                    33:53:e5:f4:73:71:f1:17:91:cc:2e:5e:2b:b7:9a:
+                    c6:59:f0:1b:9f:37:42:8f:9b:58:cc:58:04:99:82:
+                    21:7d:98:4f:10:af:60:20:ed:c2:d4:14:9e:da:a3:
+                    d6:3d
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Subject Key Identifier: 
+                8D:F8:05:64:74:1F:DE:42:26:91:0B:2C:E0:7E:10:07:17:FB:5B:49
+            X509v3 Authority Key Identifier: 
+                keyid:BA:9C:76:FF:D9:44:16:45:3B:5C:52:59:B7:29:63:D2:63:66:97:D4
+
+            X509v3 Basic Constraints: 
+                CA:FALSE
+            X509v3 Key Usage: 
+                Digital Signature, Key Encipherment
+            X509v3 Subject Alternative Name: 
+                IP Address:127.0.0.1, IP Address:0:0:0:0:0:0:0:1, DNS:localhost.rig.twitch.tv, DNS:localhost
+            Netscape Comment: 
+                OpenSSL Generated Certificate
+    Signature Algorithm: sha256WithRSAEncryption
+         19:5f:aa:e5:82:81:e4:2d:66:85:f0:5e:31:0d:31:1a:dc:2b:
+         f5:09:a0:1e:ae:3c:8e:cb:31:b4:3f:ce:be:15:00:09:3d:3b:
+         22:a9:b7:90:13:11:46:66:2e:14:16:2b:37:b7:07:57:e0:e4:
+         1d:80:95:9f:ab:96:c3:f0:cb:57:b8:98:d5:13:36:4e:7c:24:
+         f5:b6:f3:10:6c:5a:c8:0d:52:d8:b4:a7:06:4c:7c:52:0f:dd:
+         d9:2f:9d:e1:8e:41:2b:be:19:60:d2:3d:c2:fd:ed:92:49:a4:
+         79:5e:96:ed:d0:7e:c8:03:4d:fd:3a:34:6e:38:89:52:c8:ae:
+         18:94:b0:c8:65:7e:49:1c:f7:88:94:75:14:0d:d3:96:d8:e2:
+         96:58:5e:07:7d:19:42:41:89:4e:1c:96:cf:6a:77:62:c7:6d:
+         60:b9:31:12:aa:a9:6f:2e:fd:f3:0b:22:1d:e7:fd:df:86:d0:
+         57:b0:a7:35:55:d1:2c:13:15:0a:d5:00:99:62:a9:b9:18:0f:
+         1c:c8:4b:1c:f9:d9:e3:f4:79:1b:3c:d7:0a:99:b6:29:e1:e4:
+         75:87:72:41:a0:9d:bd:e1:ea:32:20:92:5f:48:02:65:35:71:
+         33:18:14:31:ed:b1:56:4c:36:83:3b:38:ff:11:84:e6:bb:bd:
+         d3:47:34:25:0b:e0:4b:9a:84:8a:e8:33:3e:a2:f8:07:4c:78:
+         90:2d:1f:c8:2b:7d:1a:57:85:db:27:c8:a9:0b:8a:7f:21:6b:
+         5a:21:80:56:17:a5:d7:63:40:01:b2:d0:f6:fd:85:1c:7c:12:
+         1b:9f:9c:8c:ee:db:bb:93:f1:6c:c2:2f:30:e7:06:68:ae:c9:
+         e8:45:e5:2e:5c:83:6d:d0:3a:e0:5c:55:09:87:5b:4b:1f:5c:
+         b8:b3:1f:72:eb:44:29:00:c4:c3:48:84:6f:90:69:5b:3e:b5:
+         d4:d3:32:ad:3e:6c:b2:f4:7e:dd:1c:3e:99:22:30:20:3e:93:
+         5e:e3:5e:22:d6:63:53:cc:e8:40:4f:dc:d1:a4:6b:0b:88:04:
+         90:71:83:96:10:36:9c:c8:68:e7:ab:18:fe:dc:99:82:0f:f0:
+         9d:0b:12:4e:52:27:ed:02:ce:58:f8:6b:5e:6f:49:a2:73:3f:
+         30:b2:1d:0a:22:12:24:e4:bc:03:4c:c5:d2:01:eb:d8:f9:d6:
+         fe:12:2d:23:98:af:87:57:64:f3:9f:b3:b8:cd:f1:40:3b:4e:
+         7d:33:fd:2e:d2:32:fb:4b:e2:46:b2:9d:1a:7a:81:ec:ac:4b:
+         48:9f:d4:62:a6:33:6f:e0:82:18:8b:92:7c:8d:07:66:c6:98:
+         f8:26:f0:b4:1d:ce:fe:ca
+-----BEGIN CERTIFICATE-----
+MIIFjDCCA3SgAwIBAgIEALZJZzANBgkqhkiG9w0BAQsFADCBsDELMAkGA1UEBhMC
+VVMxEzARBgNVBAgMCkNhbGlmb3JuaWExFjAUBgNVBAcMDVNhbiBGcmFuY2lzY28x
+DzANBgNVBAoMBlR3aXRjaDEdMBsGA1UECwwUVHdpdGNoIERldmVsb3BlciBSaWcx
+IDAeBgNVBAMMF1R3aXRjaCBEZXZlbG9wZXIgUmlnIENBMSIwIAYJKoZIhvcNAQkB
+FhN0d2l0Y2hkZXZAdHdpdGNoLnR2MCAXDTE4MTEyNTAwNDkxNFoYDzIyOTIwOTA4
+MDA0OTE0WjCBiTELMAkGA1UEBhMCVVMxEzARBgNVBAgMCkNhbGlmb3JuaWExFjAU
+BgNVBAcMDVNhbiBGcmFuY2lzY28xDzANBgNVBAoMBlR3aXRjaDEdMBsGA1UECwwU
+VHdpdGNoIERldmVsb3BlciBSaWcxHTAbBgNVBAMMFFR3aXRjaCBEZXZlbG9wZXIg
+UmlnMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1Rh+fviUucfcq5nH
+84u1LV+fwu9dODIm1gi91Oy3JE1z/geN2geyy3RLsIA51PQOfk9mqDAZarDsBAKy
+s84NP/VOfAfo+3NfFm2C+pHrlqT9c+gZKYUCgbZn1hgdFNudr23DDiS/3lb4Jy/D
+VURJJCTE8F4YNV/cRsgUucGr5lwfJrSKtBl6AyvPnbxW/+64fUSbBrI6OPpvb4Da
+UDVGbVVjUjr5BCYWxTx3xA0aaBV0m9/7QJH9VwjXMP7P1u1RuBIdE0MixC5qRgpc
+zGcleK4zU+X0c3HxF5HMLl4rt5rGWfAbnzdCj5tYzFgEmYIhfZhPEK9gIO3C1BSe
+2qPWPQIDAQABo4HQMIHNMB0GA1UdDgQWBBSN+AVkdB/eQiaRCyzgfhAHF/tbSTAf
+BgNVHSMEGDAWgBS6nHb/2UQWRTtcUlm3KWPSY2aX1DAJBgNVHRMEAjAAMAsGA1Ud
+DwQEAwIFoDBFBgNVHREEPjA8hwR/AAABhxAAAAAAAAAAAAAAAAAAAAABghdsb2Nh
+bGhvc3QucmlnLnR3aXRjaC50doIJbG9jYWxob3N0MCwGCWCGSAGG+EIBDQQfFh1P
+cGVuU1NMIEdlbmVyYXRlZCBDZXJ0aWZpY2F0ZTANBgkqhkiG9w0BAQsFAAOCAgEA
+GV+q5YKB5C1mhfBeMQ0xGtwr9QmgHq48jssxtD/OvhUACT07Iqm3kBMRRmYuFBYr
+N7cHV+DkHYCVn6uWw/DLV7iY1RM2Tnwk9bbzEGxayA1S2LSnBkx8Ug/d2S+d4Y5B
+K74ZYNI9wv3tkkmkeV6W7dB+yANN/To0bjiJUsiuGJSwyGV+SRz3iJR1FA3Tltji
+llheB30ZQkGJThyWz2p3YsdtYLkxEqqpby798wsiHef934bQV7CnNVXRLBMVCtUA
+mWKpuRgPHMhLHPnZ4/R5GzzXCpm2KeHkdYdyQaCdveHqMiCSX0gCZTVxMxgUMe2x
+Vkw2gzs4/xGE5ru900c0JQvgS5qEiugzPqL4B0x4kC0fyCt9GleF2yfIqQuKfyFr
+WiGAVhel12NAAbLQ9v2FHHwSG5+cjO7bu5PxbMIvMOcGaK7J6EXlLlyDbdA64FxV
+CYdbSx9cuLMfcutEKQDEw0iEb5BpWz611NMyrT5ssvR+3Rw+mSIwID6TXuNeItZj
+U8zoQE/c0aRrC4gEkHGDlhA2nMho56sY/tyZgg/wnQsSTlIn7QLOWPhrXm9JonM/
+MLIdCiISJOS8A0zF0gHr2PnW/hItI5ivh1dk85+zuM3xQDtOfTP9LtIy+0viRrKd
+GnqB7KxLSJ/UYqYzb+CCGIuSfI0HZsaY+CbwtB3O/so=
+-----END CERTIFICATE-----

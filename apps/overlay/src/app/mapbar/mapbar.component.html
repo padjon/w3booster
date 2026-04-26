@@ -1,0 +1,12 @@
+<div *ngIf="settings.mapBarEnabled !== false && (game.isObserver || game.isReplay || settings.mapNameEnabled !== false && game.map || settings.matchscoreEnabled  !== false)"
+    [class]="'map-bar ' + ((showObserverBar()) ? ' map-bar-obs' : '')">
+    <div class="map-name" *ngIf="settings.mapNameEnabled  !== false">
+        {{game.map}}
+    </div>
+    <div class="match-score"
+        *ngIf="settings.matchscoreEnabled !== false && game.isObserver == false && game.isReplay == false">
+        <span>Today's score is&nbsp;<span
+                style="color: #2bc332; font-weight:bold">{{misc.matchscoreWins}}W</span>&nbsp;<span
+                style="color: #dc3c3c;font-weight:bold">{{misc.matchscoreLosses}}L</span></span>
+    </div>
+</div>
