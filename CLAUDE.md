@@ -25,7 +25,6 @@ docker compose -f docker-compose.dev.yml up -d
 pnpm -C apps/client start
 pnpm -C apps/master start
 pnpm -C apps/overlay start
-pnpm -C apps/overlay/mockup start
 
 # Native library
 pnpm -C packages/w3blib build
@@ -37,7 +36,6 @@ pnpm -C packages/w3blib build
 - `apps/master` — Node/TypeScript Parse server and backend jobs. Migrated from `w3booster-master`.
 - `apps/overlay` — Angular in-game overlay UI. Migrated from `w3booster-overlay`.
 - `apps/client/bundler` — WebSocket component bundler used by the client.
-- `apps/overlay/mockup` — Express/WebSocket mock data server for overlay development.
 - `packages/datamodel` — shared models, Parse services, and model services. Replaces the old `src/app/data/common` Git submodule.
 - `packages/w3blib` — native C++ Warcraft III integration and DLL injector sources. Migrated from `w3booster-w3blib`.
 
@@ -48,7 +46,6 @@ pnpm -C packages/w3blib build
 | `ghcr.io/padjon/w3booster-client` | `apps/client/Dockerfile` | Angular static app served by nginx. |
 | `ghcr.io/padjon/w3booster-master` | `apps/master/Dockerfile` | Node/Parse backend. Runtime config is env-overridable. |
 | `ghcr.io/padjon/w3booster-overlay` | `apps/overlay/Dockerfile` | Angular static overlay served by nginx. |
-| `ghcr.io/padjon/w3booster-overlay-mockup` | `apps/overlay/mockup/Dockerfile` | WebSocket mock data server. |
 
 `packages/w3blib` is intentionally not a deployment image.
 

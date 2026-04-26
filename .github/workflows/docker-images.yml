@@ -15,6 +15,9 @@ permissions:
   contents: read
   packages: write
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
 jobs:
   docker:
     name: Build ${{ matrix.name }}
@@ -37,10 +40,6 @@ jobs:
             dockerfile: apps/overlay/Dockerfile
             build-args: |
               BUILD_CONFIGURATION=production
-          - name: overlay-mockup
-            image: ghcr.io/padjon/w3booster-overlay-mockup
-            dockerfile: apps/overlay/mockup/Dockerfile
-            build-args: ""
 
     steps:
       - name: Checkout

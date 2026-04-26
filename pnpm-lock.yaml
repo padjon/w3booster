@@ -436,15 +436,6 @@ importers:
         specifier: ~5.4.5
         version: 5.4.5
 
-  apps/overlay/mockup:
-    dependencies:
-      express:
-        specifier: ^4.21.1
-        version: 4.22.1
-      ws:
-        specifier: ^8.18.0
-        version: 8.20.0
-
   packages/datamodel:
     dependencies:
       '@angular/core':

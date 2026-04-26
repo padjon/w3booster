@@ -55,15 +55,6 @@ services:
     ports:
       - "8080:8080"
 
-  overlay-mockup:
-    image: w3booster-overlay-mockup:local
-    build:
-      context: .
-      dockerfile: apps/overlay/mockup/Dockerfile
-    restart: unless-stopped
-    ports:
-      - "25082:25082"
-
   parse-dashboard:
     image: parseplatform/parse-dashboard:latest
     restart: unless-stopped

@@ -21,7 +21,7 @@ pnpm dev
 pnpm build
 ```
 
-`pnpm dev` starts the app workspaces with a `dev` script via Turbo: client, master, overlay, and overlay mockup.
+`pnpm dev` starts the app workspaces with a `dev` script via Turbo: client, master, and overlay.
 `pnpm compose:dev:up` starts only the supporting local services: MongoDB and Parse Dashboard.
 
 ## Docker
@@ -43,7 +43,6 @@ Local URLs:
 - Overlay: `http://localhost:8080`
 - Master API: `https://localhost:25080`
 - Overlay broadcast: `https://localhost:25081`
-- Overlay mockup websocket: `ws://localhost:25082`
 - Parse Dashboard: `http://localhost:4040/dashboard/`
 
 For agent-oriented engineering notes, start with `AGENTS.md`.

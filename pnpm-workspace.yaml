@@ -1,5 +1,4 @@
 packages:
   - "apps/*"
   - "apps/client/bundler"
-  - "apps/overlay/mockup"
   - "packages/*"
