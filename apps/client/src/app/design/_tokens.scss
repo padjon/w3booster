@@ -35,6 +35,38 @@ $bn-gold-400: #ffd166;
 $bn-gold-500: #f1a33b;
 $bn-gold-600: #c87a16;
 
+// Vivid accents — used for data viz, hero numbers, tier coding.
+// Inspired by the modern gaming-companion vocabulary (blitz.gg etc.).
+$bn-violet-300: #a594ff;
+$bn-violet-500: #7b5cf5;
+$bn-violet-700: #4b2fc2;
+
+$bn-cyan-300: #7df0ff;
+$bn-cyan-500: #00d2ff;
+$bn-cyan-700: #0084a8;
+
+$bn-magenta-400: #ff6abf;
+$bn-magenta-500: #ff3da3;
+$bn-magenta-700: #b51874;
+
+// Match results — used for win/loss stripes, chips, tinted rows.
+$bn-win-500:  #3ddc97;
+$bn-win-700:  #1b8c5c;
+$bn-loss-500: #ff5b73;
+$bn-loss-700: #a8142a;
+
+// Tier ramp (Warcraft III ladder analogue).
+// Use via .bn-tier--{slug} or directly through $tier-* maps.
+$bn-tier-iron:        #6c7488;
+$bn-tier-bronze:      #c08956;
+$bn-tier-silver:      #cdd5e0;
+$bn-tier-gold:        #ffcd5e;
+$bn-tier-platinum:    #6ee0c5;
+$bn-tier-diamond:     #6ec3ff;
+$bn-tier-master:      #b694ff;
+$bn-tier-grandmaster: #ff7c66;
+$bn-tier-champion:    #ffe27a;
+
 // Status palette
 $bn-status-online:  #42c483;
 $bn-status-busy:    #f1a33b;
@@ -65,6 +97,12 @@ $accent:         $bn-blue-500;
 $accent-strong:  $bn-blue-400;
 $accent-deep:    $bn-blue-700;
 $accent-gold:    $bn-gold-500;
+$accent-violet:  $bn-violet-500;
+$accent-cyan:    $bn-cyan-500;
+$accent-magenta: $bn-magenta-500;
+
+$result-win:    $bn-win-500;
+$result-loss:   $bn-loss-500;
 
 // ---- typography ---------------------------------------------------------
 
@@ -116,6 +154,8 @@ $radius-xs: 2px;
 $radius-sm: 4px;
 $radius-md: 6px;
 $radius-lg: 10px;
+$radius-card: 12px;   // softer surface — used by data-dense cards
+$radius-xl: 16px;
 $radius-pill: 999px;
 
 // ---- elevation ----------------------------------------------------------
@@ -127,6 +167,10 @@ $shadow-glow: 0 0 0 1px rgba(110, 195, 255, 0.45),
               0 0 24px rgba(33, 150, 243, 0.45);
 $shadow-glow-strong: 0 0 0 1px rgba(110, 195, 255, 0.7),
                      0 0 36px rgba(33, 150, 243, 0.65);
+$shadow-lift: 0 12px 28px rgba(0, 0, 0, 0.45),
+              0 2px 0 rgba(255, 255, 255, 0.04) inset;
+$shadow-lift-violet: 0 14px 32px rgba(123, 92, 245, 0.35),
+                     0 2px 0 rgba(255, 255, 255, 0.05) inset;
 
 // ---- motion -------------------------------------------------------------
 

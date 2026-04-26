@@ -131,7 +131,7 @@
 
 .bn-panel {
   @include bn-panel;
-  border-radius: $radius-md;
+  border-radius: $radius-card;
   padding: $sp-5;
 }
 
@@ -140,10 +140,25 @@
 
 .bn-card {
   @include bn-panel;
-  border-radius: $radius-md;
+  border-radius: $radius-card;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  transition: border-color $dur-base $ease-out, box-shadow $dur-base $ease-out,
+              transform $dur-base $ease-out;
+}
+
+// Apply hover lift to cards used as links / clickable tiles.
+.bn-card--interactive,
+a.bn-card,
+button.bn-card {
+  cursor: pointer;
+
+  &:hover {
+    border-color: $border-strong;
+    box-shadow: $shadow-lift;
+    transform: translateY(-2px);
+  }
 }
 
 .bn-card__header {
@@ -749,3 +764,314 @@
   0%   { background-position: 100% 0; }
   100% { background-position: -100% 0; }
 }
+
+// ---- stat card ----------------------------------------------------------
+// Modern data-dense stat tile. Eyebrow label → big hero number → trend chip.
+// Replaces inline `.stat` patterns; supports color modifiers and hover lift.
+
+.bn-stat {
+  @include bn-panel;
+  border-radius: $radius-card;
+  display: flex;
+  flex-direction: column;
+  gap: $sp-2;
+  min-width: 0;
+  padding: $sp-4 $sp-5;
+  position: relative;
+  overflow: hidden;
+  transition: border-color $dur-base $ease-out, box-shadow $dur-base $ease-out,
+              transform $dur-base $ease-out;
+
+  // Subtle accent bar across the top — color picked by --bn-stat-accent.
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      var(--bn-stat-accent, #{$accent}),
+      transparent 70%
+    );
+    opacity: 0.85;
+  }
+
+  &:hover {
+    border-color: $border-strong;
+    box-shadow: $shadow-lift;
+    transform: translateY(-2px);
+  }
+}
+
+.bn-stat__label {
+  @include bn-eyebrow;
+  font-size: 11px;
+}
+
+.bn-stat__value {
+  color: var(--bn-stat-value-color, #{$bn-frost-100});
+  font-family: $font-display;
+  font-size: $fs-28;
+  font-weight: $fw-black;
+  letter-spacing: -0.02em;
+  line-height: $lh-tight;
+  margin: 0;
+}
+
+.bn-stat__value--xl { font-size: $fs-36; }
+.bn-stat__value--lg { font-size: $fs-28; }
+.bn-stat__value--sm { font-size: $fs-22; }
+
+// Color modifiers — set both the top accent bar and the value color.
+.bn-stat--accent  { --bn-stat-accent: #{$accent-strong};  --bn-stat-value-color: #{$bn-blue-400}; }
+.bn-stat--violet  { --bn-stat-accent: #{$bn-violet-500};  --bn-stat-value-color: #{$bn-violet-300}; }
+.bn-stat--cyan    { --bn-stat-accent: #{$bn-cyan-500};    --bn-stat-value-color: #{$bn-cyan-300}; }
+.bn-stat--magenta { --bn-stat-accent: #{$bn-magenta-500}; --bn-stat-value-color: #{$bn-magenta-400}; }
+.bn-stat--gold    { --bn-stat-accent: #{$bn-gold-500};    --bn-stat-value-color: #{$bn-gold-400}; }
+.bn-stat--win     { --bn-stat-accent: #{$bn-win-500};     --bn-stat-value-color: #{$bn-win-500}; }
+.bn-stat--loss    { --bn-stat-accent: #{$bn-loss-500};    --bn-stat-value-color: #{$bn-loss-500}; }
+
+.bn-stat__caption {
+  color: $text-faint;
+  font-size: $fs-12;
+  margin: 0;
+}
+
+// Delta chip — small trend indicator next to the value.
+.bn-stat__row {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
+  gap: $sp-2;
+}
+
+.bn-delta {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: $radius-pill;
+  color: $text-secondary;
+  display: inline-flex;
+  font-family: $font-display;
+  font-size: $fs-12;
+  font-weight: $fw-bold;
+  gap: 4px;
+  letter-spacing: 0.02em;
+  padding: 3px 9px;
+}
+
+.bn-delta--up {
+  background: rgba(61, 220, 151, 0.12);
+  color: $bn-win-500;
+}
+
+.bn-delta--down {
+  background: rgba(255, 91, 115, 0.12);
+  color: $bn-loss-500;
+}
+
+// ---- tier badge ---------------------------------------------------------
+// Ladder rank badge with gradient fill. Use .bn-tier--{slug}.
+
+.bn-tier {
+  align-items: center;
+  background: linear-gradient(
+    135deg,
+    var(--bn-tier-color, #{$bn-frost-400}),
+    color-mix(in srgb, var(--bn-tier-color, #{$bn-frost-400}) 55%, #04070d)
+  );
+  border: 1px solid color-mix(in srgb, var(--bn-tier-color, #{$bn-frost-400}) 60%, transparent);
+  border-radius: $radius-md;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    0 0 16px color-mix(in srgb, var(--bn-tier-color, #{$bn-frost-400}) 35%, transparent);
+  color: #0a0d14;
+  display: inline-flex;
+  font-family: $font-display;
+  font-size: 10px;
+  font-weight: $fw-black;
+  gap: 6px;
+  letter-spacing: 0.14em;
+  padding: 5px 10px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.bn-tier--iron        { --bn-tier-color: #{$bn-tier-iron}; color: #fff; }
+.bn-tier--bronze      { --bn-tier-color: #{$bn-tier-bronze}; }
+.bn-tier--silver      { --bn-tier-color: #{$bn-tier-silver}; }
+.bn-tier--gold        { --bn-tier-color: #{$bn-tier-gold}; }
+.bn-tier--platinum    { --bn-tier-color: #{$bn-tier-platinum}; }
+.bn-tier--diamond     { --bn-tier-color: #{$bn-tier-diamond}; }
+.bn-tier--master      { --bn-tier-color: #{$bn-tier-master}; }
+.bn-tier--grandmaster { --bn-tier-color: #{$bn-tier-grandmaster}; }
+.bn-tier--champion    { --bn-tier-color: #{$bn-tier-champion}; }
+
+// ---- result chip --------------------------------------------------------
+// Win/Loss pill, intentionally bolder than .bn-badge.
+
+.bn-result {
+  align-items: center;
+  border-radius: $radius-sm;
+  display: inline-flex;
+  font-family: $font-display;
+  font-size: $fs-12;
+  font-weight: $fw-black;
+  gap: 6px;
+  letter-spacing: 0.14em;
+  min-width: 52px;
+  padding: 5px 10px;
+  text-transform: uppercase;
+  justify-content: center;
+}
+
+.bn-result--win  {
+  background: linear-gradient(180deg, rgba(61, 220, 151, 0.22), rgba(27, 140, 92, 0.18));
+  border: 1px solid rgba(61, 220, 151, 0.55);
+  color: $bn-win-500;
+}
+
+.bn-result--loss {
+  background: linear-gradient(180deg, rgba(255, 91, 115, 0.22), rgba(168, 20, 42, 0.18));
+  border: 1px solid rgba(255, 91, 115, 0.5);
+  color: $bn-loss-500;
+}
+
+// ---- match row ----------------------------------------------------------
+// Row with a left-edge result stripe + thumbnail + meta + chip cluster.
+// Designed as the canonical replay/history row across Insights & Hubs.
+
+.bn-match-row {
+  align-items: center;
+  background: $bg-panel;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-card;
+  color: $text-primary;
+  display: grid;
+  gap: $sp-4;
+  grid-template-columns: 4px 56px 1fr auto;
+  overflow: hidden;
+  padding: $sp-3 $sp-4 $sp-3 0;
+  position: relative;
+  text-decoration: none;
+  transition: border-color $dur-fast $ease-out, background $dur-fast $ease-out,
+              transform $dur-fast $ease-out, box-shadow $dur-fast $ease-out;
+
+  &::before {
+    content: '';
+    background: $text-faint;
+    border-radius: 2px 0 0 2px;
+    align-self: stretch;
+    width: 4px;
+  }
+
+  &:hover {
+    background: $bg-panel-hover;
+    border-color: $border-strong;
+    transform: translateY(-1px);
+    box-shadow: $shadow-1;
+  }
+}
+
+.bn-match-row--win::before  { background: $bn-win-500;  box-shadow: 0 0 12px rgba(61, 220, 151, 0.55); }
+.bn-match-row--loss::before { background: $bn-loss-500; box-shadow: 0 0 12px rgba(255, 91, 115, 0.55); }
+
+.bn-match-row__thumb {
+  align-items: center;
+  background: linear-gradient(160deg, $bn-blue-700, $bn-ink-700);
+  border: 1px solid $border-soft;
+  border-radius: $radius-md;
+  color: $bn-frost-200;
+  display: grid;
+  font-family: $font-display;
+  font-size: $fs-14;
+  font-weight: $fw-bold;
+  height: 56px;
+  letter-spacing: 0.06em;
+  place-items: center;
+  text-transform: uppercase;
+  width: 56px;
+}
+
+.bn-match-row__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.bn-match-row__title {
+  align-items: center;
+  color: $bn-frost-100;
+  display: flex;
+  font-family: $font-display;
+  font-size: $fs-14;
+  font-weight: $fw-bold;
+  gap: $sp-2;
+}
+
+.bn-match-row__meta {
+  color: $text-muted;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: $fs-12;
+  gap: $sp-3;
+
+  > span { white-space: nowrap; }
+}
+
+.bn-match-row__cluster {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: $sp-2;
+  justify-content: flex-end;
+}
+
+@media (max-width: 640px) {
+  .bn-match-row {
+    gap: $sp-3;
+    grid-template-columns: 4px 44px 1fr;
+  }
+
+  .bn-match-row__thumb {
+    height: 44px;
+    width: 44px;
+    font-size: $fs-13;
+  }
+
+  .bn-match-row__cluster {
+    grid-column: 2 / -1;
+    justify-content: flex-start;
+  }
+}
+
+// ---- chip variants ------------------------------------------------------
+
+.bn-chip--violet  { color: $bn-violet-300;  border-color: rgba(123, 92, 245, 0.55); background: rgba(123, 92, 245, 0.10); }
+.bn-chip--cyan    { color: $bn-cyan-300;    border-color: rgba(0, 210, 255, 0.5);    background: rgba(0, 210, 255, 0.08); }
+.bn-chip--magenta { color: $bn-magenta-400; border-color: rgba(255, 61, 163, 0.5);   background: rgba(255, 61, 163, 0.10); }
+.bn-chip--win     { color: $bn-win-500;     border-color: rgba(61, 220, 151, 0.5);   background: rgba(61, 220, 151, 0.10); }
+.bn-chip--loss    { color: $bn-loss-500;    border-color: rgba(255, 91, 115, 0.5);   background: rgba(255, 91, 115, 0.10); }
+
+// ---- sparkbar -----------------------------------------------------------
+// Inline bar (e.g. cohort percentile) — same shape as .bn-progress but bolder.
+
+.bn-sparkbar {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: $radius-pill;
+  height: 8px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+
+  > div {
+    background: linear-gradient(90deg, var(--bn-spark-from, #{$bn-blue-500}), var(--bn-spark-to, #{$bn-cyan-500}));
+    box-shadow: 0 0 14px var(--bn-spark-glow, rgba(33, 150, 243, 0.55));
+    height: 100%;
+    transition: width $dur-slow $ease-out;
+  }
+}
+
+.bn-sparkbar--violet { --bn-spark-from: #{$bn-violet-700}; --bn-spark-to: #{$bn-violet-300}; --bn-spark-glow: rgba(123, 92, 245, 0.55); }
+.bn-sparkbar--win    { --bn-spark-from: #{$bn-win-700};    --bn-spark-to: #{$bn-win-500};    --bn-spark-glow: rgba(61, 220, 151, 0.55); }
+.bn-sparkbar--loss   { --bn-spark-from: #{$bn-loss-700};   --bn-spark-to: #{$bn-loss-500};   --bn-spark-glow: rgba(255, 91, 115, 0.55); }

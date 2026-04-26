@@ -9,11 +9,34 @@
     </header>
 
     <article class="bn-card">
-        <div class="bn-card__header"><h2 class="bn-card__title">Recent replays</h2></div>
+        <div class="bn-card__header">
+            <h2 class="bn-card__title">Recent replays</h2>
+            <span class="bn-chip bn-chip--cyan">Mock data</span>
+        </div>
         <div class="bn-card__body list">
-            <a *ngFor="let replay of replays" class="list-item" [routerLink]="['/dashboard/insights/replay', replay.id]">
-                <b>{{replay.result}} vs {{replay.opponent}}</b>
-                <span>{{replay.race}} {{replay.matchup}} · {{replay.duration}} · {{replay.apm}} APM · P{{replay.percentile}}</span>
+            <a *ngFor="let replay of replays"
+               class="bn-match-row"
+               [class.bn-match-row--win]="replay.result === 'Win'"
+               [class.bn-match-row--loss]="replay.result === 'Loss'"
+               [routerLink]="['/dashboard/insights/replay', replay.id]">
+                <span class="bn-match-row__thumb">{{replay.race.substr(0,2)}}</span>
+                <div class="bn-match-row__body">
+                    <div class="bn-match-row__title">vs {{replay.opponent}}</div>
+                    <div class="bn-match-row__meta">
+                        <span>{{replay.race}} {{replay.matchup}}</span>
+                        <span>{{replay.duration}}</span>
+                        <span>{{replay.apm}} APM</span>
+                        <span>SB {{replay.supplyBlock}}</span>
+                    </div>
+                </div>
+                <div class="bn-match-row__cluster">
+                    <span class="bn-chip bn-chip--violet">P{{replay.percentile}}</span>
+                    <span class="bn-result"
+                          [class.bn-result--win]="replay.result === 'Win'"
+                          [class.bn-result--loss]="replay.result === 'Loss'">
+                        {{replay.result}}
+                    </span>
+                </div>
             </a>
         </div>
     </article>

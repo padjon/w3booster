@@ -70,6 +70,17 @@
       </figure>
     </div>
 
+    <h3 class="sg-h3">Vivid — game data accents</h3>
+    <p class="bn-text-muted" style="margin: -4px 0 12px;">Used for stat hero numbers, tier coding, win/loss surfaces. Pair with the BNet shell, never on the shell itself.</p>
+    <div class="sg-swatches">
+      <figure *ngFor="let s of vividSwatches" class="sg-swatch" [style.background]="s.value">
+        <figcaption>
+          <strong class="bn-mono">{{ s.value }}</strong>
+          <span class="bn-mono">{{ s.token }}</span>
+        </figcaption>
+      </figure>
+    </div>
+
     <h3 class="sg-h3">Spacing scale</h3>
     <div class="sg-spacing">
       <div *ngFor="let n of [4, 8, 12, 16, 20, 24, 32, 40, 48, 64]" class="sg-spacing__row">
@@ -333,10 +344,129 @@
     </div>
   </section>
 
+  <!-- ===== game data ===== -->
+  <section id="gamedata" class="sg-section">
+    <div class="sg-section__head">
+      <span class="bn-eyebrow">08</span>
+      <h2 class="bn-heading">Game data</h2>
+      <p class="bn-text-muted">Stat cards, tier badges, match rows, and result-coded surfaces. The data-dense vocabulary used by Match Insights, Replay detail, and the Hubs.</p>
+    </div>
+
+    <h3 class="sg-h3">Stat cards</h3>
+    <div class="sg-grid sg-grid--3" style="margin-bottom: 24px;">
+      <div class="bn-stat bn-stat--accent">
+        <span class="bn-stat__label">Replay percentile</span>
+        <div class="bn-stat__row">
+          <p class="bn-stat__value">P72</p>
+          <span class="bn-delta bn-delta--up">+8</span>
+        </div>
+        <p class="bn-stat__caption">Last 14 days vs same matchup</p>
+      </div>
+
+      <div class="bn-stat bn-stat--violet">
+        <span class="bn-stat__label">Weekly APM</span>
+        <div class="bn-stat__row">
+          <p class="bn-stat__value">151</p>
+          <span class="bn-delta bn-delta--down">−4</span>
+        </div>
+        <p class="bn-stat__caption">7-day rolling</p>
+      </div>
+
+      <div class="bn-stat bn-stat--gold">
+        <span class="bn-stat__label">Pro story streak</span>
+        <div class="bn-stat__row">
+          <p class="bn-stat__value">4W</p>
+          <span class="bn-delta">live</span>
+        </div>
+        <p class="bn-stat__caption">Updated from current session</p>
+      </div>
+
+      <div class="bn-stat bn-stat--win">
+        <span class="bn-stat__label">Win rate</span>
+        <p class="bn-stat__value">63%</p>
+        <p class="bn-stat__caption">Last 50 ranked games</p>
+      </div>
+
+      <div class="bn-stat bn-stat--loss">
+        <span class="bn-stat__label">Supply blocked</span>
+        <p class="bn-stat__value">0:35</p>
+        <p class="bn-stat__caption">Average — needs work</p>
+      </div>
+
+      <div class="bn-stat bn-stat--cyan">
+        <span class="bn-stat__label">Build drift</span>
+        <p class="bn-stat__value">−0:18</p>
+        <p class="bn-stat__caption">vs canonical opener</p>
+      </div>
+    </div>
+
+    <h3 class="sg-h3">Tier badges</h3>
+    <div class="bn-panel sg-cluster" style="margin-bottom: 24px;">
+      <span *ngFor="let t of tierSwatches" class="bn-tier" [class]="'bn-tier bn-tier--' + t.slug">{{ t.label }}</span>
+    </div>
+
+    <h3 class="sg-h3">Result chips and stripes</h3>
+    <div class="bn-panel sg-cluster" style="margin-bottom: 16px;">
+      <span class="bn-result bn-result--win">Win</span>
+      <span class="bn-result bn-result--loss">Loss</span>
+      <span class="bn-chip bn-chip--win"><span class="bn-dot bn-dot--online"></span> 4-streak</span>
+      <span class="bn-chip bn-chip--loss"><span class="bn-dot bn-dot--error"></span> 2 in row</span>
+      <span class="bn-chip bn-chip--violet">Cohort P72</span>
+      <span class="bn-chip bn-chip--cyan">Mock data</span>
+    </div>
+
+    <h3 class="sg-h3">Match rows</h3>
+    <div class="sg-form" style="margin-bottom: 24px;">
+      <a *ngFor="let m of demoMatches" class="bn-match-row" [class]="'bn-match-row bn-match-row--' + m.result">
+        <span class="bn-match-row__thumb">{{ m.thumb }}</span>
+        <div class="bn-match-row__body">
+          <div class="bn-match-row__title">
+            {{ m.title }}
+            <span class="bn-tier" [class]="'bn-tier bn-tier--' + m.tier">{{ m.tier }}</span>
+          </div>
+          <div class="bn-match-row__meta">
+            <span>{{ m.meta }}</span>
+            <span>P{{ m.percentile }}</span>
+          </div>
+        </div>
+        <div class="bn-match-row__cluster">
+          <span class="bn-result" [class]="'bn-result bn-result--' + m.result">{{ m.result }}</span>
+        </div>
+      </a>
+    </div>
+
+    <h3 class="sg-h3">Cohort sparkbars</h3>
+    <div class="bn-panel">
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        <div>
+          <div class="bn-stat__row" style="justify-content: space-between;">
+            <span class="bn-eyebrow">Cohort percentile</span>
+            <strong class="bn-mono">P72</strong>
+          </div>
+          <div class="bn-sparkbar" style="margin-top: 8px;"><div [style.width.%]="72"></div></div>
+        </div>
+        <div>
+          <div class="bn-stat__row" style="justify-content: space-between;">
+            <span class="bn-eyebrow">Win probability</span>
+            <strong class="bn-mono">63%</strong>
+          </div>
+          <div class="bn-sparkbar bn-sparkbar--win" style="margin-top: 8px;"><div [style.width.%]="63"></div></div>
+        </div>
+        <div>
+          <div class="bn-stat__row" style="justify-content: space-between;">
+            <span class="bn-eyebrow">Build drift</span>
+            <strong class="bn-mono">−18%</strong>
+          </div>
+          <div class="bn-sparkbar bn-sparkbar--violet" style="margin-top: 8px;"><div [style.width.%]="32"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ===== shell preview ===== -->
   <section id="shell" class="sg-section">
     <div class="sg-section__head">
-      <span class="bn-eyebrow">08</span>
+      <span class="bn-eyebrow">09</span>
       <h2 class="bn-heading">Shell preview</h2>
       <p class="bn-text-muted">A miniature of the dashboard shell — top chrome and side rail layered over a content body.</p>
     </div>

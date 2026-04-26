@@ -2,17 +2,36 @@
     <header class="page__header">
         <div>
             <p class="bn-eyebrow bn-eyebrow--accent">Replay detail</p>
-            <h1>{{replay?.result}} vs {{replay?.opponent}}</h1>
+            <h1>
+                <span class="bn-result" [class.bn-result--win]="replay?.result === 'Win'" [class.bn-result--loss]="replay?.result === 'Loss'">{{replay?.result}}</span>
+                vs {{replay?.opponent}}
+            </h1>
             <p>{{replay?.race}} {{replay?.matchup}} · {{replay?.duration}} · {{replay?.apm}} APM</p>
         </div>
         <a class="bn-btn bn-btn--primary" [routerLink]="['/dashboard/build-orders']"><i class="fa fa-crosshairs"></i> Drill weakness</a>
     </header>
 
     <div class="grid grid--4">
-        <div class="stat"><span>Cohort percentile</span><strong>{{replay?.percentile}}</strong></div>
-        <div class="stat"><span>Supply blocked</span><strong>{{replay?.supplyBlock}}</strong></div>
-        <div class="stat"><span>Decision lag</span><strong>0:24</strong></div>
-        <div class="stat"><span>Scout score</span><strong>58%</strong></div>
+        <div class="bn-stat bn-stat--violet">
+            <span class="bn-stat__label">Cohort percentile</span>
+            <p class="bn-stat__value">P{{replay?.percentile}}</p>
+            <p class="bn-stat__caption">vs same race / matchup</p>
+        </div>
+        <div class="bn-stat bn-stat--loss">
+            <span class="bn-stat__label">Supply blocked</span>
+            <p class="bn-stat__value">{{replay?.supplyBlock}}</p>
+            <p class="bn-stat__caption">First-block duration</p>
+        </div>
+        <div class="bn-stat bn-stat--gold">
+            <span class="bn-stat__label">Decision lag</span>
+            <p class="bn-stat__value">0:24</p>
+            <p class="bn-stat__caption">Avg time-to-react</p>
+        </div>
+        <div class="bn-stat bn-stat--cyan">
+            <span class="bn-stat__label">Scout score</span>
+            <p class="bn-stat__value">58%</p>
+            <p class="bn-stat__caption">Coverage of opponent base</p>
+        </div>
     </div>
 
     <div class="grid grid--2">
@@ -30,8 +49,12 @@
             <div class="bn-card__header"><h2 class="bn-card__title">Cohort preview</h2></div>
             <div class="bn-card__body">
                 <app-pro-lock feature="Cohort benchmarking">
-                    <div class="stat"><span>Your percentile against same race/matchup</span><strong>{{replay?.percentile}}</strong></div>
-                    <div class="bn-progress"><div [style.width.%]="replay?.percentile"></div></div>
+                    <div class="bn-stat__row" style="justify-content: space-between; margin-bottom: 10px;">
+                        <span class="bn-eyebrow">Your percentile</span>
+                        <strong class="bn-mono">P{{replay?.percentile}}</strong>
+                    </div>
+                    <div class="bn-sparkbar bn-sparkbar--violet"><div [style.width.%]="replay?.percentile"></div></div>
+                    <p class="bn-text-faint" style="margin: 10px 0 0;">vs same race / matchup over the last 30 days</p>
                 </app-pro-lock>
             </div>
         </article>

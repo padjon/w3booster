@@ -9,10 +9,35 @@
     </header>
 
     <div class="grid grid--4">
-        <div class="stat"><span>Weekly APM</span><strong>151</strong></div>
-        <div class="stat"><span>Supply block avg</span><strong>0:35</strong></div>
-        <div class="stat"><span>Build drift</span><strong>-0:18</strong></div>
-        <div class="stat"><span>Replay percentile</span><strong>72</strong></div>
+        <div class="bn-stat bn-stat--violet">
+            <span class="bn-stat__label">Weekly APM</span>
+            <div class="bn-stat__row">
+                <p class="bn-stat__value">151</p>
+                <span class="bn-delta bn-delta--down">−4</span>
+            </div>
+            <p class="bn-stat__caption">7-day rolling avg</p>
+        </div>
+        <div class="bn-stat bn-stat--loss">
+            <span class="bn-stat__label">Supply block avg</span>
+            <p class="bn-stat__value">0:35</p>
+            <p class="bn-stat__caption">First block, last 10 games</p>
+        </div>
+        <div class="bn-stat bn-stat--cyan">
+            <span class="bn-stat__label">Build drift</span>
+            <div class="bn-stat__row">
+                <p class="bn-stat__value">−0:18</p>
+                <span class="bn-delta bn-delta--up">tighter</span>
+            </div>
+            <p class="bn-stat__caption">vs canonical opener</p>
+        </div>
+        <div class="bn-stat bn-stat--accent">
+            <span class="bn-stat__label">Replay percentile</span>
+            <div class="bn-stat__row">
+                <p class="bn-stat__value">P72</p>
+                <span class="bn-delta bn-delta--up">+8</span>
+            </div>
+            <p class="bn-stat__caption">vs same matchup cohort</p>
+        </div>
     </div>
 
     <div class="grid grid--2">
@@ -40,10 +65,20 @@
     <article class="bn-card">
         <div class="bn-card__header"><h2 class="bn-card__title">Last replay summary</h2></div>
         <div class="bn-card__body grid grid--3">
-            <a *ngFor="let replay of replays" class="stat" [routerLink]="['/dashboard/insights/replay', replay.id]">
-                <span>{{replay.race}} {{replay.matchup}}</span>
-                <strong>{{replay.result}}</strong>
-                <span>{{replay.opponent}} · {{replay.duration}} · P{{replay.percentile}}</span>
+            <a *ngFor="let replay of replays"
+               class="bn-stat"
+               [class.bn-stat--win]="replay.result === 'Win'"
+               [class.bn-stat--loss]="replay.result === 'Loss'"
+               [routerLink]="['/dashboard/insights/replay', replay.id]"
+               style="text-decoration: none;">
+                <div class="bn-stat__row" style="justify-content: space-between;">
+                    <span class="bn-stat__label">{{replay.race}} {{replay.matchup}}</span>
+                    <span class="bn-result"
+                          [class.bn-result--win]="replay.result === 'Win'"
+                          [class.bn-result--loss]="replay.result === 'Loss'">{{replay.result}}</span>
+                </div>
+                <p class="bn-stat__value bn-stat__value--sm">vs {{replay.opponent}}</p>
+                <p class="bn-stat__caption">{{replay.duration}} · P{{replay.percentile}}</p>
             </a>
         </div>
     </article>

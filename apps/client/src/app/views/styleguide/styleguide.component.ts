@@ -19,7 +19,34 @@ export class StyleguideComponent {
         { id: 'forms',       title: 'Forms' },
         { id: 'navigation',  title: 'Navigation' },
         { id: 'feedback',    title: 'Feedback' },
+        { id: 'gamedata',    title: 'Game data' },
         { id: 'shell',       title: 'Shell preview' },
+    ];
+
+    public readonly vividSwatches = [
+        { token: '$bn-violet-500',  value: '#7b5cf5' },
+        { token: '$bn-cyan-500',    value: '#00d2ff' },
+        { token: '$bn-magenta-500', value: '#ff3da3' },
+        { token: '$bn-win-500',     value: '#3ddc97' },
+        { token: '$bn-loss-500',    value: '#ff5b73' },
+    ];
+
+    public readonly tierSwatches = [
+        { slug: 'iron',        label: 'Iron',        value: '#6c7488' },
+        { slug: 'bronze',      label: 'Bronze',      value: '#c08956' },
+        { slug: 'silver',      label: 'Silver',      value: '#cdd5e0' },
+        { slug: 'gold',        label: 'Gold',        value: '#ffcd5e' },
+        { slug: 'platinum',    label: 'Platinum',    value: '#6ee0c5' },
+        { slug: 'diamond',     label: 'Diamond',     value: '#6ec3ff' },
+        { slug: 'master',      label: 'Master',      value: '#b694ff' },
+        { slug: 'grandmaster', label: 'Grandmaster', value: '#ff7c66' },
+        { slug: 'champion',    label: 'Champion',    value: '#ffe27a' },
+    ];
+
+    public readonly demoMatches = [
+        { result: 'win',  thumb: 'HU', title: 'Win vs MoonWell',  meta: 'Human · vs Orc · 18:42 · 156 APM',     percentile: 72, tier: 'platinum' },
+        { result: 'loss', thumb: 'NE', title: 'Loss vs GhoulLine',meta: 'Night Elf · vs Undead · 24:05 · 132 APM', percentile: 41, tier: 'gold' },
+        { result: 'win',  thumb: 'OR', title: 'Win vs TowerSmith',meta: 'Orc · vs Human · 16:30 · 168 APM',     percentile: 81, tier: 'diamond' },
     ];
 
     public readonly inkSwatches = [

@@ -12,10 +12,35 @@
     </header>
 
     <div class="grid grid--4">
-        <div class="stat"><span>Overlay health</span><strong>Live</strong></div>
-        <div class="stat"><span>Browser source</span><strong>1080p</strong></div>
-        <div class="stat"><span>Active rules</span><strong>{{rules.length}}</strong></div>
-        <div class="stat"><span>Win preview</span><strong>63%</strong></div>
+        <div class="bn-stat bn-stat--win">
+            <span class="bn-stat__label">Overlay health</span>
+            <div class="bn-stat__row">
+                <p class="bn-stat__value">Live</p>
+                <span class="bn-dot bn-dot--online bn-dot--pulse"></span>
+            </div>
+            <p class="bn-stat__caption">Connected · 60 fps</p>
+        </div>
+        <div class="bn-stat bn-stat--cyan">
+            <span class="bn-stat__label">Browser source</span>
+            <p class="bn-stat__value">1080p</p>
+            <p class="bn-stat__caption">OBS source attached</p>
+        </div>
+        <div class="bn-stat bn-stat--violet">
+            <span class="bn-stat__label">Active rules</span>
+            <div class="bn-stat__row">
+                <p class="bn-stat__value">{{rules.length}}</p>
+                <span class="bn-delta">running</span>
+            </div>
+            <p class="bn-stat__caption">Triggers, sounds, scenes</p>
+        </div>
+        <div class="bn-stat bn-stat--gold">
+            <span class="bn-stat__label">Win preview</span>
+            <div class="bn-stat__row">
+                <p class="bn-stat__value">63%</p>
+                <span class="bn-delta bn-delta--up">+5</span>
+            </div>
+            <p class="bn-stat__caption">Pro · live story card</p>
+        </div>
     </div>
 
     <div class="grid grid--2">
@@ -40,9 +65,18 @@
             <div class="bn-card__body">
                 <app-pro-lock feature="Live story card">
                     <div class="grid grid--3">
-                        <div class="stat"><span>Streak</span><strong>4W</strong></div>
-                        <div class="stat"><span>Best timing</span><strong>5:42</strong></div>
-                        <div class="stat"><span>Matchup</span><strong>68%</strong></div>
+                        <div class="bn-stat bn-stat--win">
+                            <span class="bn-stat__label">Streak</span>
+                            <p class="bn-stat__value bn-stat__value--lg">4W</p>
+                        </div>
+                        <div class="bn-stat bn-stat--cyan">
+                            <span class="bn-stat__label">Best timing</span>
+                            <p class="bn-stat__value bn-stat__value--lg">5:42</p>
+                        </div>
+                        <div class="bn-stat bn-stat--violet">
+                            <span class="bn-stat__label">Matchup WR</span>
+                            <p class="bn-stat__value bn-stat__value--lg">68%</p>
+                        </div>
                     </div>
                 </app-pro-lock>
             </div>
