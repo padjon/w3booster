@@ -20,6 +20,7 @@ COPY packages/datamodel packages/datamodel
 COPY apps/client apps/client
 
 RUN pnpm -C apps/client run build:${BUILD_CONFIGURATION}
+RUN if [ "$BUILD_CONFIGURATION" = "prod" ] || [ "$BUILD_CONFIGURATION" = "production" ]; then pnpm -C apps/client run verify:prod-assets; fi
 
 FROM nginx:1.27-alpine AS runtime
 

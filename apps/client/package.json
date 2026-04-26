@@ -12,6 +12,7 @@
     "build:dev": "ng build --configuration=development",
     "build:prod": "ng build --configuration production",
     "build": "pnpm run build:prod",
+    "verify:prod-assets": "node scripts/verify-prod-assets.mjs",
     "pwa:build:local": "ng build --configuration=local && sw-precache --root=dist --config=precache-config.js",
     "pwa:build:dev": "ng build --configuration production --configuration=development && sw-precache --root=dist --config=precache-config.js",
     "pwa:build:prod": "ng build --configuration production && sw-precache --root=dist --config=precache-config.js",
