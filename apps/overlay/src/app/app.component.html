@@ -4,7 +4,7 @@
 </ng-template>
 <ng-template #nonErrorBlock>
     <div [class]='(isReforged) ? "w3-reforged" : "w3-classic"'
-        *ngIf="!isIngameOverlay || state && state.serviceState && state.serviceState.settings.ingameOverlayEnabled !== false">
+        *ngIf="showOverlayShell()">
         <div class='App' *ngIf="state && state.serviceState && state.serviceState.settings && streamer">
             <div class="{{additionalCSSClasses}}">
                 <div *ngIf="state.serviceState.game">

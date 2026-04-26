@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { PersonaFocus, PersonaService, PersonaState } from '../../services/persona.service';
+import { Persona, PersonaService, PersonaState } from '../../services/persona.service';
 
 @Component({
     selector: 'app-persona-toggle',
@@ -12,7 +12,7 @@ export class PersonaToggleComponent {
 
     constructor(private persona: PersonaService) {}
 
-    public setFocus(focus: PersonaFocus): void {
-        this.persona.setActiveFocus(focus);
+    public setPersona(persona: Persona): void {
+        this.persona.setPersona(persona);
     }
 }

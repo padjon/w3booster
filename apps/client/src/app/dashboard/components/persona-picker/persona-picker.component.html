@@ -1,7 +1,8 @@
 <div *ngIf="!state?.persona" class="persona-picker">
     <div class="persona-picker__dialog">
         <p class="bn-eyebrow bn-eyebrow--accent">First run</p>
-        <h2>Choose your command center</h2>
+        <h2>What is your main usage?</h2>
+        <p class="persona-picker__copy">Player mode keeps practice, build orders, and match insight tools in the navigation. Streamer mode keeps OBS overlays, automation, and stream setup tools in the navigation. You can always switch later with the Player / Streamer toggle at the top.</p>
         <div class="persona-picker__grid">
             <button *ngFor="let option of options"
                     type="button"

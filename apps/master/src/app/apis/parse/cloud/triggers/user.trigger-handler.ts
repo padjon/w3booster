@@ -30,6 +30,8 @@ class UserTriggerHandler extends TriggerHandler<User, UserService> {
             user.displayName = profile.data?.battletag || 'Battle.net user';
         }
 
+        this.upsertConnectedAccount(user, profile.provider, profile.data);
+
         if (newUser) {
             // apply defaults
             const userDefaults = new User();
@@ -45,6 +47,41 @@ class UserTriggerHandler extends TriggerHandler<User, UserService> {
         await user.save();
         console.log((newUser) ? 'New user created:' : 'User updated by auth data:');
         console.log(user);
+    }
+
+    private upsertConnectedAccount(user: User, provider: 'twitch' | 'battlenet', data: any) {
+        const account = provider === 'twitch'
+            ? {
+                provider,
+                id: String(data.id),
+                login: String(data.login || '').toLowerCase(),
+                displayName: data.display_name || data.login,
+                avatarUrl: data.profile_image_url,
+                email: data.email,
+                connectedAt: new Date().toISOString()
+            }
+            : {
+                provider,
+                id: String(data.id),
+                login: data.battletag,
+                displayName: data.battletag,
+                connectedAt: new Date().toISOString()
+            };
+
+        const connectedAccounts = (user.connectedAccounts || []).filter(existing =>
+            !(existing.provider === account.provider && String(existing.id) === account.id)
+        );
+        connectedAccounts.push(account);
+        user.connectedAccounts = connectedAccounts;
+        user.connectedTwitchIds = connectedAccounts
+            .filter(existing => existing.provider === 'twitch')
+            .map(existing => String(existing.id));
+        user.connectedTwitchLogins = connectedAccounts
+            .filter(existing => existing.provider === 'twitch' && existing.login)
+            .map(existing => String(existing.login).toLowerCase());
+        user.connectedBattleNetIds = connectedAccounts
+            .filter(existing => existing.provider === 'battlenet')
+            .map(existing => String(existing.id));
     }
 
     private async getAuthProfile(user: User): Promise<{ provider: 'twitch' | 'battlenet'; data: any }> {

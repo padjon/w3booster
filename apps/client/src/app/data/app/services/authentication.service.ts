@@ -196,7 +196,10 @@ export class AuthenticationService  {
         user.broadcasterSecret = 'e2e-secret';
         user.plan = localStorage.getItem('W3B_E2E_PRO') === 'true' ? EUserPlan.PRO : EUserPlan.BASIC;
         user.planUntil = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
-        user.settings['uiPersona'] = localStorage.getItem('w3b.persona.value') || 'both';
+        const e2ePersona = localStorage.getItem('w3b.persona.value');
+        if (e2ePersona) {
+            user.settings['uiPersona'] = e2ePersona;
+        }
         user.settings['developer'] = localStorage.getItem('w3b.persona.developer') !== 'false';
 
         user.save = (() => Promise.resolve(user)) as any;

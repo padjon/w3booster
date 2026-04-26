@@ -11,9 +11,8 @@ export class PersonaPickerComponent {
     @Input() public state: PersonaState;
 
     public options: Array<{ persona: Persona; title: string; body: string; icon: string }> = [
-        { persona: 'player', title: 'Player', body: 'Practice builds, review replays, and track improvement.', icon: 'fa fa-crosshairs' },
-        { persona: 'streamer', title: 'Streamer', body: 'Manage overlays, automation, and viewer-facing moments.', icon: 'fa fa-broadcast-tower' },
-        { persona: 'both', title: 'Both', body: 'Show both rails and switch focus from the shell.', icon: 'fa fa-random' }
+        { persona: 'player', title: 'Player', body: 'Practice builds, review replays, and track improvement tools.', icon: 'fa fa-crosshairs' },
+        { persona: 'streamer', title: 'Streamer', body: 'Manage OBS overlays, automation, and viewer-facing tools.', icon: 'fa fa-broadcast-tower' }
     ];
 
     constructor(private personaService: PersonaService) {}

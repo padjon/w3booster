@@ -19,6 +19,26 @@ export enum EUserLogLevel {
 interface AuthData { 'twitch': { id: number, access_token: string }; }
 interface TwitchUserData { id: string; login: string; display_name: string; type: string; broadcaster_type: string; description: string; profile_image_url: string; offile_image_url: string; view_cont: number; email: string; }
 
+export interface ConnectedAccount {
+    provider: 'twitch' | 'battlenet';
+    id: string;
+    login?: string;
+    displayName?: string;
+    avatarUrl?: string;
+    email?: string;
+    connectedAt: string;
+}
+
+export interface ReceivedGift {
+    orderId: string;
+    days: number;
+    sender: string;
+    message?: string;
+    provider: 'paypal' | 'stripe';
+    handle?: string;
+    paidAt: string;
+}
+
 export interface DiscordUserData { id: string; username: string; }
 
 export class User extends Parse.User {
@@ -37,6 +57,11 @@ export class User extends Parse.User {
     private _authData: AuthData;
     private _twitchUserData: TwitchUserData;
     private _discordUserData: DiscordUserData;
+    private _connectedAccounts: ConnectedAccount[];
+    private _connectedTwitchIds: string[];
+    private _connectedTwitchLogins: string[];
+    private _connectedBattleNetIds: string[];
+    private _receivedGifts: ReceivedGift[];
     private _settings: { [index: string]: any };
     private _playerOverlaySettings: OverlaySettings;
     private _obsOverlaySettings: OverlaySettings;
@@ -47,6 +72,11 @@ export class User extends Parse.User {
         BaseModel.initParseObject(this);
 
         this._settings = {};
+        this._connectedAccounts = [];
+        this._connectedTwitchIds = [];
+        this._connectedTwitchLogins = [];
+        this._connectedBattleNetIds = [];
+        this._receivedGifts = [];
         this._playerOverlaySettings = new OverlaySettings();
         this._obsOverlaySettings = new OverlaySettings();
         this._eventsystemConfigs = {};
@@ -153,6 +183,46 @@ export class User extends Parse.User {
 
     public set discordUserData(value: DiscordUserData) {
         this._discordUserData = value;
+    }
+
+    public get connectedAccounts(): ConnectedAccount[] {
+        return this._connectedAccounts || [];
+    }
+
+    public set connectedAccounts(value: ConnectedAccount[]) {
+        this._connectedAccounts = value || [];
+    }
+
+    public get connectedTwitchIds(): string[] {
+        return this._connectedTwitchIds || [];
+    }
+
+    public set connectedTwitchIds(value: string[]) {
+        this._connectedTwitchIds = value || [];
+    }
+
+    public get connectedTwitchLogins(): string[] {
+        return this._connectedTwitchLogins || [];
+    }
+
+    public set connectedTwitchLogins(value: string[]) {
+        this._connectedTwitchLogins = value || [];
+    }
+
+    public get connectedBattleNetIds(): string[] {
+        return this._connectedBattleNetIds || [];
+    }
+
+    public set connectedBattleNetIds(value: string[]) {
+        this._connectedBattleNetIds = value || [];
+    }
+
+    public get receivedGifts(): ReceivedGift[] {
+        return this._receivedGifts || [];
+    }
+
+    public set receivedGifts(value: ReceivedGift[]) {
+        this._receivedGifts = value || [];
     }
 
     public get playerOverlaySettings(): OverlaySettings {

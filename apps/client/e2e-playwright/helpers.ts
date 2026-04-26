@@ -1,13 +1,18 @@
 import { Page, expect } from '@playwright/test';
 
-export async function enableE2EAuth(page: Page, pro = false) {
-  await page.addInitScript(({ isPro }) => {
+export async function enableE2EAuth(page: Page, pro = false, persona: 'player' | 'streamer' | null = 'player') {
+  await page.addInitScript(({ isPro, personaValue }) => {
     localStorage.setItem('W3B_E2E_AUTH', 'true');
     localStorage.setItem('W3B_E2E_PRO', String(isPro));
-    localStorage.setItem('w3b.persona.value', 'both');
+    if (personaValue) {
+      if (!localStorage.getItem('w3b.persona.value')) {
+        localStorage.setItem('w3b.persona.value', personaValue);
+      }
+    } else {
+      localStorage.removeItem('w3b.persona.value');
+    }
     localStorage.setItem('w3b.persona.developer', 'true');
-    localStorage.setItem('w3b.persona.focus', 'player');
-  }, { isPro: pro });
+  }, { isPro: pro, personaValue: persona });
 }
 
 export async function mockApprovedPayPal(page: Page) {

@@ -1,5 +1,6 @@
 export * from './admin.api';
 export * from './battlenet-auth.api';
+export * from './gift.api';
 export * from './parse/parse.api';
 export * from './patch.api';
 export * from './paypal.api';

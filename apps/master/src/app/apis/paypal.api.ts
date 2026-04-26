@@ -15,6 +15,7 @@ export class PaypalAPI extends BaseAPI {
             const state = (req.query.state as string) ?? '';
             const paymentId = req.query.paymentId as string;
             const payerId = (req.query.PayerID as string) ?? (req.query.payerId as string);
+            const returnTo = this.getAllowedReturnUrl(req.query.returnTo as string);
 
             if (!state) {
                 res.status(400).send('Missing state parameter.');
@@ -40,16 +41,27 @@ export class PaypalAPI extends BaseAPI {
 
                     // Server-side confirmation using the exact same logic as the cloud function.
                     await ShopOrderCloud.confirmOrderCore(this.shopOrderService, this.paypalService, order.user, paymentId, payerId);
-                    res.send('Payment processed successfully. Return to the W3Booster App now. This window can be closed safely.');
+                    if (returnTo) {
+                        res.redirect(returnTo);
+                    } else {
+                        res.send('Payment processed successfully. Return to the W3Booster App now. This window can be closed safely.');
+                    }
                 } catch (e: any) {
                     console.error('PayPal confirm failed:', e);
-                    res.send('We could not process your payment. Return to the W3Booster App and check the payment screen for details.');
+                    if (returnTo) {
+                        const url = new URL(returnTo);
+                        url.searchParams.set('paypal', 'error');
+                        res.redirect(url.toString());
+                    } else {
+                        res.send('We could not process your payment. Return to the W3Booster App and check the payment screen for details.');
+                    }
                 }
             })();
         });
 
         this.getRouter().get('/cancel', (req, res) => {
             const state = (req.query.state as string) ?? '';
+            const returnTo = this.getAllowedReturnUrl(req.query.returnTo as string);
             if (state) {
                 (async () => {
                     try {
@@ -63,7 +75,13 @@ export class PaypalAPI extends BaseAPI {
                     }
                 })();
             }
-            res.send('Payment cancelled. Return to the W3Booster App now. This window can be closed safely.');
+            if (returnTo) {
+                const url = new URL(returnTo);
+                url.searchParams.set('paypal', 'cancelled');
+                res.redirect(url.toString());
+            } else {
+                res.send('Payment cancelled. Return to the W3Booster App now. This window can be closed safely.');
+            }
         });
 
         this.getRouter().get('/state/:state', (req, res) => {
@@ -97,5 +115,26 @@ export class PaypalAPI extends BaseAPI {
                 }
             })();
         });
+    }
+
+    private getAllowedReturnUrl(returnTo?: string): string {
+        if (!returnTo) {
+            return '';
+        }
+
+        try {
+            const url = new URL(returnTo);
+            const host = url.hostname.toLowerCase();
+            if ((url.protocol === 'https:' || url.protocol === 'http:') &&
+                (host === 'localhost' ||
+                    host === '127.0.0.1' ||
+                    host === 'w3booster.com' ||
+                    host.endsWith('.w3booster.com'))) {
+                return url.toString();
+            }
+        } catch (e) {
+            return '';
+        }
+        return '';
     }
 }

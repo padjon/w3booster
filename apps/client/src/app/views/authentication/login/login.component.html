@@ -6,8 +6,8 @@
     <section class="login-panel" *ngIf="state == ELoginState.LOGIN_REQUIRED">
         <div class="login-panel__copy">
             <p class="bn-eyebrow bn-eyebrow--accent">Account</p>
-            <h1>Login with Twitch</h1>
-            <p>Use the same Twitch identity for desktop capture, browser settings, gifts, and public profile surfaces.</p>
+            <h1>{{connectProvider ? 'Connect ' + getProviderLabel(connectProvider) : 'Login with Twitch'}}</h1>
+            <p>{{connectProvider ? 'Connect this external account once so streamer features, gift lookup, and Pro access can follow the same W3Booster account.' : 'Use the same Twitch identity for desktop capture, browser settings, gifts, and public profile surfaces.'}}</p>
             <div *ngIf="loginError" class="login-error">{{loginError}}</div>
         </div>
 

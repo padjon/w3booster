@@ -20,11 +20,26 @@
         </article>
 
         <article class="bn-card">
+            <div class="bn-card__header"><h2 class="bn-card__title">Connected accounts</h2></div>
+            <div class="bn-card__body list">
+                <div *ngFor="let account of connectedAccounts" class="list-item">
+                    <b>{{account.displayName || account.login}}</b>
+                    <span>{{account.provider === 'twitch' ? 'Twitch' : 'Battle.net'}} · {{account.login || account.id}}</span>
+                </div>
+                <div *ngIf="!connectedAccounts.length" class="list-item">
+                    <b>No external accounts connected</b>
+                    <span>Connect Twitch once before using streamer gift lookup.</span>
+                </div>
+                <button class="bn-btn bn-btn--block" type="button" (click)="connect('twitch')"><i class="fa fa-twitch"></i> Connect Twitch</button>
+                <button class="bn-btn bn-btn--block" type="button" (click)="connect('battlenet')"><i class="fa fa-gamepad"></i> Connect Battle.net</button>
+            </div>
+        </article>
+
+        <article class="bn-card">
             <div class="bn-card__header"><h2 class="bn-card__title">Persona</h2></div>
             <div class="bn-card__body list">
                 <button class="bn-btn bn-btn--block" (click)="persona.setPersona('player')">Player</button>
                 <button class="bn-btn bn-btn--block" (click)="persona.setPersona('streamer')">Streamer</button>
-                <button class="bn-btn bn-btn--block" (click)="persona.setPersona('both')">Both</button>
             </div>
         </article>
 

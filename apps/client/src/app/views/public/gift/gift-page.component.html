@@ -16,7 +16,9 @@
     <aside class="public-panel">
       <label class="public-field">
         <span>Recipient Twitch handle</span>
-        <input class="bn-input" [(ngModel)]="handle" placeholder="twitch_handle">
+        <input class="bn-input" [(ngModel)]="handle" (blur)="lookupRecipient()" placeholder="twitch_handle">
+        <span *ngIf="recipient" class="bn-field__hint">Gift target: {{recipient.displayName || recipient.handle}}</span>
+        <span *ngIf="lookupMessage" class="bn-field__hint">{{lookupMessage}}</span>
       </label>
       <label class="public-field">
         <span>Duration</span>
@@ -27,12 +29,21 @@
         </select>
       </label>
       <label class="public-field">
+        <span>Your name</span>
+        <input class="bn-input" [(ngModel)]="senderName" placeholder="Optional">
+      </label>
+      <label class="public-field">
         <span>Message</span>
         <textarea class="bn-textarea" [(ngModel)]="message" placeholder="Optional note"></textarea>
       </label>
+      <div *ngIf="recipient" class="public-card" style="margin-bottom: 14px;">
+        <b>{{recipient.displayName || recipient.handle}}</b>
+        <span>{{recipient.isPro ? 'Pro is active' : 'Basic account'}}<ng-container *ngIf="recipient.planUntil"> · until {{recipient.planUntil | date}}</ng-container></span>
+      </div>
       <button type="button"
               class="bn-btn bn-btn--gold bn-btn--block"
               data-testid="gift-paypal"
+              [disabled]="loading"
               (click)="continueToPaypal()">
         <i class="fa fa-paypal"></i> Continue to PayPal
       </button>
@@ -40,6 +51,7 @@
               class="bn-btn bn-btn--block"
               style="margin-top: 10px;"
               data-testid="gift-stripe"
+              [disabled]="loading"
               (click)="continueToStripe()">
         <i class="fa fa-credit-card"></i> Continue with card
       </button>
@@ -52,7 +64,7 @@
 
   <section class="public-grid public-grid--3">
     <article class="public-card"><b>No account required</b><span>Sender checkout can stay public.</span></article>
-    <article class="public-card"><b>Recipient lookup</b><span>Backend lookup by Twitch handle lands later.</span></article>
-    <article class="public-card"><b>Inline conversion</b><span>Pro locks can deep-link directly to this page.</span></article>
+    <article class="public-card"><b>Recipient lookup</b><span>The Twitch handle must be connected to a W3Booster account once.</span></article>
+    <article class="public-card"><b>Shared Pro</b><span>Gifts extend the W3Booster account, so connected accounts use the same Pro plan.</span></article>
   </section>
 </main>

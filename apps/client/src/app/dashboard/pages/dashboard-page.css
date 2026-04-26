@@ -159,6 +159,13 @@
 .widget--right { right: 34px; top: 110px; width: 220px; }
 .widget--bottom { bottom: 28px; left: 34px; width: 320px; }
 
+.overlay-output-toggles {
+    align-items: flex-end;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
 .code-block {
     background: rgba(4, 9, 18, 0.72);
     border: 1px solid rgba(110, 158, 210, 0.22);
@@ -234,6 +241,11 @@
         align-items: flex-start;
         flex-direction: column;
         gap: 6px;
+    }
+
+    .overlay-output-toggles {
+        align-items: flex-start;
+        width: 100%;
     }
 
     .list-item b,

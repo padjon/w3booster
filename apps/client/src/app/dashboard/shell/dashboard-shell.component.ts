@@ -66,10 +66,10 @@ export class DashboardShellComponent implements OnInit, OnDestroy {
             return this.persona.isDev(this.state);
         }
         if (item.persona === 'player') {
-            return this.persona.isPlayer(this.state);
+            return !this.state?.persona || this.persona.isPlayer(this.state);
         }
         if (item.persona === 'streamer') {
-            return this.persona.isStreamer(this.state);
+            return !this.state?.persona || this.persona.isStreamer(this.state);
         }
         return true;
     }

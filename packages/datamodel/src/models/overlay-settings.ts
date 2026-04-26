@@ -23,6 +23,7 @@ export class OverlaySettings extends BaseModel {
     private _heroItemsEnabled: boolean;
     private _heroExpProgressEnabled: boolean;
     private _heroLevelEnabled: boolean;
+    private _browserSourceEnabled: boolean;
     private _ingameOverlayEnabled: boolean;
     private _researchesEnabled: boolean;
     private _researchesOfAttackAndArmorEnabled: boolean;
@@ -48,6 +49,7 @@ export class OverlaySettings extends BaseModel {
         this.heroItemsEnabled = true;
         this.heroExpProgressEnabled = true;
         this.heroLevelEnabled = true;
+        this.browserSourceEnabled = true;
         this.ingameOverlayEnabled = true;
         this.researchesEnabled = true;
         this.researchesOfAttackAndArmorEnabled = true;
@@ -132,12 +134,20 @@ export class OverlaySettings extends BaseModel {
         return this._ingameOverlayEnabled;
     }
 
+    public get browserSourceEnabled(): boolean {
+        return this._browserSourceEnabled;
+    }
+
     /**
      * Setter ingameOverlayEnabled
      * @param {boolean} value
      */
     public set ingameOverlayEnabled(value: boolean) {
         this._ingameOverlayEnabled = value;
+    }
+
+    public set browserSourceEnabled(value: boolean) {
+        this._browserSourceEnabled = value;
     }
 
     /**

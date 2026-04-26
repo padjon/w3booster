@@ -18,6 +18,10 @@ export class ShopOrder extends BaseModel {
     private _stripeCheckoutResponse: Object;
     private _stripeCancelledAt: Date;
     private _paidAt: Date;
+    private _giftRecipientHandle: string;
+    private _giftSenderName: string;
+    private _giftMessage: string;
+    private _giftProvider: 'paypal' | 'stripe';
 
     constructor() {
         super(ShopOrder.PARSE_CLASSNAME);
@@ -107,6 +111,22 @@ export class ShopOrder extends BaseModel {
         return this._paidAt;
     }
 
+    public get giftRecipientHandle(): string {
+        return this._giftRecipientHandle;
+    }
+
+    public get giftSenderName(): string {
+        return this._giftSenderName;
+    }
+
+    public get giftMessage(): string {
+        return this._giftMessage;
+    }
+
+    public get giftProvider(): 'paypal' | 'stripe' {
+        return this._giftProvider;
+    }
+
     /**
      * Setter product
      * @param {ShopItem} value
@@ -189,6 +209,22 @@ export class ShopOrder extends BaseModel {
      */
     public set paidAt(value: Date) {
         this._paidAt = value;
+    }
+
+    public set giftRecipientHandle(value: string) {
+        this._giftRecipientHandle = value;
+    }
+
+    public set giftSenderName(value: string) {
+        this._giftSenderName = value;
+    }
+
+    public set giftMessage(value: string) {
+        this._giftMessage = value;
+    }
+
+    public set giftProvider(value: 'paypal' | 'stripe') {
+        this._giftProvider = value;
     }
 
 }

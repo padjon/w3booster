@@ -210,6 +210,16 @@ export class AppComponent extends BaseComponent implements OnInit {
         return Math.floor(seconds / 60) + ':' + Math.floor(seconds % 60).toString().padStart(2, '0');
     }
 
+    public showOverlayShell() {
+        const settings = this.state?.serviceState?.settings;
+        if (!settings) {
+            return false;
+        }
+        return this.isIngameOverlay
+            ? settings.ingameOverlayEnabled !== false
+            : (settings as any).browserSourceEnabled !== false;
+    }
+
     public getHeroExperienceProgess(hero: IHeroState) {
         return (Math.sqrt(0.02 * hero.experience + 2.25) - 0.5) % 1;
     }

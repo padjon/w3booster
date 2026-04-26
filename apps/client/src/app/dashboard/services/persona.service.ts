@@ -3,20 +3,18 @@ import { BehaviorSubject, Observable } from 'rxjs';
 
 import { AuthenticationService } from 'app/data/services';
 
-export type Persona = 'player' | 'streamer' | 'both';
-export type PersonaFocus = 'player' | 'streamer';
+export type Persona = 'player' | 'streamer';
+export type PersonaChoice = Persona;
 
 export interface PersonaState {
-    persona: Persona | null;
+    persona: PersonaChoice | null;
     developer: boolean;
-    activeFocus?: PersonaFocus;
 }
 
 @Injectable()
 export class PersonaService {
     private readonly personaKey = 'w3b.persona.value';
     private readonly developerKey = 'w3b.persona.developer';
-    private readonly focusKey = 'w3b.persona.focus';
     private readonly userSettingsKey = 'uiPersona';
     private readonly developerSettingsKey = 'developer';
 
@@ -31,22 +29,21 @@ export class PersonaService {
     }
 
     public isPlayer(state = this.state): boolean {
-        return state.persona === 'player' || state.persona === 'both';
+        return state.persona === 'player';
     }
 
     public isStreamer(state = this.state): boolean {
-        return state.persona === 'streamer' || state.persona === 'both';
+        return state.persona === 'streamer';
     }
 
     public isDev(state = this.state): boolean {
         return state.developer === true;
     }
 
-    public setPersona(persona: Persona): void {
+    public setPersona(persona: PersonaChoice): void {
         const next: PersonaState = {
             ...this.state,
-            persona,
-            activeFocus: persona === 'both' ? (this.state.activeFocus || 'player') : undefined
+            persona
         };
         this.persist(next);
     }
@@ -55,18 +52,8 @@ export class PersonaService {
         this.persist({ ...this.state, developer });
     }
 
-    public setActiveFocus(activeFocus: PersonaFocus): void {
-        if (this.state.persona !== 'both') {
-            return;
-        }
-        this.persist({ ...this.state, activeFocus });
-    }
-
     public dashboardHome(state = this.state): string {
         if (state.persona === 'streamer') {
-            return '/dashboard/stream';
-        }
-        if (state.persona === 'both' && state.activeFocus === 'streamer') {
             return '/dashboard/stream';
         }
         return '/dashboard/practice';
@@ -76,7 +63,6 @@ export class PersonaService {
         const settings = this.readSettings();
         const settingsPersona = this.normalizePersona(settings[this.userSettingsKey]);
         const localPersona = this.normalizePersona(localStorage.getItem(this.personaKey));
-        const localFocus = this.normalizeFocus(localStorage.getItem(this.focusKey));
         const developerSetting = settings[this.developerSettingsKey];
         const localDeveloper = localStorage.getItem(this.developerKey);
 
@@ -84,17 +70,13 @@ export class PersonaService {
             persona: settingsPersona || localPersona,
             developer: developerSetting !== undefined
                 ? developerSetting === true
-                : localDeveloper === 'true',
-            activeFocus: localFocus || 'player'
+                : localDeveloper === 'true'
         };
     }
 
     private persist(state: PersonaState): void {
         localStorage.setItem(this.personaKey, state.persona || '');
         localStorage.setItem(this.developerKey, String(state.developer));
-        if (state.activeFocus) {
-            localStorage.setItem(this.focusKey, state.activeFocus);
-        }
 
         const user = this.authentication.getAuthenticatedUser();
         if (user) {
@@ -114,11 +96,13 @@ export class PersonaService {
         return user && user.settings ? user.settings : {};
     }
 
-    private normalizePersona(value: any): Persona | null {
-        return value === 'player' || value === 'streamer' || value === 'both' ? value : null;
-    }
-
-    private normalizeFocus(value: any): PersonaFocus | null {
-        return value === 'player' || value === 'streamer' ? value : null;
+    private normalizePersona(value: any): PersonaChoice | null {
+        if (value === 'player' || value === 'streamer') {
+            return value;
+        }
+        if (value === 'both') {
+            return localStorage.getItem('w3b.persona.focus') === 'streamer' ? 'streamer' : 'player';
+        }
+        return null;
     }
 }

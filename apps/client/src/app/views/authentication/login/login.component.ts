@@ -33,6 +33,7 @@ export class LoginComponent implements OnInit {
     public activeProvider: LoginProvider = 'twitch';
     public loginError = '';
     public isBrowserLogin = false;
+    public connectProvider: LoginProvider = null;
     private currentCheckIndex = 0;
     private checkCount = 0
 
@@ -41,6 +42,13 @@ export class LoginComponent implements OnInit {
 
     public ngOnInit() {
         this.isBrowserLogin = !this.nodeService.isAvailable();
+        const requestedConnectProvider = this.activatedRoute.snapshot.queryParamMap.get('connect') as LoginProvider;
+        this.connectProvider = requestedConnectProvider === 'twitch' || requestedConnectProvider === 'battlenet'
+            ? requestedConnectProvider
+            : (localStorage.getItem('W3B_CONNECT_PROVIDER') as LoginProvider);
+        if (this.connectProvider) {
+            localStorage.setItem('W3B_CONNECT_PROVIDER', this.connectProvider);
+        }
         this.runState();
     }
 
@@ -75,6 +83,29 @@ export class LoginComponent implements OnInit {
             this.oauthRedirectTo = environment.REST_URL + "twitch-auth/register"
             this.oauthClientId = (this.oauthRedirectTo.indexOf('localhost') >= 0) ? 'p3optsh4af4qzs28v0xce54faocoqt' : 'sw2dpxriowzfaqcczg5d8ss3ymz1nu';
         } else {
+            if (this.connectProvider && Parse.User.current()) {
+                if (session.provider !== this.connectProvider) {
+                    this.clearStoredAuthSession(session.provider);
+                    await this.continueLoginState();
+                    return;
+                }
+
+                this.state = ELoginState.LOGGING_IN;
+                try {
+                    await this.userService.connectExternalAccount(session.provider, session.id, session.accessToken);
+                    localStorage.removeItem('W3B_CONNECT_PROVIDER');
+                    this.connectProvider = null;
+                    this.state = ELoginState.LOGGED_IN;
+                    this.router.navigateByUrl('/dashboard/account');
+                    return;
+                } catch (e) {
+                    this.clearStoredAuthSession(session.provider);
+                    this.state = ELoginState.LOGIN_REQUIRED;
+                    this.loginError = this.getProviderLabel(session.provider) + ' could not be connected. It may already belong to another W3Booster account.';
+                    return;
+                }
+            }
+
             if (!Parse.User.current()) {
                 this.state = ELoginState.LOGGING_IN;
                 try {
@@ -106,6 +137,10 @@ export class LoginComponent implements OnInit {
 
     private openLoginInExternalBrowser(provider: LoginProvider) {
         this.activeProvider = provider;
+        if (this.connectProvider && this.connectProvider !== provider) {
+            this.connectProvider = provider;
+            localStorage.setItem('W3B_CONNECT_PROVIDER', provider);
+        }
         if (!this.canStartTwitchLogin()) {
             return;
         }
@@ -204,7 +239,7 @@ export class LoginComponent implements OnInit {
         const payload = JSON.stringify({
             id: this.createAuthId(),
             mode: 'browser',
-            returnTo: window.location.origin + '/login'
+            returnTo: window.location.origin + '/login' + (this.connectProvider ? '?connect=' + this.connectProvider : '')
         });
         return 'w3b:' + btoa(payload).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
     }
@@ -225,11 +260,21 @@ export class LoginComponent implements OnInit {
         return null;
     }
 
+    private clearStoredAuthSession(provider: LoginProvider) {
+        if (provider === 'twitch') {
+            localStorage.removeItem('TWITCH_ACCESS_TOKEN');
+            localStorage.removeItem('TWITCH_ID');
+        } else {
+            localStorage.removeItem('BATTLENET_ACCESS_TOKEN');
+            localStorage.removeItem('BATTLENET_ID');
+        }
+    }
+
     private getAuthStatePath(provider: LoginProvider) {
         return provider === 'twitch' ? 'twitch-auth/state/' : 'battlenet-auth/state/';
     }
 
-    private getProviderLabel(provider: LoginProvider) {
+    public getProviderLabel(provider: LoginProvider) {
         return provider === 'twitch' ? 'Twitch' : 'Battle.net';
     }
 }

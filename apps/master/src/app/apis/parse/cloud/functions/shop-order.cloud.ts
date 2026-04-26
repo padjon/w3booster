@@ -4,6 +4,13 @@ import { ShopItemService, ShopOrderService } from 'app/data/modelservices';
 import { ShopItem, User, ShopOrder, EUserPlan } from 'app/data/models';
 import { appConfig } from 'app/config';
 
+export interface GiftOrderDetails {
+    recipientHandle: string;
+    senderName?: string;
+    message?: string;
+    provider: 'paypal' | 'stripe';
+}
+
 export class ShopOrderCloud extends BaseCloud {
     private shopItemService = ServiceManager.get(ShopItemService);
     private shopOrderService = ServiceManager.get(ShopOrderService);
@@ -42,6 +49,43 @@ export class ShopOrderCloud extends BaseCloud {
         }
     }
 
+    public static async createGiftPayPalOrderCore(
+        shopItemService: ShopItemService,
+        paypalService: PaypalService,
+        recipient: User,
+        itemId: string,
+        state: string,
+        gift: GiftOrderDetails,
+        returnTo?: string
+    ) {
+        if (!recipient || !itemId || !state) {
+            throw new Error('Missing gift order parameters.');
+        }
+
+        const item = await shopItemService.getById(itemId);
+        if (!item || !item.active) {
+            throw new Error('Shop item is not available.');
+        }
+
+        const returnUrl = this.getAllowedReturnUrl(returnTo) || '';
+        const returnParam = returnUrl ? '&returnTo=' + encodeURIComponent(returnUrl) : '';
+        const payment = await paypalService.createPayment(
+            recipient,
+            item,
+            appConfig.SERVER_URL + '/paypal/return?state=' + encodeURIComponent(state) + returnParam,
+            appConfig.SERVER_URL + '/paypal/cancel?state=' + encodeURIComponent(state) + returnParam
+        );
+        const order = new ShopOrder();
+        order.paypalPaymentId = payment.id;
+        order.paypalState = state;
+        order.user = recipient;
+        order.shopItem = item;
+        order.paypalPaymentRequest = payment;
+        this.applyGiftDetails(order, gift);
+        await order.save();
+        return payment.links.find(link => link.rel == 'approval_url').href;
+    }
+
     public static async confirmOrderCore(
         shopOrderService: ShopOrderService,
         paypalService: PaypalService,
@@ -74,15 +118,7 @@ export class ShopOrderCloud extends BaseCloud {
             }
             await order.save();
             if (response.state == 'approved') {
-                let newPlanUntil = order.user.planUntil;
-                if (!newPlanUntil || newPlanUntil < new Date()) {
-                    newPlanUntil = new Date();
-                }
-                newPlanUntil.setDate(newPlanUntil.getDate() + order.shopItem.days);
-                order.user.plan = EUserPlan.PRO;
-                order.user.planUntil = newPlanUntil;
-                order.user.save();
-                return order.user.planUntil;
+                return this.applyPlan(order);
             } else {
                 throw new Parse.Error(100, 'The transaction was not successfully completed. Please contact our support if this was unintended.');
             }
@@ -131,6 +167,51 @@ export class ShopOrderCloud extends BaseCloud {
         return checkout.url;
     }
 
+    public static async createGiftStripeCheckoutCore(
+        shopItemService: ShopItemService,
+        stripeService: StripeService,
+        recipient: User,
+        itemId: string,
+        state: string,
+        gift: GiftOrderDetails,
+        returnTo?: string
+    ) {
+        if (!recipient || !itemId || !state) {
+            throw new Error('Missing gift checkout parameters.');
+        }
+
+        const item = await shopItemService.getById(itemId);
+        if (!item || !item.active) {
+            throw new Error('Shop item is not available.');
+        }
+
+        const returnUrl = this.getAllowedReturnUrl(returnTo) || '';
+        const returnParam = returnUrl ? '&returnTo=' + encodeURIComponent(returnUrl) : '';
+        const successUrl = appConfig.SERVER_URL + '/stripe/return?state=' + encodeURIComponent(state) +
+            '&session_id={CHECKOUT_SESSION_ID}' + returnParam;
+        const cancelUrl = appConfig.SERVER_URL + '/stripe/cancel?state=' + encodeURIComponent(state) + returnParam;
+        const checkout = await stripeService.createCheckoutSession(recipient, item, state, successUrl, cancelUrl);
+        if (!checkout?.id || !checkout?.url) {
+            throw new Error(checkout?.error?.message || 'Stripe checkout session could not be created.');
+        }
+
+        const order = new ShopOrder();
+        order.stripeSessionId = checkout.id;
+        order.stripeState = state;
+        order.user = recipient;
+        order.shopItem = item;
+        order.stripeCheckoutRequest = {
+            state,
+            returnTo: returnUrl,
+            itemId,
+            gift
+        };
+        order.stripeCheckoutResponse = checkout;
+        this.applyGiftDetails(order, gift);
+        await order.save();
+        return checkout.url;
+    }
+
     public static async confirmStripeCheckoutCore(
         shopOrderService: ShopOrderService,
         stripeService: StripeService,
@@ -171,8 +252,32 @@ export class ShopOrderCloud extends BaseCloud {
         newPlanUntil.setDate(newPlanUntil.getDate() + order.shopItem.days);
         order.user.plan = EUserPlan.PRO;
         order.user.planUntil = newPlanUntil;
+        if (order.giftProvider) {
+            const receivedGifts = (order.user.receivedGifts || []).filter(gift => gift.orderId !== order.id);
+            receivedGifts.unshift({
+                orderId: order.id,
+                days: order.shopItem.days,
+                sender: order.giftSenderName || 'A viewer',
+                message: order.giftMessage || '',
+                provider: order.giftProvider,
+                handle: order.giftRecipientHandle,
+                paidAt: (order.paidAt || new Date()).toISOString()
+            });
+            order.user.receivedGifts = receivedGifts.slice(0, 25);
+        }
         await order.user.save();
         return order.user.planUntil;
+    }
+
+    private static applyGiftDetails(order: ShopOrder, gift: GiftOrderDetails) {
+        order.giftProvider = gift.provider;
+        order.giftRecipientHandle = gift.recipientHandle;
+        order.giftSenderName = this.cleanGiftText(gift.senderName, 80) || 'A viewer';
+        order.giftMessage = this.cleanGiftText(gift.message, 240);
+    }
+
+    private static cleanGiftText(value: string, maxLength: number) {
+        return String(value || '').replace(/\s+/g, ' ').trim().slice(0, maxLength);
     }
 
     private static getAllowedReturnUrl(returnTo?: string): string {

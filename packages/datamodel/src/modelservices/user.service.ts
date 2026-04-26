@@ -62,4 +62,8 @@ export class UserService extends BaseModelService<User> {
     public disconnectDiscord(): Promise<string> {
         return this.runCloudMethod('UserCloud.disconnectDiscord', [...Array.from(arguments)]);
     }
+
+    public connectExternalAccount(provider: 'twitch' | 'battlenet', id: string, accessToken: string): Promise<any> {
+        return this.runCloudMethod('UserCloud.connectExternalAccount', [...Array.from(arguments)]);
+    }
 }

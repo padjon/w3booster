@@ -99,4 +99,38 @@ test.describe('public web surfaces', () => {
     await expect(page.getByRole('heading', { name: 'Thank you!' })).toBeVisible();
     await expect(page.getByText(/Your Pro Plan is now active until/i)).toBeVisible();
   });
+
+  test('gift page resolves a connected Twitch handle and starts backend Stripe checkout', async ({ page }) => {
+    await mockApprovedStripe(page);
+    await page.route('**/gift/lookup/E2EStreamer', async route => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          id: 'recipient-1',
+          handle: 'e2estreamer',
+          displayName: 'E2EStreamer',
+          isPro: false
+        })
+      });
+    });
+    await page.route('**/gift/stripe', async route => {
+      const payload = route.request().postDataJSON();
+      expect(payload.handle).toBe('E2EStreamer');
+      expect(payload.duration).toBe(30);
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          state: 'gift-stripe-e2e',
+          checkoutUrl: new URL('/payment', page.url()).toString()
+        })
+      });
+    });
+
+    await page.goto('/gift/E2EStreamer');
+    await expect(page.getByText(/Gift target: E2EStreamer/i)).toBeVisible();
+    await page.getByTestId('gift-stripe').click();
+    await expect(page.getByRole('heading', { name: 'Thank you!' })).toBeVisible();
+  });
 });
