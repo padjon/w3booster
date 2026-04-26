@@ -1,37 +1,69 @@
-<div *ngIf="processing">
-    <div style="position: absolute; left: 0px; right:0px; top: 200px; bottom: 0px; text-align:center">
-
-        <h1 class="text-center">Payment-Processing, please wait...</h1>
-        <br /><br />
-        We are currently waiting for your payment's confirmation by PayPal.<br />
-        This usually takes between a few seconds and up to five minutes.
-        <br /><br /><br /><br /><br /><br />
-
-        <div class="loading-spinner"></div>
+<main class="landing-shell">
+  <nav class="landing-nav">
+    <a class="brand" routerLink="/web" aria-label="W3Booster home">
+      <img src="assets/images/logo.png" alt="W3Booster" />
+    </a>
+    <div class="nav-actions">
+      <a routerLink="/login">Login</a>
+      <a class="download-small" [href]="downloadUrl">Download client</a>
     </div>
-</div>
+  </nav>
 
-<div *ngIf="!processing && error">
-    <div style="position: absolute; left: 0px; right:0px; top: 200px; bottom: 0px; text-align:center">
-
-        <h1 class="text-center" style="color:darkred">Error in Payment-Process</h1>
-        <br /><br />
-        An error occoured while processing your payment.<br /> <br>
-        Error Details: {{error}}<br />
-        Please contact the W3Booster support via Discord or mail (pad&#64;w3booster.com) for further help.
-        <br /><br /><br /><br />
-        <button (click)="continue()" class="btn btn-primary">Continue to W3Booster</button>
+  <section class="hero-panel">
+    <div class="hero-copy">
+      <p class="eyebrow">Warcraft III streaming command center</p>
+      <h1>One W3Booster. Desktop power. Web access.</h1>
+      <p class="hero-text">
+        W3Booster is becoming both the Electron client for local Warcraft III integration
+        and a browser-accessible control surface for account, stream, overlay, and match features.
+      </p>
+      <div class="hero-actions">
+        <a class="primary-action" [href]="downloadUrl">Download Windows client</a>
+        <a class="secondary-action" routerLink="/login">Login in browser</a>
+      </div>
+      <p class="compat-note">
+        Browser mode keeps local w3blib features disabled. Recorder injection, game attachment,
+        and native overlay window controls stay inside the desktop client.
+      </p>
     </div>
-</div>
 
-<div *ngIf="!processing && !error">
-    <div style="position: absolute; left: 0px; right:0px; top: 200px; bottom: 0px; text-align:center">
+    <aside class="status-card" aria-label="Preview feature status">
+      <div class="status-header">
+        <span class="pulse"></span>
+        Preview web client
+      </div>
+      <div class="status-grid">
+        <div>
+          <strong>Account</strong>
+          <span>Twitch login and profile access</span>
+        </div>
+        <div>
+          <strong>Streaming</strong>
+          <span>Overlay settings and online configuration</span>
+        </div>
+        <div>
+          <strong>Desktop</strong>
+          <span>Native Warcraft III integration via app</span>
+        </div>
+      </div>
+    </aside>
+  </section>
 
-        <h1 class="text-center">Thank you!</h1>
-        <br /><br />
-        <b>Your Pro Plan is now active until : {{newDate}}</b><br />
-        Thank you for using W3Booster. Enjoy your brand new <span class="plan-badge-1">&nbsp;</span> account!
-        <br /><br /><br /><br /><br /><br />
-        <button (click)="continue()" class="btn btn-success">Continue to W3Booster</button>
-    </div>
-</div>
+  <section class="feature-strip">
+    <article>
+      <span>01</span>
+      <h2>Use the web when you can</h2>
+      <p>Manage your W3Booster account and remote-capable streaming setup from the browser.</p>
+    </article>
+    <article>
+      <span>02</span>
+      <h2>Use desktop when you must</h2>
+      <p>Anything backed by w3blib stays protected behind Electron-only checks.</p>
+    </article>
+    <article>
+      <span>03</span>
+      <h2>One deployment target</h2>
+      <p>The same client image now serves the preview website and the Electron UI shell.</p>
+    </article>
+  </section>
+</main>

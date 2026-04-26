@@ -2,16 +2,16 @@
 <div *ngIf="state == ELoginState.LOGIN_REQUIRED">
     <div
         style="width:406px; height: 100px; position: absolute; margin-top:-140px; top: 50%; left: 50%; margin-left: -200px; text-align:justify">
-        <h2>Login (via external Browser)</h2>
+        <h2>Login with Twitch</h2>
         <br/>
-        W3Booster uses Twitch for authentication. By clicking the following button, the authentication opens in your default browser. Switch back to W3Booster after authentication. <br/>
+        W3Booster uses Twitch for authentication. In the desktop client this opens your default browser. In the web client this page redirects to Twitch and continues automatically after authentication. <br/>
         <br/>
         <a style="background-color: #6441a4; display:inline-block;"
         (click)="openTwitchLoginInExternalBrowser()">
             <img src="assets/images/twitch-ico.png" style="width:24px; margin: 6px 10px;">
             <div
                 style="display:inline-block; width: 360px; line-height: 40px; text-align:center; color:#fff; border-left: 1px solid rgba(255,255,255,0.5)">
-                Login with Twitch (opens Browser) </div>
+                Login with Twitch </div>
         </a>
     </div>
 </div>

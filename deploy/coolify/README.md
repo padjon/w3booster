@@ -6,11 +6,15 @@ It uses GHCR images and intentionally avoids the production ports `14969` and
 
 ## Preview Ports
 
-- Client web UI: `http://devsheep.de:15420`
-- Parse/master HTTPS API: `https://devsheep.de:15469`
-- Overlay websocket: `wss://devsheep.de:15470`
-- Overlay web UI: `http://devsheep.de:15480`
-- Parse Dashboard: `http://devsheep.de:15440`
+- Public client web UI: `https://preview.w3booster.com`
+- Local-only client upstream: `http://127.0.0.1:15420`
+- Local-only Parse/master HTTPS API: `https://127.0.0.1:15469`
+- Local-only overlay websocket: `wss://127.0.0.1:15470`
+- Local-only overlay web UI: `http://127.0.0.1:15480`
+- Local-only Parse Dashboard: `http://127.0.0.1:15440`
+
+All published container ports must bind to `127.0.0.1`; Apache is the only
+public entry point.
 
 ## Coolify
 
@@ -21,9 +25,14 @@ Configured resource:
 - Service: `w3booster-preview`
 - Service UUID: `nksokwkks4w8g48ogokcskgg`
 
-The service is configured but not deployed. Deploy only after the GHCR images
-exist for `ghcr.io/padjon/w3booster-{client,master,overlay}:main` or after
-changing `W3BOOSTER_IMAGE_TAG` to an available tag.
+The service pulls `ghcr.io/padjon/w3booster-{client,master,overlay}:main`.
+The `Docker Images` GitHub Actions workflow restarts this Coolify service after
+new `main` images are pushed.
+
+Required GitHub secrets:
+
+- `COOLIFY_PREVIEW_RESTART_URL`
+- `COOLIFY_TOKEN`
 
 Dashboard credentials are stored as Coolify environment variables. The generated
 dashboard password is also on the server at

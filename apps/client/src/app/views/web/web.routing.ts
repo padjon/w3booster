@@ -5,14 +5,14 @@ export const WebRoutes: Routes = [
   {
     path: '',
     data: {
-      title: 'Welcome to W3Booster | '
+      title: 'W3Booster Preview'
     },
     children: [
       {
         path: '',
         component: WelcomeComponent,
         data: {
-          title: 'Welcome to W3Booster | '
+          title: 'W3Booster Preview'
         }
       }
     ]

@@ -35,11 +35,7 @@ export class LoginComponent implements OnInit {
     }
 
     public ngOnInit() {
-        if (this.nodeService.isAvailable()) {
-            this.runState();
-        } else {
-            this.state = ELoginState.LOGIN_DISABLED;
-        }
+        this.runState();
     }
 
     private async runState() {
@@ -79,8 +75,12 @@ export class LoginComponent implements OnInit {
     }
 
     public openTwitchLoginInExternalBrowser() {
-        
-        this.nodeService.remote.shell.openExternal("https://id.twitch.tv/oauth2/authorize?client_id=" + this.oauthClientId + "&redirect_uri=" + this.oauthRedirectTo + "&response_type=code&scope=openid user:read:broadcast user:read:email&force_verify=true&state=" + this.runningAuthStateID);
+        const loginUrl = "https://id.twitch.tv/oauth2/authorize?client_id=" + this.oauthClientId + "&redirect_uri=" + this.oauthRedirectTo + "&response_type=code&scope=openid user:read:broadcast user:read:email&force_verify=true&state=" + this.runningAuthStateID;
+        if (this.nodeService.isAvailable()) {
+            this.nodeService.remote.shell.openExternal(loginUrl);
+        } else {
+            window.open(loginUrl, '_self');
+        }
         this.state = ELoginState.WAITING_FOR_CONFIRMATION;
         this.checkCount = 0;
         this.checkForResult(++this.currentCheckIndex);

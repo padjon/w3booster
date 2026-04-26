@@ -11,7 +11,7 @@ export const AppRoutes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: '/dashboard',
+        redirectTo: '/web',
         pathMatch: 'full',
         data: {
           requiresAuthentication: false
