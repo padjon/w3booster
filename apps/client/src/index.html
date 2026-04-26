@@ -23,14 +23,120 @@
 circle-progress text{
   transform: translate(2px,4px);
   }
+
+  .boot-landing {
+    background:
+      radial-gradient(circle at 18% 14%, rgba(48, 119, 187, 0.42), transparent 28rem),
+      radial-gradient(circle at 85% 18%, rgba(17, 201, 214, 0.18), transparent 30rem),
+      linear-gradient(135deg, #07101c 0%, #0c1727 48%, #05070c 100%);
+    color: #edf6ff;
+    font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+    min-height: 100vh;
+    overflow: hidden;
+    padding: 64px 28px;
+  }
+
+  .boot-landing__inner {
+    background: linear-gradient(135deg, rgba(13, 31, 52, 0.92), rgba(5, 9, 17, 0.94));
+    border: 1px solid rgba(128, 188, 255, 0.28);
+    box-shadow: 0 32px 90px rgba(0, 0, 0, 0.42);
+    margin: 0 auto;
+    max-width: 1180px;
+    min-height: 520px;
+    padding: 56px;
+  }
+
+  .boot-landing__logo {
+    display: block;
+    margin-bottom: 72px;
+    width: 168px;
+  }
+
+  .boot-landing__eyebrow {
+    color: #62c8ff;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    margin-bottom: 18px;
+    text-transform: uppercase;
+  }
+
+  .boot-landing h1 {
+    color: #ffffff;
+    font-size: clamp(42px, 6vw, 78px);
+    font-weight: 800;
+    letter-spacing: -0.055em;
+    line-height: 0.92;
+    margin: 0 0 24px;
+    max-width: 760px;
+  }
+
+  .boot-landing p {
+    color: #c6d9ef;
+    font-size: 18px;
+    line-height: 1.7;
+    margin: 0 0 32px;
+    max-width: 660px;
+  }
+
+  .boot-landing__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .boot-landing__actions a {
+    border-radius: 4px;
+    color: #fff;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    padding: 15px 22px;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .boot-landing__primary {
+    background: linear-gradient(180deg, #27a8ff, #0864c8);
+    box-shadow: 0 16px 28px rgba(4, 89, 177, 0.38);
+  }
+
+  .boot-landing__secondary {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(143, 202, 255, 0.35);
+  }
+
+  @media (max-width: 860px) {
+    .boot-landing {
+      padding: 18px;
+    }
+
+    .boot-landing__inner {
+      padding: 32px 22px;
+    }
+  }
   </style>
 <body>
   <noscript>
     <p>This page requires JavaScript to work properly. Please enable JavaScript in your browser.</p>
   </noscript>
-  <app-root></app-root>
+  <app-root>
+    <main class="boot-landing">
+      <section class="boot-landing__inner">
+        <img class="boot-landing__logo" src="assets/images/logo.png" alt="W3Booster" />
+        <div class="boot-landing__eyebrow">Warcraft III streaming command center</div>
+        <h1>One W3Booster. Desktop power. Web access.</h1>
+        <p>
+          W3Booster is loading the web client. If your browser keeps showing this screen,
+          refresh once to replace an older cached build.
+        </p>
+        <div class="boot-landing__actions">
+          <a class="boot-landing__primary" href="https://w3booster.com/w3booster.msi">Download Windows client</a>
+          <a class="boot-landing__secondary" href="/login">Login in browser</a>
+        </div>
+      </section>
+    </main>
+  </app-root>
 
-  </div>
 </body>
 
 </html>

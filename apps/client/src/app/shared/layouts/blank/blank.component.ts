@@ -9,9 +9,10 @@ import { NodeService } from '@app/data/services';
 })
 export class BlankComponent {
   public version = environment.version;
+  public isNativeShell: boolean;
 
   constructor(private node: NodeService) {
-
+    this.isNativeShell = this.node.isAvailable();
   }
 
   public closeWindow() {

@@ -8,7 +8,8 @@ It uses GHCR images and intentionally avoids the production ports `14969` and
 
 - Public client web UI: `https://preview.w3booster.com`
 - Local-only client upstream: `http://127.0.0.1:15420`
-- Local-only Parse/master HTTPS API: `https://127.0.0.1:15469`
+- Public Parse/master API via Apache: `https://api.preview.w3booster.com`
+- Local-only Parse/master container bind: `https://127.0.0.1:15469`
 - Local-only overlay websocket: `wss://127.0.0.1:15470`
 - Local-only overlay web UI: `http://127.0.0.1:15480`
 - Local-only Parse Dashboard: `http://127.0.0.1:15440`
