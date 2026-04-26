@@ -1,0 +1,130 @@
+// W3Booster Design Mixins — composable visual recipes.
+@use 'sass:color';
+@use 'tokens' as *;
+
+// Etched panel: dark navy fill, hairline border, subtle inner top highlight.
+// Use for cards, tiles, and any raised surface.
+@mixin bn-panel($bg: $bg-panel, $border: $border-soft) {
+  background: $bg;
+  border: 1px solid $border;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), $shadow-1;
+}
+
+// Glow border that pulses on hover/focus.
+@mixin bn-interactive-border {
+  transition: border-color $dur-base $ease-out, box-shadow $dur-base $ease-out,
+              background-color $dur-base $ease-out, transform $dur-base $ease-out;
+
+  &:hover,
+  &:focus-visible {
+    border-color: $border-strong;
+    box-shadow: $shadow-glow;
+  }
+}
+
+// Diagonal cut-corner effect using clip-path. BNet uses these on hero CTAs.
+@mixin bn-cut-corners($size: 10px, $corners: top-right bottom-left) {
+  $tl: 0; $tr: 0; $br: 0; $bl: 0;
+  @each $c in $corners {
+    @if $c == top-left     { $tl: $size; }
+    @if $c == top-right    { $tr: $size; }
+    @if $c == bottom-right { $br: $size; }
+    @if $c == bottom-left  { $bl: $size; }
+  }
+  clip-path: polygon(
+    #{$tl} 0,
+    calc(100% - #{$tr}) 0, 100% #{$tr},
+    100% calc(100% - #{$br}), calc(100% - #{$br}) 100%,
+    #{$bl} 100%, 0 calc(100% - #{$bl}),
+    0 #{$tl}
+  );
+}
+
+// Eyebrow (tiny uppercased label). Used for section headers and tags.
+@mixin bn-eyebrow($color: $text-muted) {
+  color: $color;
+  font-family: $font-display;
+  font-size: $fs-12;
+  font-weight: $fw-bold;
+  letter-spacing: $ls-eyebrow;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+// Display heading.
+@mixin bn-display($size: $fs-48) {
+  color: $text-on-accent;
+  font-family: $font-display;
+  font-size: $size;
+  font-weight: $fw-black;
+  line-height: $lh-tight;
+  letter-spacing: $ls-display;
+  margin: 0;
+}
+
+// Glass overlay (frosted dark sheet for modals & dropdowns).
+@mixin bn-glass {
+  background: linear-gradient(180deg, rgba(15, 34, 54, 0.92), rgba(8, 17, 31, 0.96));
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid $border-strong;
+  box-shadow: $shadow-3;
+}
+
+// Diagonal sheen, animated on hover. Subtle, premium-feeling motion.
+@mixin bn-sheen {
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      120deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.08) 50%,
+      transparent 70%
+    );
+    transform: translateX(-100%);
+    transition: transform $dur-slow $ease-out;
+    pointer-events: none;
+  }
+
+  &:hover::after {
+    transform: translateX(100%);
+  }
+}
+
+// Fancy scrollbar matching the dark theme.
+@mixin bn-scrollbar {
+  &::-webkit-scrollbar { width: 8px; height: 8px; }
+  &::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.25); }
+  &::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #1b3556, #0a5ba4);
+    border-radius: $radius-pill;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #234262, #2196f3);
+  }
+}
+
+// Visually hide while keeping accessible.
+@mixin bn-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// Focus ring that matches the system.
+@mixin bn-focus-ring {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.35),
+              0 0 0 4px rgba(15, 34, 54, 0.9);
+}

@@ -1,0 +1,16 @@
+<div *ngIf="!state?.persona" class="persona-picker">
+    <div class="persona-picker__dialog">
+        <p class="bn-eyebrow bn-eyebrow--accent">First run</p>
+        <h2>Choose your command center</h2>
+        <div class="persona-picker__grid">
+            <button *ngFor="let option of options"
+                    type="button"
+                    class="persona-picker__option"
+                    (click)="choose(option.persona)">
+                <i [class]="option.icon"></i>
+                <strong>{{option.title}}</strong>
+                <span>{{option.body}}</span>
+            </button>
+        </div>
+    </div>
+</div>

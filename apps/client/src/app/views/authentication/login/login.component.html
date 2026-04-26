@@ -1,56 +1,45 @@
-<br /><br /><br /><br /><br /><br /><br /><br />
-<div *ngIf="state == ELoginState.LOGIN_REQUIRED">
-    <div
-        style="width:406px; height: 100px; position: absolute; margin-top:-140px; top: 50%; left: 50%; margin-left: -200px; text-align:justify">
-        <h2>Login with Twitch</h2>
-        <br/>
-        W3Booster uses Twitch for authentication. In the desktop client this opens your default browser. In the web client you will return here automatically and continue into the app. <br/>
-        <div *ngIf="loginError" class="login-error">{{loginError}}</div>
-        <br/>
-        <a style="background-color: #6441a4; display:inline-block;"
-        (click)="openTwitchLoginInExternalBrowser()">
-            <img src="assets/images/twitch-ico.png" style="width:24px; margin: 6px 10px;">
-            <div
-                style="display:inline-block; width: 360px; line-height: 40px; text-align:center; color:#fff; border-left: 1px solid rgba(255,255,255,0.5)">
-                Login with Twitch </div>
-        </a>
-    </div>
-</div>
+<main class="login-shell">
+    <a class="login-brand" routerLink="/web">
+        <img src="assets/images/logo.png" alt="W3Booster">
+    </a>
 
-<div *ngIf="state == ELoginState.WAITING_FOR_CONFIRMATION">
-    <div
-        style="width:406px; height: 100px; position: absolute; margin-top:-140px; top: 50%; left: 50%; margin-left: -200px; text-align:justify">
-        <h2>Waiting...</h2>
-        <br/>
-        Twitch authentication was opened in your browser. Please finish the authentication process there.
-        <br/><br/>
-        Problems? 
-        <a style="color: #6441a4; display:inline-block;"
-        (click)="openTwitchLoginInExternalBrowser()">
-                Open the Twitch login again in your default browser.
-        </a>
-    </div>
-</div>
-
-<div *ngIf="state == ELoginState.LOGGED_IN">
-    Logged in!
-</div>
-
-
-<div *ngIf="state == ELoginState.LOGGING_IN">
-    <div
-        style="width:100px; height: 100px; position: absolute; margin-top:-50px; top: 50%; left: 50%; margin-left: -50px; text-align:center">
-        <div class="lds-ring">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
+    <section class="login-panel" *ngIf="state == ELoginState.LOGIN_REQUIRED">
+        <div class="login-panel__copy">
+            <p class="bn-eyebrow bn-eyebrow--accent">Account</p>
+            <h1>Login with Twitch</h1>
+            <p>Use the same Twitch identity for desktop capture, browser settings, gifts, and public profile surfaces.</p>
+            <div *ngIf="loginError" class="login-error">{{loginError}}</div>
         </div>
-        <br />
-        Logging in...
-    </div>
-</div>
 
-<div *ngIf="state == ELoginState.LOGIN_DISABLED">
-    Login is not allowed
-</div>
+        <button type="button" class="twitch-button" (click)="openTwitchLoginInExternalBrowser()">
+            <img src="assets/images/twitch-ico.png" alt="">
+            <span>Continue with Twitch</span>
+        </button>
+
+        <div class="login-links">
+            <a routerLink="/gift">Gift Pro</a>
+            <a routerLink="/developers">Developers</a>
+            <a routerLink="/web">W3Booster home</a>
+        </div>
+    </section>
+
+    <section class="login-panel" *ngIf="state == ELoginState.WAITING_FOR_CONFIRMATION">
+        <p class="bn-eyebrow bn-eyebrow--accent">Waiting</p>
+        <h1>Finish Twitch login</h1>
+        <p>Twitch authentication is open in your browser. This window will continue once the session is confirmed.</p>
+        <button type="button" class="bn-btn bn-btn--primary" (click)="openTwitchLoginInExternalBrowser()">Open Twitch again</button>
+    </section>
+
+    <section class="login-panel login-panel--center" *ngIf="state == ELoginState.LOGGING_IN">
+        <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+        <h1>Logging in</h1>
+    </section>
+
+    <section class="login-panel login-panel--center" *ngIf="state == ELoginState.LOGGED_IN">
+        <h1>Logged in</h1>
+    </section>
+
+    <section class="login-panel login-panel--center" *ngIf="state == ELoginState.LOGIN_DISABLED">
+        <h1>Login is not allowed</h1>
+    </section>
+</main>

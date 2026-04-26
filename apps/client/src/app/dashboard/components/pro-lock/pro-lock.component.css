@@ -1,0 +1,30 @@
+.pro-lock {
+    min-height: 100%;
+    position: relative;
+}
+
+.pro-lock.is-locked > :not(.pro-lock__veil) {
+    filter: saturate(0.6);
+    opacity: 0.48;
+}
+
+.pro-lock__veil {
+    align-items: center;
+    background: rgba(4, 7, 13, 0.62);
+    border: 1px solid rgba(241, 163, 59, 0.45);
+    border-radius: 6px;
+    color: #fff;
+    display: flex;
+    gap: 10px;
+    inset: 12px;
+    justify-content: center;
+    padding: 12px;
+    position: absolute;
+    text-align: center;
+}
+
+.pro-lock__veil a {
+    color: #ffd166;
+    font-size: 12px;
+    font-weight: 700;
+}

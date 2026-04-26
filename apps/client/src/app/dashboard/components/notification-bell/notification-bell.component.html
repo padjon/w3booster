@@ -1,0 +1,28 @@
+<div class="notification">
+    <button type="button"
+            class="bn-icon-btn notification__button"
+            aria-label="Notifications"
+            (click)="open = !open">
+        <i class="fa fa-bell"></i>
+        <span *ngIf="unreadCount > 0" class="notification__count">{{unreadCount}}</span>
+    </button>
+
+    <div *ngIf="open" class="notification__panel">
+        <div class="notification__header">
+            <strong>Notifications</strong>
+            <span>{{unreadCount}} unread</span>
+        </div>
+        <a *ngFor="let item of notifications"
+           class="notification__item"
+           [class.is-unread]="!item.read"
+           [routerLink]="item.cta || '/dashboard/account'"
+           (click)="open = false">
+            <span class="notification__dot"></span>
+            <span>
+                <b>{{item.title}}</b>
+                <em>{{item.body}}</em>
+                <small>{{item.createdAt}}</small>
+            </span>
+        </a>
+    </div>
+</div>

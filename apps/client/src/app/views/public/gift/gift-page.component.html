@@ -1,0 +1,51 @@
+<main class="public-shell">
+  <nav class="public-nav">
+    <a routerLink="/web"><img src="assets/images/logo.png" alt="W3Booster"></a>
+    <div class="public-nav__links">
+      <a class="bn-btn bn-btn--ghost" routerLink="/web">Home</a>
+      <a class="bn-btn" routerLink="/login">Login</a>
+    </div>
+  </nav>
+
+  <section class="public-hero">
+    <div class="public-hero__copy">
+      <p class="bn-eyebrow bn-eyebrow--accent">Gift Pro</p>
+      <h1>Fund deeper live data for a Warcraft III creator.</h1>
+      <p>Gift Pro by Twitch handle. The recipient gets an in-app notification, a plan badge update, and a received-gifts entry on their account page.</p>
+    </div>
+    <aside class="public-panel">
+      <label class="public-field">
+        <span>Recipient Twitch handle</span>
+        <input class="bn-input" [(ngModel)]="handle" placeholder="twitch_handle">
+      </label>
+      <label class="public-field">
+        <span>Duration</span>
+        <select class="bn-select" [(ngModel)]="duration">
+          <option [ngValue]="30">30 days</option>
+          <option [ngValue]="60">60 days</option>
+          <option [ngValue]="90">90 days</option>
+        </select>
+      </label>
+      <label class="public-field">
+        <span>Message</span>
+        <textarea class="bn-textarea" [(ngModel)]="message" placeholder="Optional note"></textarea>
+      </label>
+      <button type="button"
+              class="bn-btn bn-btn--gold bn-btn--block"
+              data-testid="gift-paypal"
+              (click)="continueToPaypal()">
+        <i class="fa fa-paypal"></i> Continue to PayPal
+      </button>
+      <div *ngIf="checkoutMessage" class="bn-alert bn-alert--warn" style="margin-top: 12px;">
+        <i class="fa fa-info-circle"></i>
+        <span>{{checkoutMessage}}</span>
+      </div>
+    </aside>
+  </section>
+
+  <section class="public-grid public-grid--3">
+    <article class="public-card"><b>No account required</b><span>Sender checkout can stay public.</span></article>
+    <article class="public-card"><b>Recipient lookup</b><span>Backend lookup by Twitch handle lands later.</span></article>
+    <article class="public-card"><b>Inline conversion</b><span>Pro locks can deep-link directly to this page.</span></article>
+  </section>
+</main>

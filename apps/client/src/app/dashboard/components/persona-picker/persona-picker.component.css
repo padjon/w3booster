@@ -1,0 +1,70 @@
+.persona-picker {
+    align-items: center;
+    background: rgba(4, 7, 13, 0.78);
+    display: flex;
+    inset: 0;
+    justify-content: center;
+    padding: 24px;
+    position: fixed;
+    z-index: 100;
+}
+
+.persona-picker__dialog {
+    background: linear-gradient(180deg, rgba(15, 34, 54, 0.98), rgba(8, 17, 31, 0.98));
+    border: 1px solid rgba(110, 195, 255, 0.45);
+    border-radius: 8px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
+    max-width: 900px;
+    padding: 28px;
+    width: 100%;
+}
+
+.persona-picker__dialog h2 {
+    color: #fff;
+    font-size: 28px;
+    margin: 0 0 20px;
+}
+
+.persona-picker__grid {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.persona-picker__option {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(110, 158, 210, 0.22);
+    border-radius: 6px;
+    color: #c6d8f0;
+    cursor: pointer;
+    min-height: 180px;
+    padding: 18px;
+    text-align: left;
+}
+
+.persona-picker__option:hover {
+    background: rgba(33, 150, 243, 0.1);
+    border-color: rgba(110, 195, 255, 0.45);
+}
+
+.persona-picker__option i {
+    color: #6ec3ff;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.persona-picker__option strong,
+.persona-picker__option span {
+    display: block;
+}
+
+.persona-picker__option strong {
+    color: #fff;
+    font-size: 18px;
+}
+
+@media (max-width: 760px) {
+    .persona-picker__grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,209 @@
+@use '../../design/tokens' as *;
+@use '../../design/mixins' as *;
+
+:host {
+  display: block;
+  min-height: 100%;
+}
+
+.sg-shell {
+  margin: 0 auto;
+  max-width: 1280px;
+  padding: $sp-8 $sp-6 $sp-16;
+}
+
+.sg-hero {
+  align-items: stretch;
+  display: grid;
+  gap: $sp-6;
+  grid-template-columns: minmax(0, 2fr) minmax(220px, 1fr);
+  margin-bottom: $sp-10;
+}
+
+.sg-hero__chrome {
+  @include bn-panel($bg-panel-raised);
+  border-radius: $radius-lg;
+  padding: $sp-8;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    background: radial-gradient(circle at 20% 0%, rgba(33, 150, 243, 0.35), transparent 60%);
+    content: '';
+    inset: 0;
+    pointer-events: none;
+    position: absolute;
+  }
+
+  > * { position: relative; z-index: 1; }
+
+  .bn-display-2 { margin: $sp-3 0 $sp-4; }
+}
+
+.sg-hero__lede {
+  color: $text-secondary;
+  font-size: $fs-16;
+  line-height: $lh-snug;
+  margin: 0 0 $sp-5;
+  max-width: 60ch;
+
+  code {
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: $radius-xs;
+    color: $accent-strong;
+    font-size: $fs-12;
+    padding: 2px 6px;
+  }
+}
+
+.sg-hero__actions { display: flex; flex-wrap: wrap; gap: $sp-3; }
+
+.sg-hero__toc {
+  @include bn-panel;
+  border-radius: $radius-lg;
+  padding: $sp-5;
+
+  ul { list-style: none; margin: $sp-3 0 0; padding: 0; display: flex; flex-direction: column; gap: $sp-1; }
+  a {
+    color: $text-secondary;
+    display: block;
+    font-size: $fs-13;
+    padding: 6px 8px;
+    border-radius: $radius-sm;
+    border-left: 2px solid transparent;
+    transition: background $dur-fast $ease-out, color $dur-fast $ease-out, border-color $dur-fast $ease-out;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.04);
+      border-left-color: $accent;
+      color: #fff;
+    }
+  }
+}
+
+.sg-section {
+  margin-bottom: $sp-12;
+  scroll-margin-top: $shell-command-height + $sp-4;
+}
+
+.sg-section__head {
+  margin-bottom: $sp-5;
+
+  .bn-eyebrow { color: $accent-strong; }
+  .bn-heading { margin: $sp-2 0 $sp-1; }
+  p { margin: 0; }
+}
+
+.sg-h3 {
+  color: $text-on-accent;
+  font-family: $font-display;
+  font-size: $fs-14;
+  font-weight: $fw-bold;
+  letter-spacing: 0.05em;
+  margin: $sp-6 0 $sp-3;
+  text-transform: uppercase;
+}
+
+.sg-swatches {
+  display: grid;
+  gap: $sp-3;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+}
+
+.sg-swatch {
+  aspect-ratio: 4 / 3;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-md;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  margin: 0;
+  padding: $sp-3;
+
+  figcaption {
+    background: rgba(0, 0, 0, 0.45);
+    border-radius: $radius-sm;
+    padding: $sp-2 $sp-3;
+
+    strong { display: block; font-size: $fs-13; color: #fff; }
+    span { display: block; font-size: 11px; }
+  }
+}
+
+.sg-spacing {
+  background: rgba(8, 17, 31, 0.55);
+  border: 1px solid $border-subtle;
+  border-radius: $radius-md;
+  padding: $sp-4;
+}
+
+.sg-spacing__row {
+  align-items: center;
+  display: grid;
+  gap: $sp-4;
+  grid-template-columns: 60px 1fr;
+  padding: 4px 0;
+}
+
+.sg-spacing__bar {
+  background: linear-gradient(90deg, $bn-blue-700, $bn-blue-400);
+  border-radius: $radius-pill;
+  display: block;
+  height: 8px;
+}
+
+.sg-cluster {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: $sp-3;
+  margin-bottom: $sp-3;
+
+  &:last-child { margin-bottom: 0; }
+}
+
+.sg-grid {
+  display: grid;
+  gap: $sp-4;
+}
+
+.sg-grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.sg-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+@media (max-width: 1024px) {
+  .sg-hero { grid-template-columns: 1fr; }
+  .sg-grid--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 720px) {
+  .sg-grid--2,
+  .sg-grid--3 { grid-template-columns: 1fr; }
+}
+
+.sg-type p { margin: 0 0 $sp-3; }
+.sg-type p:last-child { margin-bottom: 0; }
+
+.sg-form {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-4;
+}
+
+.sg-rail-preview {
+  display: grid;
+  grid-template-columns: $shell-rail-width minmax(0, 1fr);
+  background: $bg-shell;
+  border: 1px solid $border-soft;
+  border-radius: $radius-md;
+  overflow: hidden;
+  min-height: 320px;
+}
+
+.sg-rail-preview__body { border-radius: 0; padding: $sp-6; }
+
+.sg-shell-preview {
+  background: $bg-shell;
+  border: 1px solid $border-soft;
+  border-radius: $radius-md;
+  overflow: hidden;
+}

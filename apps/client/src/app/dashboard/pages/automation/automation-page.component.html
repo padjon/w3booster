@@ -1,0 +1,41 @@
+<section class="page">
+    <header class="page__header">
+        <div>
+            <p class="bn-eyebrow bn-eyebrow--accent">Automation</p>
+            <h1>Local event rules</h1>
+            <p>Mock rule builder surface for streamer integrations, with event log shape aligned to the product vision.</p>
+        </div>
+        <button class="bn-btn bn-btn--primary"><i class="fa fa-plus"></i> New rule</button>
+    </header>
+
+    <div class="grid grid--2">
+        <article class="bn-card">
+            <div class="bn-card__header"><h2 class="bn-card__title">Rules</h2></div>
+            <div class="bn-card__body list">
+                <div *ngFor="let rule of rules" class="list-item">
+                    <div>
+                        <b>{{rule.name}}</b>
+                        <span>When {{rule.trigger}} then {{rule.action}}</span>
+                    </div>
+                    <span class="bn-badge" [class.bn-badge--ok]="rule.enabled">{{rule.enabled ? 'On' : 'Off'}}</span>
+                </div>
+            </div>
+        </article>
+
+        <article class="bn-card">
+            <div class="bn-card__header"><h2 class="bn-card__title">Event log</h2></div>
+            <div class="bn-card__body list">
+                <div *ngFor="let event of eventLog" class="list-item"><b>{{event}}</b></div>
+            </div>
+        </article>
+    </div>
+
+    <article class="bn-card">
+        <div class="bn-card__header"><h2 class="bn-card__title">Rule editor sketch</h2></div>
+        <div class="bn-card__body grid grid--3">
+            <label class="bn-field"><span class="bn-field__label">When</span><select class="bn-select"><option>hero.killed</option><option>game.started</option></select></label>
+            <label class="bn-field"><span class="bn-field__label">Condition</span><select class="bn-select"><option>mine or opponent</option><option>hero name</option></select></label>
+            <label class="bn-field"><span class="bn-field__label">Then</span><select class="bn-select"><option>OBS scene</option><option>Webhook</option></select></label>
+        </div>
+    </article>
+</section>

@@ -1,0 +1,91 @@
+<div class="dashboard-shell">
+    <header class="bn-shell__chrome dashboard-shell__chrome">
+        <a class="bn-shell__brand" [routerLink]="persona.dashboardHome(state)">
+            <span class="bn-shell__logo">W3</span>
+            <span>
+                <span class="bn-shell__title">W3Booster</span>
+                <span class="bn-shell__subtitle">{{desktop ? 'Desktop command center' : 'Web command center'}}</span>
+            </span>
+        </a>
+
+        <div class="dashboard-shell__cluster">
+            <app-persona-toggle [state]="state"></app-persona-toggle>
+            <app-recorder-status-chip [desktop]="desktop"></app-recorder-status-chip>
+            <app-notification-bell></app-notification-bell>
+            <button type="button"
+                    class="bn-shell__user"
+                    [routerLink]="['/dashboard/account']">
+                <span class="bn-avatar">{{(user?.displayName || user?.username || '?').charAt(0).toUpperCase()}}</span>
+                <span class="dashboard-shell__user-name">{{user?.displayName || user?.username}}</span>
+                <span class="bn-badge" [class.bn-badge--gold]="user?.isProPlan && user.isProPlan()">
+                    {{user?.isProPlan && user.isProPlan() ? 'Pro' : 'Basic'}}
+                </span>
+            </button>
+        </div>
+    </header>
+
+    <div *ngIf="!desktop" class="bn-alert dashboard-shell__web-mode">
+        <i class="fa fa-globe"></i>
+        <span>Web mode keeps account, overlay, subscription, and build-order management available. Recorder, local websocket, overlay attachment, and w3blib-backed actions stay disabled.</span>
+    </div>
+
+    <div class="dashboard-shell__body">
+        <aside class="bn-rail dashboard-shell__rail">
+            <ng-container *ngIf="visibleItems('streamer').length">
+                <span class="bn-rail__group">Stream</span>
+                <a *ngFor="let item of visibleItems('streamer')"
+                   class="bn-rail__item"
+                   [routerLink]="item.route"
+                   routerLinkActive="is-active">
+                    <i [class]="item.icon"></i>
+                    <span>{{item.label}}</span>
+                </a>
+            </ng-container>
+
+            <ng-container *ngIf="visibleItems('player').length">
+                <span class="bn-rail__group">Practice</span>
+                <a *ngFor="let item of visibleItems('player')"
+                   class="bn-rail__item"
+                   [routerLink]="item.route"
+                   routerLinkActive="is-active">
+                    <i [class]="item.icon"></i>
+                    <span>{{item.label}}</span>
+                </a>
+            </ng-container>
+
+            <span class="bn-rail__group">Shared</span>
+            <a *ngFor="let item of visibleItems('shared')"
+               class="bn-rail__item"
+               [routerLink]="item.route"
+               routerLinkActive="is-active">
+                <i [class]="item.icon"></i>
+                <span>{{item.label}}</span>
+            </a>
+
+            <ng-container *ngIf="visibleItems('developer').length">
+                <span class="bn-rail__group">Developer</span>
+                <a *ngFor="let item of visibleItems('developer')"
+                   class="bn-rail__item"
+                   [routerLink]="item.route"
+                   routerLinkActive="is-active">
+                    <i [class]="item.icon"></i>
+                    <span>{{item.label}}</span>
+                </a>
+            </ng-container>
+
+            <button *ngIf="!persona.isDev(state)"
+                    type="button"
+                    class="dashboard-shell__dev-toggle"
+                    (click)="enableDeveloper()">
+                <i class="fa fa-code"></i>
+                Enable developer facet
+            </button>
+        </aside>
+
+        <main class="dashboard-shell__content">
+            <router-outlet></router-outlet>
+        </main>
+    </div>
+
+    <app-persona-picker [state]="state"></app-persona-picker>
+</div>

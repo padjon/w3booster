@@ -1,0 +1,47 @@
+<section class="page">
+    <header class="page__header">
+        <div>
+            <p class="bn-eyebrow bn-eyebrow--accent">Overlay editor</p>
+            <h1>{{preset?.name || 'New preset'}}</h1>
+            <p>Mock canvas with snap-grid placement, widget palette, config panel, and live preview structure.</p>
+        </div>
+        <div class="page__actions">
+            <button class="bn-btn"><i class="fa fa-eye"></i> Preview</button>
+            <button class="bn-btn bn-btn--primary"><i class="fa fa-save"></i> Save</button>
+        </div>
+    </header>
+
+    <div class="grid grid--3">
+        <article class="bn-card">
+            <div class="bn-card__header"><h2 class="bn-card__title">Widget palette</h2></div>
+            <div class="bn-card__body list">
+                <div class="list-item"><b>Matchup bar</b><span>Free</span></div>
+                <div class="list-item"><b>Build tracker</b><span>Free</span></div>
+                <div class="list-item"><b>Hero XP</b><span>Pro</span></div>
+                <div class="list-item"><b>Win probability</b><span>Pro</span></div>
+            </div>
+        </article>
+
+        <article class="bn-card" style="grid-column: span 2;">
+            <div class="bn-card__header"><h2 class="bn-card__title">Canvas</h2></div>
+            <div class="bn-card__body">
+                <div class="canvas-preview">
+                    <div class="widget widget--top">Matchup bar · Human vs Orc</div>
+                    <div class="widget widget--left">Heroes</div>
+                    <div class="widget widget--right">Gold / Supply</div>
+                    <div class="widget widget--bottom">Build-order tracker</div>
+                </div>
+            </div>
+        </article>
+    </div>
+
+    <article class="bn-card">
+        <div class="bn-card__header"><h2 class="bn-card__title">Selected widget config</h2></div>
+        <div class="bn-card__body grid grid--4">
+            <label class="bn-field"><span class="bn-field__label">Position</span><input class="bn-input" value="bottom-left"></label>
+            <label class="bn-field"><span class="bn-field__label">Scale</span><input class="bn-input" value="100%"></label>
+            <label class="bn-field"><span class="bn-field__label">Visibility</span><select class="bn-select"><option>Current and next steps</option></select></label>
+            <label class="bn-toggle"><input type="checkbox" checked><span class="bn-toggle__track"></span><span>Show in browser source</span></label>
+        </div>
+    </article>
+</section>

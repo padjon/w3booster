@@ -4,66 +4,69 @@
       <img src="assets/images/logo.png" alt="W3Booster" />
     </a>
     <div class="nav-actions">
+      <a routerLink="/developers">Developers</a>
+      <a routerLink="/gift">Gift Pro</a>
       <a routerLink="/login">Login</a>
-      <a class="download-small" [href]="downloadUrl">Download client</a>
+      <a class="download-small" [href]="downloadUrl">Download</a>
     </div>
   </nav>
 
-  <section class="hero-panel">
+  <section class="hero">
     <div class="hero-copy">
-      <p class="eyebrow">Warcraft III streaming command center</p>
-      <h1>One W3Booster. Desktop power. Web access.</h1>
-      <p class="hero-text">
-        W3Booster is becoming both the Electron client for local Warcraft III integration
-        and a browser-accessible control surface for account, stream, overlay, and match features.
+      <p class="bn-eyebrow bn-eyebrow--accent">Warcraft III live data layer</p>
+      <h1>W3Booster</h1>
+      <p>
+        Desktop capture, in-game overlay control, build-order practice, stream automation,
+        and browser-accessible account surfaces in one command center.
       </p>
       <div class="hero-actions">
-        <a class="primary-action" [href]="downloadUrl">Download Windows client</a>
-        <a class="secondary-action" routerLink="/login">Login in browser</a>
+        <a class="bn-btn bn-btn--primary bn-btn--lg" [href]="downloadUrl"><i class="fa fa-download"></i> Download Windows client</a>
+        <a class="bn-btn bn-btn--lg" routerLink="/login"><i class="fa fa-sign-in-alt"></i> Login in browser</a>
       </div>
-      <p class="compat-note">
-        Browser mode keeps local w3blib features disabled. Recorder injection, game attachment,
-        and native overlay window controls stay inside the desktop client.
-      </p>
     </div>
 
-    <aside class="status-card" aria-label="Preview feature status">
-      <div class="status-header">
-        <span class="pulse"></span>
-        Preview web client
-      </div>
-      <div class="status-grid">
-        <div>
-          <strong>Account</strong>
-          <span>Twitch login and profile access</span>
-        </div>
-        <div>
-          <strong>Streaming</strong>
-          <span>Overlay settings and online configuration</span>
-        </div>
-        <div>
-          <strong>Desktop</strong>
-          <span>Native Warcraft III integration via app</span>
-        </div>
-      </div>
-    </aside>
+    <figure class="hero-media">
+      <img src="assets/images/tutorial.png" alt="W3Booster overlay setup preview" />
+      <figcaption>
+        <strong>Overlay source ready</strong>
+        <span>OBS browser source, in-game attachment, and web management share the same account.</span>
+      </figcaption>
+    </figure>
   </section>
 
-  <section class="feature-strip">
+  <section class="persona-grid">
+    <a class="persona-card" routerLink="/login">
+      <i class="fa fa-crosshairs"></i>
+      <strong>Player</strong>
+      <span>Practice builds, review replay signals, and track improvement goals.</span>
+    </a>
+    <a class="persona-card" routerLink="/login">
+      <i class="fa fa-broadcast-tower"></i>
+      <strong>Streamer</strong>
+      <span>Manage overlays, automation rules, and viewer-facing match moments.</span>
+    </a>
+    <a class="persona-card" routerLink="/developers">
+      <i class="fa fa-code"></i>
+      <strong>Developer</strong>
+      <span>Build tools on history endpoints and opted-in live game streams.</span>
+    </a>
+  </section>
+
+  <section class="feature-band">
     <article>
-      <span>01</span>
-      <h2>Use the web when you can</h2>
-      <p>Manage your W3Booster account and remote-capable streaming setup from the browser.</p>
+      <span>Free</span>
+      <strong>Real daily workflows</strong>
+      <p>Build orders, basic overlays, account management, and history surfaces stay usable.</p>
     </article>
     <article>
-      <span>02</span>
-      <h2>Use desktop when you must</h2>
-      <p>Anything backed by w3blib stays protected behind Electron-only checks.</p>
+      <span>Pro</span>
+      <strong>Deeper live data</strong>
+      <p>Live streams, analytics depth, premium widgets, automation depth, and benchmarking.</p>
     </article>
     <article>
-      <span>03</span>
-      <h2>One deployment target</h2>
-      <p>The same client image now serves the preview website and the Electron UI shell.</p>
+      <span>Web mode</span>
+      <strong>Native-safe browser access</strong>
+      <p>Recorder, local websocket hosting, game attachment, and w3blib actions remain desktop-only.</p>
     </article>
   </section>
 </main>

@@ -1,0 +1,8 @@
+<div class="pro-lock" [class.is-locked]="locked">
+    <ng-content></ng-content>
+    <div *ngIf="locked" class="pro-lock__veil">
+        <span class="bn-badge bn-badge--gold">Pro</span>
+        <strong>{{feature || 'Deeper live data'}}</strong>
+        <a [routerLink]="handle ? ['/gift', handle] : ['/gift']">Or have a viewer gift it</a>
+    </div>
+</div>

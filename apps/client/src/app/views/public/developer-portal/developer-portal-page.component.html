@@ -1,0 +1,34 @@
+<main class="public-shell">
+  <nav class="public-nav">
+    <a routerLink="/web"><img src="assets/images/logo.png" alt="W3Booster"></a>
+    <div class="public-nav__links">
+      <a class="bn-btn bn-btn--ghost" routerLink="/web">Home</a>
+      <a class="bn-btn" routerLink="/login">Login</a>
+    </div>
+  </nav>
+
+  <section class="public-hero">
+    <div class="public-hero__copy">
+      <p class="bn-eyebrow bn-eyebrow--accent">Developers</p>
+      <h1>Build on live Warcraft III state.</h1>
+      <p>W3Booster exposes history endpoints for free users and Pro live streams for products that need sub-second in-game data.</p>
+    </div>
+    <aside class="public-panel">
+      <p class="bn-eyebrow">Live stream sketch</p>
+      <pre class="code-block">const socket = new WebSocket(
+  'wss://api.w3booster.com/live/:channel'
+);
+
+socket.onmessage = event => &#123;
+  const state = JSON.parse(event.data);
+  renderOverlay(state);
+&#125;;</pre>
+    </aside>
+  </section>
+
+  <section class="public-grid public-grid--3">
+    <article class="public-card"><b>REST history</b><span>Replay summaries, overlay presets, account-scoped data.</span></article>
+    <article class="public-card"><b>Live WebSocket</b><span>Delayed public stream for opted-in channels.</span></article>
+    <article class="public-card"><b>Scoped keys</b><span>read-live, read-history, write-presets, webhooks.</span></article>
+  </section>
+</main>

@@ -1,0 +1,52 @@
+<section class="page">
+    <header class="page__header">
+        <div>
+            <p class="bn-eyebrow bn-eyebrow--accent">Account</p>
+            <h1>{{user?.displayName || user?.username}}</h1>
+            <p>Profile, plan state, gifts, Discord linking, notifications, and persona settings.</p>
+        </div>
+        <a class="bn-btn bn-btn--gold" [routerLink]="['/gift', user?.displayName || user?.username]"><i class="fa fa-gift"></i> Gift link</a>
+    </header>
+
+    <div class="grid grid--3">
+        <article class="bn-card">
+            <div class="bn-card__header"><h2 class="bn-card__title">Plan</h2></div>
+            <div class="bn-card__body">
+                <div class="stat">
+                    <span>Current plan</span>
+                    <strong>{{user?.isProPlan && user.isProPlan() ? 'Pro' : 'Basic'}}</strong>
+                </div>
+            </div>
+        </article>
+
+        <article class="bn-card">
+            <div class="bn-card__header"><h2 class="bn-card__title">Persona</h2></div>
+            <div class="bn-card__body list">
+                <button class="bn-btn bn-btn--block" (click)="persona.setPersona('player')">Player</button>
+                <button class="bn-btn bn-btn--block" (click)="persona.setPersona('streamer')">Streamer</button>
+                <button class="bn-btn bn-btn--block" (click)="persona.setPersona('both')">Both</button>
+            </div>
+        </article>
+
+        <article class="bn-card">
+            <div class="bn-card__header"><h2 class="bn-card__title">Developer facet</h2></div>
+            <div class="bn-card__body">
+                <label class="bn-toggle">
+                    <input type="checkbox" [checked]="persona.isDev()" (change)="persona.setDeveloper($event.target.checked)">
+                    <span class="bn-toggle__track"></span>
+                    <span>Show developer surfaces</span>
+                </label>
+            </div>
+        </article>
+    </div>
+
+    <article class="bn-card">
+        <div class="bn-card__header"><h2 class="bn-card__title">Gifts received</h2></div>
+        <div class="bn-card__body list">
+            <div *ngFor="let gift of gifts" class="list-item">
+                <b>{{gift.days}} days from {{gift.sender}}</b>
+                <span>{{gift.message}} · {{gift.date}}</span>
+            </div>
+        </div>
+    </article>
+</section>

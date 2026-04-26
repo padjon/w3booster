@@ -1,0 +1,42 @@
+<section class="page">
+    <header class="page__header">
+        <div>
+            <p class="bn-eyebrow bn-eyebrow--accent">Developers</p>
+            <h1>API console</h1>
+            <p>In-app console shell for API keys, usage, scopes, webhooks, and public portal handoff.</p>
+        </div>
+        <a class="bn-btn" [routerLink]="['/developers']"><i class="fa fa-external-link-alt"></i> Portal</a>
+    </header>
+
+    <div class="grid grid--4">
+        <div class="stat"><span>API keys</span><strong>2</strong></div>
+        <div class="stat"><span>Live stream</span><strong>Pro</strong></div>
+        <div class="stat"><span>Requests today</span><strong>1.2k</strong></div>
+        <div class="stat"><span>Rate limit</span><strong>Low</strong></div>
+    </div>
+
+    <article class="bn-card">
+        <div class="bn-card__header">
+            <h2 class="bn-card__title">Keys</h2>
+            <button class="bn-btn bn-btn--sm bn-btn--primary"><i class="fa fa-plus"></i> Create key</button>
+        </div>
+        <div class="bn-card__body list">
+            <div class="list-item">
+                <b>Overlay bot</b>
+                <span>read-history · last used today</span>
+            </div>
+            <div class="list-item">
+                <b>Local lab</b>
+                <span>read-live, read-history · last used yesterday</span>
+            </div>
+        </div>
+    </article>
+
+    <article class="bn-card">
+        <div class="bn-card__header"><h2 class="bn-card__title">Quickstart</h2></div>
+        <div class="bn-card__body code-block">
+const socket = new WebSocket('wss://api.w3booster.com/live/:channel');
+socket.onmessage = event => console.log(JSON.parse(event.data));
+        </div>
+    </article>
+</section>

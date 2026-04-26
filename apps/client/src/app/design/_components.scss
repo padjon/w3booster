@@ -1,0 +1,751 @@
+// W3Booster component primitives. Plain CSS classes — no JS hooks.
+// These are intentionally framework-agnostic so they can be reused by Angular
+// templates, Electron chrome, or static fallback HTML.
+@use 'sass:color';
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+// ---- buttons ------------------------------------------------------------
+
+.bn-btn {
+  --bn-btn-bg: rgba(255, 255, 255, 0.05);
+  --bn-btn-bg-hover: rgba(255, 255, 255, 0.1);
+  --bn-btn-fg: #{$text-primary};
+  --bn-btn-border: #{$border-soft};
+
+  align-items: center;
+  background: var(--bn-btn-bg);
+  border: 1px solid var(--bn-btn-border);
+  border-radius: $radius-sm;
+  color: var(--bn-btn-fg);
+  cursor: pointer;
+  display: inline-flex;
+  font-family: $font-display;
+  font-size: $fs-13;
+  font-weight: $fw-bold;
+  gap: $sp-2;
+  justify-content: center;
+  letter-spacing: $ls-button;
+  line-height: 1;
+  min-height: 38px;
+  padding: 10px 18px;
+  position: relative;
+  text-transform: uppercase;
+  transition: background $dur-base $ease-out, border-color $dur-base $ease-out,
+              color $dur-base $ease-out, box-shadow $dur-base $ease-out,
+              transform $dur-fast $ease-out;
+  user-select: none;
+  white-space: nowrap;
+
+  &:hover {
+    background: var(--bn-btn-bg-hover);
+    border-color: $border-strong;
+    color: $bn-frost-100;
+  }
+
+  &:focus-visible {
+    @include bn-focus-ring;
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+
+  &[disabled],
+  &.is-disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+    pointer-events: none;
+  }
+
+  i, .fa, [class^="fa-"], [class*=" fa-"] {
+    font-size: $fs-14;
+  }
+}
+
+.bn-btn--primary {
+  --bn-btn-bg: linear-gradient(180deg, #{$bn-blue-500} 0%, #{$bn-blue-700} 100%);
+  --bn-btn-bg-hover: linear-gradient(180deg, #{$bn-blue-400} 0%, #{$bn-blue-600} 100%);
+  --bn-btn-fg: #fff;
+  --bn-btn-border: rgba(110, 195, 255, 0.55);
+  box-shadow: 0 8px 22px rgba(13, 122, 214, 0.45),
+              inset 0 1px 0 rgba(255, 255, 255, 0.15);
+
+  &:hover {
+    box-shadow: 0 10px 30px rgba(33, 150, 243, 0.55),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+}
+
+.bn-btn--gold {
+  --bn-btn-bg: linear-gradient(180deg, #{$bn-gold-400} 0%, #{$bn-gold-600} 100%);
+  --bn-btn-bg-hover: linear-gradient(180deg, #{$bn-gold-400} 0%, #{$bn-gold-500} 100%);
+  --bn-btn-fg: #1a0f00;
+  --bn-btn-border: rgba(255, 209, 102, 0.6);
+  box-shadow: 0 8px 22px rgba(241, 163, 59, 0.4);
+}
+
+.bn-btn--ghost {
+  --bn-btn-bg: transparent;
+  --bn-btn-bg-hover: rgba(255, 255, 255, 0.06);
+  --bn-btn-border: transparent;
+
+  &:hover { border-color: $border-soft; }
+}
+
+.bn-btn--danger {
+  --bn-btn-bg: linear-gradient(180deg, #d6453b 0%, #8b1a13 100%);
+  --bn-btn-fg: #fff;
+  --bn-btn-border: rgba(223, 92, 82, 0.6);
+}
+
+.bn-btn--sm { min-height: 30px; padding: 6px 12px; font-size: $fs-12; }
+.bn-btn--lg { min-height: 48px; padding: 14px 26px; font-size: $fs-14; }
+.bn-btn--block { display: flex; width: 100%; }
+
+// Icon-only button (square footprint, used in chrome).
+.bn-icon-btn {
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: $radius-sm;
+  color: $text-muted;
+  cursor: pointer;
+  display: inline-flex;
+  height: 32px;
+  justify-content: center;
+  transition: color $dur-fast $ease-out, background $dur-fast $ease-out,
+              border-color $dur-fast $ease-out;
+  width: 32px;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: $border-soft;
+    color: $bn-frost-100;
+  }
+
+  &:focus-visible { @include bn-focus-ring; }
+}
+
+// ---- panels & cards -----------------------------------------------------
+
+.bn-panel {
+  @include bn-panel;
+  border-radius: $radius-md;
+  padding: $sp-5;
+}
+
+.bn-panel--flush { padding: 0; }
+.bn-panel--raised { @include bn-panel($bg-panel-raised, $border-strong); }
+
+.bn-card {
+  @include bn-panel;
+  border-radius: $radius-md;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.bn-card__header {
+  align-items: center;
+  border-bottom: 1px solid $border-subtle;
+  display: flex;
+  gap: $sp-3;
+  justify-content: space-between;
+  padding: $sp-4 $sp-5;
+}
+
+.bn-card__title {
+  color: $text-on-accent;
+  font-family: $font-display;
+  font-size: $fs-16;
+  font-weight: $fw-bold;
+  letter-spacing: 0.01em;
+  margin: 0;
+}
+
+.bn-card__eyebrow { @include bn-eyebrow; margin-bottom: $sp-2; }
+
+.bn-card__body { padding: $sp-5; }
+.bn-card__footer {
+  border-top: 1px solid $border-subtle;
+  padding: $sp-4 $sp-5;
+  display: flex;
+  gap: $sp-3;
+  justify-content: flex-end;
+}
+
+// Hero tile (large feature card with backdrop image / gradient).
+.bn-hero {
+  border-radius: $radius-lg;
+  overflow: hidden;
+  position: relative;
+  isolation: isolate;
+  min-height: 280px;
+  padding: $sp-8;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background:
+    linear-gradient(180deg, transparent 30%, rgba(4, 7, 13, 0.85) 100%),
+    linear-gradient(120deg, #0a5ba4 0%, #073b6c 50%, #04070d 100%);
+  border: 1px solid $border-strong;
+  box-shadow: $shadow-2;
+}
+
+.bn-hero__eyebrow { @include bn-eyebrow($accent-strong); margin-bottom: $sp-3; }
+.bn-hero__title { @include bn-display($fs-36); margin-bottom: $sp-3; }
+.bn-hero__copy {
+  color: $text-secondary;
+  font-size: $fs-16;
+  line-height: $lh-snug;
+  margin: 0 0 $sp-5;
+  max-width: 60ch;
+}
+.bn-hero__actions { display: flex; flex-wrap: wrap; gap: $sp-3; }
+
+// ---- typography helpers -------------------------------------------------
+
+.bn-eyebrow { @include bn-eyebrow; }
+.bn-eyebrow--accent { @include bn-eyebrow($accent-strong); }
+.bn-display-1 { @include bn-display($fs-64); }
+.bn-display-2 { @include bn-display($fs-48); }
+.bn-display-3 { @include bn-display($fs-36); }
+.bn-heading { @include bn-display($fs-22); }
+.bn-text-muted { color: $text-muted; }
+.bn-text-faint { color: $text-faint; }
+.bn-mono { font-family: $font-mono; }
+
+// ---- chips & badges -----------------------------------------------------
+
+.bn-chip {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid $border-subtle;
+  border-radius: $radius-pill;
+  color: $text-secondary;
+  display: inline-flex;
+  font-size: $fs-12;
+  font-weight: $fw-semibold;
+  gap: $sp-2;
+  letter-spacing: 0.04em;
+  padding: 5px 12px;
+  text-transform: none;
+  transition: background $dur-fast $ease-out, border-color $dur-fast $ease-out,
+              color $dur-fast $ease-out;
+
+  &:hover { color: $bn-frost-100; border-color: $border-strong; }
+}
+
+.bn-chip--accent { color: $accent-strong; border-color: $border-strong; }
+.bn-chip--gold {
+  color: $bn-gold-400;
+  border-color: rgba(241, 163, 59, 0.5);
+  background: rgba(241, 163, 59, 0.08);
+}
+
+.bn-badge {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: $radius-xs;
+  color: $text-on-accent;
+  display: inline-flex;
+  font-family: $font-display;
+  font-size: 10px;
+  font-weight: $fw-black;
+  letter-spacing: 0.12em;
+  padding: 3px 7px;
+  text-transform: uppercase;
+}
+
+.bn-badge--accent { background: $accent; color: #fff; }
+.bn-badge--gold   { background: $accent-gold; color: #1a0f00; }
+.bn-badge--ok     { background: $bn-status-online; color: #08130b; }
+.bn-badge--warn   { background: $bn-status-busy; color: #1a0f00; }
+.bn-badge--err    { background: $bn-status-error; color: #fff; }
+
+// ---- status dot ---------------------------------------------------------
+
+.bn-dot {
+  border-radius: 50%;
+  display: inline-block;
+  height: 8px;
+  width: 8px;
+  background: $text-faint;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.04);
+}
+
+.bn-dot--online {
+  background: $bn-status-online;
+  box-shadow: 0 0 0 3px rgba(66, 196, 131, 0.18),
+              0 0 12px rgba(66, 196, 131, 0.7);
+}
+.bn-dot--busy {
+  background: $bn-status-busy;
+  box-shadow: 0 0 0 3px rgba(241, 163, 59, 0.18),
+              0 0 12px rgba(241, 163, 59, 0.7);
+}
+.bn-dot--error {
+  background: $bn-status-error;
+  box-shadow: 0 0 0 3px rgba(223, 92, 82, 0.2);
+}
+
+.bn-dot--pulse {
+  animation: bn-pulse 1.6s $ease-in-out infinite;
+}
+
+@keyframes bn-pulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.25); }
+}
+
+// ---- forms --------------------------------------------------------------
+
+.bn-field { display: flex; flex-direction: column; gap: $sp-2; }
+.bn-field__label {
+  @include bn-eyebrow;
+  font-size: 11px;
+}
+.bn-field__hint {
+  color: $text-faint;
+  font-size: $fs-12;
+}
+.bn-field__error {
+  color: $bn-status-error;
+  font-size: $fs-12;
+  font-weight: $fw-semibold;
+}
+
+.bn-input,
+.bn-select,
+.bn-textarea {
+  background: $bg-input;
+  border: 1px solid $border-soft;
+  border-radius: $radius-sm;
+  color: $text-on-accent;
+  font-family: $font-body;
+  font-size: $fs-14;
+  min-height: 38px;
+  padding: 8px 12px;
+  transition: border-color $dur-fast $ease-out, box-shadow $dur-fast $ease-out,
+              background $dur-fast $ease-out;
+  width: 100%;
+
+  &::placeholder { color: $text-faint; }
+
+  &:hover { border-color: $border-strong; }
+  &:focus,
+  &:focus-visible {
+    background: rgba(4, 9, 18, 0.95);
+    border-color: $accent;
+    box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.18);
+    outline: none;
+  }
+
+  &[disabled] { opacity: 0.5; cursor: not-allowed; }
+}
+
+.bn-textarea { min-height: 96px; padding: 12px; resize: vertical; }
+
+.bn-select {
+  appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, $text-muted 50%),
+    linear-gradient(135deg, $text-muted 50%, transparent 50%);
+  background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 32px;
+}
+
+.bn-toggle {
+  align-items: center;
+  cursor: pointer;
+  display: inline-flex;
+  gap: $sp-3;
+
+  input { position: absolute; opacity: 0; pointer-events: none; }
+}
+
+.bn-toggle__track {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid $border-soft;
+  border-radius: $radius-pill;
+  display: inline-block;
+  height: 22px;
+  position: relative;
+  transition: background $dur-base $ease-out, border-color $dur-base $ease-out;
+  width: 40px;
+
+  &::after {
+    background: $bn-frost-200;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+    content: '';
+    height: 14px;
+    left: 3px;
+    position: absolute;
+    top: 3px;
+    transition: transform $dur-base $ease-out, background $dur-base $ease-out;
+    width: 14px;
+  }
+}
+
+.bn-toggle input:checked + .bn-toggle__track {
+  background: linear-gradient(90deg, $bn-blue-700, $bn-blue-500);
+  border-color: $border-strong;
+
+  &::after { background: #fff; transform: translateX(18px); }
+}
+
+// ---- nav / tabs ---------------------------------------------------------
+
+.bn-nav {
+  align-items: center;
+  display: flex;
+  gap: 2px;
+}
+
+.bn-nav__item {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  color: $text-muted;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: $font-display;
+  font-size: $fs-13;
+  font-weight: $fw-bold;
+  gap: $sp-2;
+  letter-spacing: $ls-button;
+  padding: 14px 16px;
+  position: relative;
+  text-transform: uppercase;
+  transition: color $dur-fast $ease-out, border-color $dur-fast $ease-out,
+              background $dur-fast $ease-out;
+
+  &:hover {
+    color: $bn-frost-100;
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  &.is-active {
+    color: $bn-frost-100;
+    border-bottom-color: $accent-strong;
+
+    &::before {
+      background: linear-gradient(180deg, rgba(33, 150, 243, 0.2), transparent);
+      content: '';
+      inset: 0;
+      pointer-events: none;
+      position: absolute;
+    }
+  }
+
+  &.is-disabled,
+  &[disabled] {
+    color: $text-faint;
+    cursor: not-allowed;
+    opacity: 0.55;
+  }
+}
+
+// Side rail nav (used by dashboard shell on wide screens).
+.bn-rail {
+  background: linear-gradient(180deg, rgba(8, 17, 31, 0.96), rgba(4, 7, 13, 0.96));
+  border-right: 1px solid $border-soft;
+  display: flex;
+  flex-direction: column;
+  gap: $sp-1;
+  padding: $sp-4;
+  width: $shell-rail-width;
+}
+
+.bn-rail__item {
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: $radius-sm;
+  color: $text-muted;
+  cursor: pointer;
+  display: flex;
+  font-family: $font-display;
+  font-size: $fs-13;
+  font-weight: $fw-semibold;
+  gap: $sp-3;
+  padding: 10px 12px;
+  position: relative;
+  text-align: left;
+  text-decoration: none;
+  transition: color $dur-fast $ease-out, background $dur-fast $ease-out,
+              border-color $dur-fast $ease-out;
+
+  i, .fa, [class^="fa-"], [class*=" fa-"] {
+    color: $text-faint;
+    font-size: $fs-14;
+    width: 18px;
+    text-align: center;
+    transition: color $dur-fast $ease-out;
+  }
+
+  &:hover {
+    background: rgba(33, 150, 243, 0.08);
+    color: $bn-frost-100;
+    i, .fa, [class^="fa-"], [class*=" fa-"] { color: $accent-strong; }
+  }
+
+  &.is-active {
+    background: linear-gradient(90deg, rgba(33, 150, 243, 0.22), rgba(33, 150, 243, 0));
+    border-color: rgba(33, 150, 243, 0.35);
+    color: #fff;
+
+    &::before {
+      background: $accent-strong;
+      border-radius: 0 2px 2px 0;
+      box-shadow: 0 0 12px $accent;
+      content: '';
+      height: 24px;
+      left: -$sp-4 - 1px;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 3px;
+    }
+
+    i, .fa, [class^="fa-"], [class*=" fa-"] { color: $accent-strong; }
+  }
+
+  &.is-disabled, &[disabled] {
+    cursor: not-allowed;
+    opacity: 0.45;
+    pointer-events: none;
+  }
+}
+
+.bn-rail__group {
+  @include bn-eyebrow($text-faint);
+  font-size: 10px;
+  margin: $sp-4 $sp-3 $sp-2;
+}
+
+// ---- alerts -------------------------------------------------------------
+
+.bn-alert {
+  border-left: 3px solid $accent;
+  background: rgba(33, 150, 243, 0.08);
+  border-radius: $radius-sm;
+  color: $text-secondary;
+  display: flex;
+  gap: $sp-3;
+  padding: $sp-3 $sp-4;
+  font-size: $fs-13;
+
+  > i, > .fa, > [class^="fa-"], > [class*=" fa-"] {
+    color: $accent-strong;
+    font-size: $fs-16;
+    line-height: 1.4;
+  }
+}
+
+.bn-alert--warn {
+  background: rgba(241, 163, 59, 0.08);
+  border-left-color: $bn-gold-500;
+  > i, > .fa, > [class^="fa-"], > [class*=" fa-"] { color: $bn-gold-400; }
+}
+
+.bn-alert--error {
+  background: rgba(223, 92, 82, 0.08);
+  border-left-color: $bn-status-error;
+  > i, > .fa, > [class^="fa-"], > [class*=" fa-"] { color: $bn-status-error; }
+}
+
+.bn-alert--ok {
+  background: rgba(66, 196, 131, 0.08);
+  border-left-color: $bn-status-online;
+  > i, > .fa, > [class^="fa-"], > [class*=" fa-"] { color: $bn-status-online; }
+}
+
+// ---- divider ------------------------------------------------------------
+
+.bn-divider {
+  background: linear-gradient(90deg, transparent, $border-soft, transparent);
+  border: 0;
+  height: 1px;
+  margin: $sp-4 0;
+  width: 100%;
+}
+
+.bn-divider--vertical {
+  background: linear-gradient(180deg, transparent, $border-soft, transparent);
+  height: auto;
+  min-height: 24px;
+  margin: 0 $sp-3;
+  width: 1px;
+}
+
+// ---- progress -----------------------------------------------------------
+
+.bn-progress {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: $radius-pill;
+  height: 6px;
+  overflow: hidden;
+  width: 100%;
+
+  > div {
+    background: linear-gradient(90deg, $bn-blue-500, $bn-blue-400);
+    box-shadow: 0 0 12px rgba(33, 150, 243, 0.5);
+    height: 100%;
+    transition: width $dur-slow $ease-out;
+  }
+}
+
+// ---- avatar -------------------------------------------------------------
+
+.bn-avatar {
+  align-items: center;
+  background: linear-gradient(160deg, $bn-blue-700, $bn-ink-700);
+  border: 1px solid $border-strong;
+  border-radius: $radius-md;
+  color: $bn-frost-100;
+  display: inline-flex;
+  font-family: $font-display;
+  font-size: $fs-14;
+  font-weight: $fw-black;
+  height: 36px;
+  justify-content: center;
+  letter-spacing: -0.02em;
+  overflow: hidden;
+  width: 36px;
+
+  img { height: 100%; width: 100%; object-fit: cover; }
+}
+
+.bn-avatar--lg { height: 56px; width: 56px; font-size: $fs-18; }
+
+// ---- shell --------------------------------------------------------------
+
+.bn-shell {
+  background: $bg-app;
+  color: $text-primary;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.bn-shell__chrome {
+  align-items: center;
+  background: linear-gradient(180deg, rgba(8, 17, 31, 0.96), rgba(4, 7, 13, 0.92));
+  border-bottom: 1px solid $border-soft;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+  display: flex;
+  gap: $sp-5;
+  height: $shell-command-height;
+  padding: 0 $sp-6;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.bn-shell__brand {
+  align-items: center;
+  display: flex;
+  gap: $sp-3;
+  text-decoration: none;
+  color: inherit;
+}
+
+.bn-shell__logo {
+  align-items: center;
+  background: linear-gradient(160deg, $bn-blue-500, $bn-blue-800 70%);
+  border: 1px solid $border-strong;
+  border-radius: $radius-md;
+  box-shadow: 0 0 20px rgba(33, 150, 243, 0.4),
+              inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  color: #fff;
+  display: grid;
+  font-family: $font-display;
+  font-size: $fs-14;
+  font-weight: $fw-black;
+  height: 38px;
+  letter-spacing: -0.05em;
+  place-items: center;
+  width: 38px;
+}
+
+.bn-shell__title {
+  color: #fff;
+  font-family: $font-display;
+  font-size: $fs-16;
+  font-weight: $fw-black;
+  letter-spacing: 0.01em;
+  line-height: 1.1;
+}
+
+.bn-shell__subtitle { @include bn-eyebrow; font-size: 10px; margin-top: 2px; }
+
+.bn-shell__nav { flex: 1; }
+
+.bn-shell__cluster {
+  align-items: center;
+  display: flex;
+  gap: $sp-2;
+  margin-left: auto;
+}
+
+.bn-shell__user {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid $border-soft;
+  border-radius: $radius-md;
+  color: $text-primary;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: $font-display;
+  font-size: $fs-13;
+  font-weight: $fw-bold;
+  gap: $sp-3;
+  padding: 6px 12px 6px 6px;
+  transition: border-color $dur-fast $ease-out, background $dur-fast $ease-out;
+
+  &:hover {
+    border-color: $border-strong;
+    background: rgba(255, 255, 255, 0.07);
+  }
+}
+
+.bn-shell__body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.bn-shell__main {
+  flex: 1;
+  min-width: 0;
+  padding: $sp-6;
+  overflow: auto;
+}
+
+// ---- skeleton -----------------------------------------------------------
+
+.bn-skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.04) 0%,
+    rgba(255, 255, 255, 0.1) 40%,
+    rgba(255, 255, 255, 0.04) 80%
+  );
+  background-size: 200% 100%;
+  border-radius: $radius-sm;
+  animation: bn-skeleton-shimmer 1.6s linear infinite;
+  display: block;
+  height: 14px;
+  width: 100%;
+}
+
+@keyframes bn-skeleton-shimmer {
+  0%   { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}

@@ -1,0 +1,369 @@
+<main class="sg-shell">
+  <header class="sg-hero">
+    <div class="sg-hero__chrome">
+      <span class="bn-eyebrow bn-eyebrow--accent">Design system</span>
+      <h1 class="bn-display-2">W3Booster Styleguide</h1>
+      <p class="sg-hero__lede">
+        The Battle.net&nbsp;2020-inspired visual language used everywhere in the
+        client. Tokens, mixins, and component primitives live under
+        <code class="bn-mono">apps/client/src/app/design</code>. Prefer composing
+        from these classes over hand-rolled styles.
+      </p>
+      <div class="sg-hero__actions">
+        <a class="bn-btn bn-btn--primary" routerLink="/dashboard">Open dashboard</a>
+        <a class="bn-btn bn-btn--ghost" routerLink="/web">View landing</a>
+      </div>
+    </div>
+    <aside class="sg-hero__toc" aria-label="Sections">
+      <span class="bn-eyebrow">Sections</span>
+      <ul>
+        <li *ngFor="let s of sections"><a [href]="'#' + s.id">{{ s.title }}</a></li>
+      </ul>
+    </aside>
+  </header>
+
+  <!-- ===== foundations ===== -->
+  <section id="foundations" class="sg-section">
+    <div class="sg-section__head">
+      <span class="bn-eyebrow">01</span>
+      <h2 class="bn-heading">Foundations</h2>
+      <p class="bn-text-muted">Color, spacing, motion. Every other token derives from these.</p>
+    </div>
+
+    <h3 class="sg-h3">Ink (surfaces)</h3>
+    <div class="sg-swatches">
+      <figure *ngFor="let s of inkSwatches" class="sg-swatch" [style.background]="s.value">
+        <figcaption>
+          <strong class="bn-mono">{{ s.value }}</strong>
+          <span class="bn-text-faint bn-mono">{{ s.token }}</span>
+        </figcaption>
+      </figure>
+    </div>
+
+    <h3 class="sg-h3">Accent — BNet blue</h3>
+    <div class="sg-swatches">
+      <figure *ngFor="let s of accentSwatches" class="sg-swatch" [style.background]="s.value">
+        <figcaption>
+          <strong class="bn-mono">{{ s.value }}</strong>
+          <span class="bn-text-faint bn-mono">{{ s.token }}</span>
+        </figcaption>
+      </figure>
+    </div>
+
+    <h3 class="sg-h3">Accent — Pro gold</h3>
+    <div class="sg-swatches">
+      <figure *ngFor="let s of accentSwatchesGold" class="sg-swatch" [style.background]="s.value">
+        <figcaption>
+          <strong class="bn-mono" [style.color]="'#1a0f00'">{{ s.value }}</strong>
+          <span class="bn-mono" [style.color]="'#1a0f00'">{{ s.token }}</span>
+        </figcaption>
+      </figure>
+    </div>
+
+    <h3 class="sg-h3">Status</h3>
+    <div class="sg-swatches">
+      <figure *ngFor="let s of statusSwatches" class="sg-swatch" [style.background]="s.value">
+        <figcaption>
+          <strong class="bn-mono">{{ s.value }}</strong>
+          <span class="bn-mono">{{ s.token }}</span>
+        </figcaption>
+      </figure>
+    </div>
+
+    <h3 class="sg-h3">Spacing scale</h3>
+    <div class="sg-spacing">
+      <div *ngFor="let n of [4, 8, 12, 16, 20, 24, 32, 40, 48, 64]" class="sg-spacing__row">
+        <span class="bn-mono bn-text-muted">{{ n }}px</span>
+        <span class="sg-spacing__bar" [style.width.px]="n"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== typography ===== -->
+  <section id="typography" class="sg-section">
+    <div class="sg-section__head">
+      <span class="bn-eyebrow">02</span>
+      <h2 class="bn-heading">Typography</h2>
+      <p class="bn-text-muted">Inter for everything. Display weights are 800; body 400-600.</p>
+    </div>
+    <div class="bn-panel sg-type">
+      <p class="bn-display-1">Display 1 — 64</p>
+      <p class="bn-display-2">Display 2 — 48</p>
+      <p class="bn-display-3">Display 3 — 36</p>
+      <p class="bn-heading">Heading — 22</p>
+      <p>Body — 14. The brave watcher of the dawn.</p>
+      <p class="bn-text-muted">Body muted — 14.</p>
+      <p class="bn-text-faint">Body faint / hint.</p>
+      <p class="bn-eyebrow">Eyebrow micro label</p>
+      <p class="bn-mono">mono — code, IDs, hashes</p>
+    </div>
+  </section>
+
+  <!-- ===== buttons ===== -->
+  <section id="buttons" class="sg-section">
+    <div class="sg-section__head">
+      <span class="bn-eyebrow">03</span>
+      <h2 class="bn-heading">Buttons</h2>
+      <p class="bn-text-muted">Primary is the BNet-blue gradient. Use one per surface.</p>
+    </div>
+    <div class="bn-panel sg-cluster">
+      <button class="bn-btn bn-btn--primary">Primary</button>
+      <button class="bn-btn bn-btn--gold">Gold</button>
+      <button class="bn-btn">Default</button>
+      <button class="bn-btn bn-btn--ghost">Ghost</button>
+      <button class="bn-btn bn-btn--danger">Danger</button>
+      <button class="bn-btn" disabled>Disabled</button>
+    </div>
+    <div class="bn-panel sg-cluster">
+      <button class="bn-btn bn-btn--primary bn-btn--sm">Small primary</button>
+      <button class="bn-btn bn-btn--primary">Default primary</button>
+      <button class="bn-btn bn-btn--primary bn-btn--lg">Large primary</button>
+    </div>
+    <div class="bn-panel sg-cluster">
+      <button class="bn-icon-btn" aria-label="Settings"><i class="fa fa-cog"></i></button>
+      <button class="bn-icon-btn" aria-label="Refresh"><i class="fa fa-sync"></i></button>
+      <button class="bn-icon-btn" aria-label="Close"><i class="fa fa-times"></i></button>
+    </div>
+  </section>
+
+  <!-- ===== panels ===== -->
+  <section id="panels" class="sg-section">
+    <div class="sg-section__head">
+      <span class="bn-eyebrow">04</span>
+      <h2 class="bn-heading">Panels &amp; Cards</h2>
+      <p class="bn-text-muted">All raised surfaces use the etched panel mixin.</p>
+    </div>
+
+    <div class="sg-grid sg-grid--3">
+      <article class="bn-card">
+        <div class="bn-card__header">
+          <h3 class="bn-card__title">Card title</h3>
+          <span class="bn-badge bn-badge--accent">Live</span>
+        </div>
+        <div class="bn-card__body">
+          <p class="bn-text-muted">Cards stack a header, body, and optional footer. Headers can host actions.</p>
+        </div>
+        <div class="bn-card__footer">
+          <button class="bn-btn bn-btn--ghost bn-btn--sm">Cancel</button>
+          <button class="bn-btn bn-btn--primary bn-btn--sm">Save</button>
+        </div>
+      </article>
+
+      <article class="bn-card">
+        <div class="bn-card__header">
+          <div>
+            <span class="bn-card__eyebrow">Statistics</span>
+            <h3 class="bn-card__title">Match velocity</h3>
+          </div>
+          <span class="bn-badge bn-badge--gold">Pro</span>
+        </div>
+        <div class="bn-card__body">
+          <p class="bn-display-3" style="margin-bottom: 8px;">12.4<span class="bn-text-muted bn-mono" style="font-size: 14px;"> /min</span></p>
+          <div class="bn-progress"><div [style.width.%]="progressValue"></div></div>
+          <p class="bn-text-faint" style="margin-top: 8px;">{{ progressValue }}% of last week</p>
+        </div>
+      </article>
+
+      <article class="bn-card">
+        <div class="bn-card__header">
+          <h3 class="bn-card__title">Quick actions</h3>
+        </div>
+        <div class="bn-card__body">
+          <button class="bn-btn bn-btn--block" style="margin-bottom: 8px;"><i class="fa fa-play"></i> Launch overlay</button>
+          <button class="bn-btn bn-btn--block bn-btn--ghost"><i class="fa fa-cog"></i> Configure</button>
+        </div>
+      </article>
+    </div>
+
+    <div class="sg-grid sg-grid--2" style="margin-top: 24px;">
+      <section class="bn-hero">
+        <span class="bn-hero__eyebrow">Hero tile</span>
+        <h3 class="bn-hero__title">Featured experience</h3>
+        <p class="bn-hero__copy">Use a hero tile for promoted content — a landing CTA, a release note, an upgrade prompt.</p>
+        <div class="bn-hero__actions">
+          <button class="bn-btn bn-btn--primary">Get started</button>
+          <button class="bn-btn bn-btn--ghost">Learn more</button>
+        </div>
+      </section>
+
+      <section class="bn-panel bn-panel--raised">
+        <span class="bn-eyebrow">Raised panel</span>
+        <h3 class="bn-heading" style="margin: 8px 0 12px;">Sidebar callout</h3>
+        <p class="bn-text-muted">Raised variant for things that should sit above the surrounding surface.</p>
+        <hr class="bn-divider" />
+        <div class="sg-cluster">
+          <span class="bn-chip"><span class="bn-dot bn-dot--online"></span> Online</span>
+          <span class="bn-chip bn-chip--accent">Featured</span>
+          <span class="bn-chip bn-chip--gold">Pro only</span>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <!-- ===== forms ===== -->
+  <section id="forms" class="sg-section">
+    <div class="sg-section__head">
+      <span class="bn-eyebrow">05</span>
+      <h2 class="bn-heading">Forms</h2>
+      <p class="bn-text-muted">Inputs, selects, toggles, and field groups.</p>
+    </div>
+
+    <div class="sg-grid sg-grid--2">
+      <div class="bn-panel">
+        <div class="sg-form">
+          <label class="bn-field">
+            <span class="bn-field__label">Display name</span>
+            <input class="bn-input" placeholder="Pad" />
+            <span class="bn-field__hint">Shown to viewers in your overlay.</span>
+          </label>
+
+          <label class="bn-field">
+            <span class="bn-field__label">Race preset</span>
+            <select class="bn-select">
+              <option>Human</option>
+              <option>Orc</option>
+              <option>Night Elf</option>
+              <option>Undead</option>
+            </select>
+          </label>
+
+          <label class="bn-field">
+            <span class="bn-field__label">Notes</span>
+            <textarea class="bn-textarea" placeholder="Anything to remember…"></textarea>
+            <span class="bn-field__error">Don't leave this blank.</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="bn-panel">
+        <div class="sg-form">
+          <label class="bn-toggle">
+            <input type="checkbox" [(ngModel)]="toggleA" />
+            <span class="bn-toggle__track"></span>
+            <span>Auto-attach overlay on launch</span>
+          </label>
+
+          <label class="bn-toggle">
+            <input type="checkbox" [(ngModel)]="toggleB" />
+            <span class="bn-toggle__track"></span>
+            <span>Show beta features</span>
+          </label>
+
+          <hr class="bn-divider" />
+
+          <div class="bn-alert"><i class="fa fa-info-circle"></i> Information alert. Inline with surrounding type.</div>
+          <div class="bn-alert bn-alert--warn"><i class="fa fa-exclamation-triangle"></i> Heads up — this is a warning.</div>
+          <div class="bn-alert bn-alert--error"><i class="fa fa-times-circle"></i> Something went wrong. Try again.</div>
+          <div class="bn-alert bn-alert--ok"><i class="fa fa-check-circle"></i> Saved.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== navigation ===== -->
+  <section id="navigation" class="sg-section">
+    <div class="sg-section__head">
+      <span class="bn-eyebrow">06</span>
+      <h2 class="bn-heading">Navigation</h2>
+      <p class="bn-text-muted">Top tab strip and side rail. The dashboard shell uses the rail on wide screens.</p>
+    </div>
+
+    <div class="bn-panel bn-panel--flush">
+      <nav class="bn-nav" style="padding: 0 12px;">
+        <a class="bn-nav__item is-active"><i class="fa fa-th"></i> Home</a>
+        <a class="bn-nav__item"><i class="fa fa-list-ol"></i> Build Orders</a>
+        <a class="bn-nav__item"><i class="fa fa-gamepad"></i> Player Overlay</a>
+        <a class="bn-nav__item is-disabled"><i class="fa fa-robot"></i> Automation</a>
+      </nav>
+    </div>
+
+    <div class="sg-rail-preview">
+      <nav class="bn-rail">
+        <span class="bn-rail__group">Workspace</span>
+        <a *ngFor="let item of navItems"
+           class="bn-rail__item"
+           [class.is-active]="item.active"
+           [class.is-disabled]="item.disabled">
+          <i [class]="item.icon"></i> {{ item.label }}
+        </a>
+      </nav>
+      <div class="bn-panel sg-rail-preview__body">
+        <h3 class="bn-heading" style="margin-top: 0;">Active section content</h3>
+        <p class="bn-text-muted">This is the content area. The rail is sticky at the side and highlights the active route.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== feedback ===== -->
+  <section id="feedback" class="sg-section">
+    <div class="sg-section__head">
+      <span class="bn-eyebrow">07</span>
+      <h2 class="bn-heading">Feedback</h2>
+      <p class="bn-text-muted">Status dots, badges, progress, and loading skeletons.</p>
+    </div>
+
+    <div class="sg-grid sg-grid--2">
+      <div class="bn-panel">
+        <h3 class="bn-card__title" style="margin-bottom: 12px;">Status</h3>
+        <div class="sg-cluster">
+          <span class="bn-chip"><span class="bn-dot bn-dot--online bn-dot--pulse"></span> Recorder online</span>
+          <span class="bn-chip"><span class="bn-dot bn-dot--busy"></span> Encoding</span>
+          <span class="bn-chip"><span class="bn-dot bn-dot--error"></span> Disconnected</span>
+        </div>
+
+        <hr class="bn-divider" />
+
+        <div class="sg-cluster">
+          <span class="bn-badge">Default</span>
+          <span class="bn-badge bn-badge--accent">New</span>
+          <span class="bn-badge bn-badge--gold">Pro</span>
+          <span class="bn-badge bn-badge--ok">Ready</span>
+          <span class="bn-badge bn-badge--warn">Pending</span>
+          <span class="bn-badge bn-badge--err">Failed</span>
+        </div>
+      </div>
+
+      <div class="bn-panel">
+        <h3 class="bn-card__title" style="margin-bottom: 12px;">Progress &amp; loading</h3>
+        <div class="bn-progress" style="margin-bottom: 16px;"><div [style.width.%]="progressValue"></div></div>
+        <span class="bn-skeleton" style="width: 70%; margin-bottom: 8px;"></span>
+        <span class="bn-skeleton" style="width: 90%; margin-bottom: 8px;"></span>
+        <span class="bn-skeleton" style="width: 55%;"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== shell preview ===== -->
+  <section id="shell" class="sg-section">
+    <div class="sg-section__head">
+      <span class="bn-eyebrow">08</span>
+      <h2 class="bn-heading">Shell preview</h2>
+      <p class="bn-text-muted">A miniature of the dashboard shell — top chrome and side rail layered over a content body.</p>
+    </div>
+
+    <div class="sg-shell-preview">
+      <div class="bn-shell__chrome">
+        <a class="bn-shell__brand">
+          <span class="bn-shell__logo">W3</span>
+          <span>
+            <span class="bn-shell__title">W3Booster</span>
+            <span class="bn-shell__subtitle">Command center</span>
+          </span>
+        </a>
+        <nav class="bn-nav bn-shell__nav">
+          <a class="bn-nav__item is-active"><i class="fa fa-th"></i> Home</a>
+          <a class="bn-nav__item"><i class="fa fa-list-ol"></i> Builds</a>
+          <a class="bn-nav__item"><i class="fa fa-gamepad"></i> Overlay</a>
+        </nav>
+        <div class="bn-shell__cluster">
+          <span class="bn-chip"><span class="bn-dot bn-dot--online bn-dot--pulse"></span> Recording</span>
+          <button class="bn-shell__user">
+            <span class="bn-avatar">PA</span>
+            Pad
+            <span class="bn-badge bn-badge--gold">Pro</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

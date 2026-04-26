@@ -1,0 +1,7 @@
+<span class="recorder-chip" [class.is-web]="!desktop">
+    <span class="bn-dot" [class.bn-dot--online]="desktop"></span>
+    <span>
+        <strong>{{desktop ? 'Recorder ready' : 'Web mode'}}</strong>
+        <em>{{desktop ? 'Local capture available' : 'Native actions disabled'}}</em>
+    </span>
+</span>

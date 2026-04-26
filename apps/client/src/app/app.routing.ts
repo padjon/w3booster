@@ -6,24 +6,21 @@ import { BlankComponent, FullComponent } from '@app/shared';
 export const AppRoutes: Routes = [
   {
     path: '',
+    redirectTo: '/web',
+    pathMatch: 'full'
+  },
+  {
+    path: 'dashboard',
     canActivateChild: [AuthenticationService],
     component: FullComponent,
     children: [
       {
         path: '',
-        redirectTo: '/web',
-        pathMatch: 'full',
-        data: {
-          requiresAuthentication: false
-        }
-      },
-      {
-        path: 'dashboard',
         loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
         data: {
           requiresAuthentication: true
         }
-      },
+      }
     ]
   },
   {
@@ -31,14 +28,6 @@ export const AppRoutes: Routes = [
     component: BlankComponent,
     canActivateChild: [AuthenticationService],
     children: [
-      {
-        path: '',
-        loadChildren:
-          () => import('./views/authentication/authentication.module').then(m => m.AuthenticationModule),
-        data: {
-          requiresAuthentication: false
-        }
-      },
       {
         path: 'web',
         loadChildren:
@@ -51,6 +40,22 @@ export const AppRoutes: Routes = [
         path: 'payment',
         loadChildren:
           () => import('./views/payment/payment.module').then(m => m.PaymentModule),
+        data: {
+          requiresAuthentication: false
+        }
+      },
+      {
+        path: 'styleguide',
+        loadChildren:
+          () => import('./views/styleguide/styleguide.module').then(m => m.StyleguideModule),
+        data: {
+          requiresAuthentication: false
+        }
+      },
+      {
+        path: '',
+        loadChildren:
+          () => import('./views/authentication/authentication.module').then(m => m.AuthenticationModule),
         data: {
           requiresAuthentication: false
         }

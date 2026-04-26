@@ -1,12 +1,13 @@
 <ng-container *ngIf="!showCompactDashboard">
 
-    <div *ngIf="loadingScreen"
-        style="position:absolute; left:0px; right:0px; top:0px; bottom:0px; background-color: white; opacity:0.9; z-index: 99999999999">
-        <img src="assets/images/loading.gif"
-            style="position:absolute; left: 50%; top:50%; width:200px; margin-left:-100px; margin-top:-120px " />
-        <div
-            style="position:absolute; left:50%; top:50%; width:400px; margin-left:-200px; text-align: center; margin-top:50px;">
-            <h1>Please wait..</h1>
+    <div *ngIf="loadingScreen" class="w3b-loading-veil">
+        <div class="w3b-loading-veil__inner">
+            <div class="w3b-loading-veil__ring" aria-hidden="true">
+                <span></span><span></span><span></span><span></span>
+            </div>
+            <p class="bn-eyebrow bn-eyebrow--accent">Booting</p>
+            <h1>Bringing the command center online…</h1>
+            <p class="bn-text-muted">Stay tuned. This usually takes a moment.</p>
         </div>
     </div>
 
@@ -15,45 +16,71 @@
             <div class="row flex-fill d-flex">
                 <div class="col-md-12 flex-fill d-flex flex-column">
                     <div class="card flex-fill d-flex w3b-client-frame" style="border: none;">
-                        <div class="card-header w3b-command-bar">
-                            <div class="w3b-brand-panel">
-                                <div class="w3b-logo-mark">W3</div>
-                                <div>
-                                    <div class="w3b-product-title">W3Booster</div>
-                                    <div class="w3b-product-subtitle">{{isDesktopClient ? 'Desktop command center' : 'Web command center'}}</div>
-                                </div>
-                            </div>
-                            <div class="w3b-nav-strip">
-                                <ng-template ng-template ngFor let-tab [ngForOf]="getAttributes(mainMenuTabs)">
-                                    <a class="mainNav {{((tab.active) ? 'active' :'')}}  {{((tab.disabled) ? 'disabled' :'')}}"
-                                        *ngIf="(tab.hide !== true)" (click)="switchTab(mainMenuTabs, tab)">
-                                        <span [class]="tab.icon"></span> {{tab.name}}
+                        <header class="bn-shell__chrome w3b-command-bar">
+                            <a class="bn-shell__brand">
+                                <span class="bn-shell__logo">W3</span>
+                                <span>
+                                    <span class="bn-shell__title">W3Booster</span>
+                                    <span class="bn-shell__subtitle">{{isDesktopClient ? 'Desktop command center' : 'Web command center'}}</span>
+                                </span>
+                            </a>
+
+                            <nav class="bn-nav bn-shell__nav" aria-label="Primary">
+                                <ng-container *ngFor="let tab of getAttributes(mainMenuTabs)">
+                                    <a *ngIf="tab.hide !== true"
+                                       class="bn-nav__item"
+                                       [class.is-active]="tab.active"
+                                       [class.is-disabled]="tab.disabled"
+                                       (click)="switchTab(mainMenuTabs, tab)">
+                                        <i [class]="tab.icon"></i> {{tab.name}}
                                     </a>
-                                </ng-template>
-                            </div>
-                            <div class="w3b-status-cluster">
-                                <a class="mainNav user-chip {{((mainMenuTabs.SUBSCRIPTION.active) ? 'active' :'')}}  {{((mainMenuTabs.SUBSCRIPTION.disabled) ? 'disabled' :'')}}"
-                                    *ngIf="user" (click)="switchTab(mainMenuTabs, mainMenuTabs.SUBSCRIPTION)">
-                                    <span [class]="mainMenuTabs.SUBSCRIPTION.icon"></span> {{user.displayName}} <span
-                                        [class]="'plan-badge-' + user.plan">&nbsp;</span>
-                                </a>
+                                </ng-container>
+                            </nav>
 
-                                <a class="mainNav recorder-chip {{((mainMenuTabs.RECORDER.active) ? 'active' :'')}}  {{((mainMenuTabs.RECORDER.disabled) ? 'disabled' :'')}}"
-                                    *ngIf="isDesktopClient" (click)="switchTab(mainMenuTabs, mainMenuTabs.RECORDER)">
-                                    <span [style.color]="recorderState.color"><span
-                                                [class]="mainMenuTabs.RECORDER.icon"></span></span>
-                                    <span><b>{{recorderState.title}}</b><span *ngIf="recorderState.subtitle"> / {{recorderState.subtitle}}</span></span>
-                                </a>
+                            <div class="bn-shell__cluster">
+                                <button *ngIf="isDesktopClient"
+                                        type="button"
+                                        class="w3b-recorder-chip"
+                                        [class.is-active]="mainMenuTabs.RECORDER.active"
+                                        [class.is-disabled]="mainMenuTabs.RECORDER.disabled"
+                                        (click)="switchTab(mainMenuTabs, mainMenuTabs.RECORDER)">
+                                    <span class="bn-dot bn-dot--pulse"
+                                          [style.background]="recorderState?.color || '#67809b'"
+                                          [style.boxShadow]="'0 0 0 3px rgba(255,255,255,0.04), 0 0 12px ' + (recorderState?.color || '#67809b')"></span>
+                                    <span class="w3b-recorder-chip__label">
+                                        <strong>{{recorderState?.title}}</strong>
+                                        <em *ngIf="recorderState?.subtitle">{{recorderState.subtitle}}</em>
+                                    </span>
+                                </button>
 
-                                <a class="mainNav mode-chip" *ngIf="isDesktopClient" (click)="toggleDashboardMode()">
-                                    <span class="fa fa-window-restore"></span> Compact
-                                </a>
+                                <button *ngIf="isDesktopClient"
+                                        type="button"
+                                        class="bn-icon-btn"
+                                        title="Switch to compact window"
+                                        aria-label="Switch to compact window"
+                                        (click)="toggleDashboardMode()">
+                                    <i class="fa fa-window-restore"></i>
+                                </button>
+
+                                <button *ngIf="user"
+                                        type="button"
+                                        class="bn-shell__user"
+                                        [class.is-active]="mainMenuTabs.SUBSCRIPTION.active"
+                                        (click)="switchTab(mainMenuTabs, mainMenuTabs.SUBSCRIPTION)">
+                                    <span class="bn-avatar">{{(user.displayName || '?').charAt(0).toUpperCase()}}</span>
+                                    <span class="w3b-user-name">{{user.displayName}}</span>
+                                    <span class="bn-badge"
+                                          [class.bn-badge--gold]="user.plan === 1">{{ user.plan === 1 ? 'Pro' : 'Basic' }}</span>
+                                </button>
                             </div>
-                        </div>
+                        </header>
                         <div *ngIf="mainMenuTabs.DASHBOARD.active" class="card-body  d-flex flex-column">
-                            <div *ngIf="!isDesktopClient" class="w3b-web-mode-banner">
-                                <b>Web mode:</b> overlay configuration, build orders, subscription, and sharing remain available.
-                                Recorder, in-game overlay attachment, local websocket, and all w3blib-backed actions are disabled in the browser.
+                            <div *ngIf="!isDesktopClient" class="bn-alert w3b-web-mode-banner">
+                                <i class="fa fa-globe"></i>
+                                <span>
+                                    <b>Web mode.</b> Overlay configuration, build orders, subscription, and sharing remain available.
+                                    Recorder, in-game overlay attachment, local websocket, and all w3blib-backed actions are disabled in the browser.
+                                </span>
                             </div>
                             <div class="row flex-fill d-flex">
                                 <div class="col-md-6">
@@ -191,7 +218,7 @@
                                                     <ul>
                                                         <li>Overlay now scales with the HUD-Scale setting of Warcraft 3 for better UI consistency.</li>
                                                     </ul>
-                                                
+
                                                     <i>Fixes</i>
                                                     <ul>
                                                         <li>Overlay no longer disappears when opening the quest or last hit screen.</li>
@@ -199,12 +226,12 @@
                                                         <li>Game start detection is now more reliable and accurate.</li>
                                                         <li>Classic icons will now consistently appear instead of Reforged ones.</li>
                                                     </ul>
-                                                
+
                                                     <i>Maintainability</i>
                                                     <ul>
                                                         <li>All core components of W3Booster — Client, Server, and Overlays — have been updated to a modern tech stack to ensure long-term maintainability and support for future features.</li>
                                                     </ul>
-                                                
+
                                                     <p>This looks like a small update, but the technical modernizations under the hood were massive. There might be new issues you haven't seen before, and it will take some time to stabilize everything again. These changes were necessary for the future of W3Booster. Please report every bug you face and I’ll make sure to take care of them.</p>
                                             </div>
                                             <div>

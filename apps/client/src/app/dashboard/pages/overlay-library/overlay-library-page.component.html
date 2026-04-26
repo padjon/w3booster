@@ -1,0 +1,95 @@
+<section class="page" *ngIf="user">
+    <header class="page__header">
+        <div>
+            <p class="bn-eyebrow bn-eyebrow--accent">Overlays</p>
+            <h1>Preset library</h1>
+            <p>Manage built-in and custom overlay presets. The Quick preset below writes to the existing player and OBS overlay settings.</p>
+        </div>
+        <a class="bn-btn bn-btn--primary" [routerLink]="['/dashboard/overlays/editor/new']"><i class="fa fa-plus"></i> New preset</a>
+    </header>
+
+    <article class="bn-card">
+        <div class="bn-card__header">
+            <h2 class="bn-card__title">Quick preset browser source</h2>
+            <span class="bn-badge">Existing overlay</span>
+        </div>
+        <div class="bn-card__body">
+            <label class="bn-field">
+                <span class="bn-field__label">OBS browser URL</span>
+                <input #overlayUrl class="bn-input" readonly [value]="overlayConfig.getOverlayUrl()" (click)="copyOverlayUrl(overlayUrl)">
+                <span class="bn-field__hint">Click the field to copy. Width 1920, height 1080.</span>
+            </label>
+        </div>
+    </article>
+
+    <div class="grid grid--2">
+        <article class="bn-card">
+            <div class="bn-card__header">
+                <h2 class="bn-card__title">Player overlay</h2>
+                <label class="bn-toggle">
+                    <input type="checkbox" [(ngModel)]="user.playerOverlaySettings.ingameOverlayEnabled" (ngModelChange)="overlayConfig.save('player')">
+                    <span class="bn-toggle__track"></span>
+                    <span>In game</span>
+                </label>
+            </div>
+            <div class="bn-card__body list">
+                <button *ngFor="let option of overlayConfig.sharedToggles"
+                        class="list-item build-order-row"
+                        type="button"
+                        (click)="overlayConfig.toggle('player', option.key)">
+                    <span>
+                        <b>{{option.label}}</b>
+                        <span>{{option.pro ? 'Pro depth setting' : 'Free quick preset setting'}}</span>
+                    </span>
+                    <span class="bn-badge" [class.bn-badge--ok]="user.playerOverlaySettings[option.key]">
+                        {{user.playerOverlaySettings[option.key] ? 'On' : 'Off'}}
+                    </span>
+                </button>
+            </div>
+        </article>
+
+        <article class="bn-card">
+            <div class="bn-card__header">
+                <h2 class="bn-card__title">OBS / replay overlay</h2>
+                <label class="bn-toggle">
+                    <input type="checkbox" [(ngModel)]="user.obsOverlaySettings.ingameOverlayEnabled" (ngModelChange)="overlayConfig.save('obs')">
+                    <span class="bn-toggle__track"></span>
+                    <span>In game</span>
+                </label>
+            </div>
+            <div class="bn-card__body list">
+                <button *ngFor="let option of overlayConfig.sharedToggles.concat(overlayConfig.obsOnlyToggles)"
+                        class="list-item build-order-row"
+                        type="button"
+                        (click)="overlayConfig.toggle('obs', option.key)">
+                    <span>
+                        <b>{{option.label}}</b>
+                        <span>{{option.pro ? 'Pro depth setting' : 'Stream quick preset setting'}}</span>
+                    </span>
+                    <span class="bn-badge" [class.bn-badge--ok]="user.obsOverlaySettings[option.key]">
+                        {{user.obsOverlaySettings[option.key] ? 'On' : 'Off'}}
+                    </span>
+                </button>
+            </div>
+        </article>
+    </div>
+
+    <div class="grid grid--4">
+        <article *ngFor="let preset of presets" class="bn-card">
+            <div class="bn-card__body">
+                <div class="preset-thumb" [style.background]="preset.thumbnail"></div>
+                <p class="bn-eyebrow">{{preset.type}}</p>
+                <h2 class="bn-card__title">{{preset.name}}</h2>
+                <p class="bn-text-muted">{{preset.widgets.join(', ')}}</p>
+                <div class="page__actions">
+                    <span class="bn-badge" [class.bn-badge--gold]="preset.status === 'Pro'">{{preset.status}}</span>
+                    <span *ngIf="preset.shared" class="bn-badge bn-badge--accent">Shared</span>
+                </div>
+            </div>
+            <div class="bn-card__footer">
+                <button type="button" class="bn-btn bn-btn--sm"><i class="fa fa-copy"></i> URL</button>
+                <a class="bn-btn bn-btn--sm bn-btn--primary" [routerLink]="['/dashboard/overlays/editor', preset.id]">Edit</a>
+            </div>
+        </article>
+    </div>
+</section>

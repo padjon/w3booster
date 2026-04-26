@@ -1,0 +1,20 @@
+<section class="page">
+    <header class="page__header">
+        <div>
+            <p class="bn-eyebrow bn-eyebrow--accent">Match Insights</p>
+            <h1>Replay diagnostics</h1>
+            <p>Mock replay list with cohort percentiles and practice signals ready for backend replacement.</p>
+        </div>
+        <button class="bn-btn bn-btn--primary"><i class="fa fa-upload"></i> Drop replay</button>
+    </header>
+
+    <article class="bn-card">
+        <div class="bn-card__header"><h2 class="bn-card__title">Recent replays</h2></div>
+        <div class="bn-card__body list">
+            <a *ngFor="let replay of replays" class="list-item" [routerLink]="['/dashboard/insights/replay', replay.id]">
+                <b>{{replay.result}} vs {{replay.opponent}}</b>
+                <span>{{replay.race}} {{replay.matchup}} · {{replay.duration}} · {{replay.apm}} APM · P{{replay.percentile}}</span>
+            </a>
+        </div>
+    </article>
+</section>

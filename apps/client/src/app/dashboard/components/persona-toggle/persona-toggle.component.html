@@ -1,0 +1,12 @@
+<div *ngIf="state?.persona === 'both'" class="persona-toggle" aria-label="Persona focus">
+    <button type="button"
+            [class.is-active]="state.activeFocus !== 'streamer'"
+            (click)="setFocus('player')">
+        Player
+    </button>
+    <button type="button"
+            [class.is-active]="state.activeFocus === 'streamer'"
+            (click)="setFocus('streamer')">
+        Streamer
+    </button>
+</div>

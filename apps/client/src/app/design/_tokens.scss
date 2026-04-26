@@ -1,0 +1,144 @@
+// W3Booster Design Tokens
+// Battle.net 2020-inspired dark UI: deep navy panels, electric BNet-blue
+// accents, soft glow, etched borders.
+//
+// All visual surfaces in the app should consume these — never hand-roll
+// colors or shadows in feature code.
+
+// ---- color base ---------------------------------------------------------
+
+$bn-ink-900: #04070d;   // deepest background
+$bn-ink-850: #060b15;
+$bn-ink-800: #08111f;   // app shell
+$bn-ink-750: #0b1929;
+$bn-ink-700: #0f2236;   // raised panel
+$bn-ink-650: #142a44;
+$bn-ink-600: #1b3556;   // hover panel
+$bn-ink-500: #234262;
+
+$bn-frost-100: #ffffff;
+$bn-frost-200: #eaf3ff;  // primary text
+$bn-frost-300: #c6d8f0;  // secondary text
+$bn-frost-400: #94adc8;  // tertiary text / labels
+$bn-frost-500: #67809b;  // disabled / hint
+$bn-frost-600: #46596f;  // dividers
+
+// Electric blue — the BNet 2020 signature.
+$bn-blue-400: #6ec3ff;
+$bn-blue-500: #2196f3;
+$bn-blue-600: #0d7ad6;   // CTA base
+$bn-blue-700: #0a5ba4;
+$bn-blue-800: #073b6c;
+
+// Warning gold — for "pro" / featured / live highlights.
+$bn-gold-400: #ffd166;
+$bn-gold-500: #f1a33b;
+$bn-gold-600: #c87a16;
+
+// Status palette
+$bn-status-online:  #42c483;
+$bn-status-busy:    #f1a33b;
+$bn-status-offline: #67809b;
+$bn-status-error:   #df5c52;
+
+// ---- semantic aliases ---------------------------------------------------
+
+$bg-app:        $bn-ink-900;
+$bg-shell:      $bn-ink-800;
+$bg-panel:      rgba(15, 34, 54, 0.78);
+$bg-panel-raised: rgba(27, 53, 86, 0.85);
+$bg-panel-hover:  rgba(33, 66, 100, 0.9);
+$bg-input:      rgba(4, 9, 18, 0.72);
+
+$border-subtle: rgba(110, 158, 210, 0.12);
+$border-soft:   rgba(110, 158, 210, 0.22);
+$border-strong: rgba(110, 195, 255, 0.45);
+$border-glow:   rgba(110, 195, 255, 0.85);
+
+$text-primary:   $bn-frost-200;
+$text-secondary: $bn-frost-300;
+$text-muted:     $bn-frost-400;
+$text-faint:     $bn-frost-500;
+$text-on-accent: $bn-frost-100;
+
+$accent:         $bn-blue-500;
+$accent-strong:  $bn-blue-400;
+$accent-deep:    $bn-blue-700;
+$accent-gold:    $bn-gold-500;
+
+// ---- typography ---------------------------------------------------------
+
+$font-display: "Inter", "Segoe UI", "Trebuchet MS", system-ui, sans-serif;
+$font-body:    "Inter", "Segoe UI", "Trebuchet MS", system-ui, sans-serif;
+$font-mono:    "JetBrains Mono", "Consolas", "Menlo", monospace;
+
+$fs-12: 12px;
+$fs-13: 13px;
+$fs-14: 14px;
+$fs-16: 16px;
+$fs-18: 18px;
+$fs-22: 22px;
+$fs-28: 28px;
+$fs-36: 36px;
+$fs-48: 48px;
+$fs-64: 64px;
+
+$fw-regular: 400;
+$fw-medium:  500;
+$fw-semibold: 600;
+$fw-bold:    700;
+$fw-black:   800;
+
+$lh-tight:   1.15;
+$lh-snug:    1.35;
+$lh-normal:  1.55;
+
+$ls-display: -0.02em;
+$ls-eyebrow: 0.16em;
+$ls-button:  0.08em;
+
+// ---- spacing scale (4px base) ------------------------------------------
+
+$sp-1: 4px;
+$sp-2: 8px;
+$sp-3: 12px;
+$sp-4: 16px;
+$sp-5: 20px;
+$sp-6: 24px;
+$sp-8: 32px;
+$sp-10: 40px;
+$sp-12: 48px;
+$sp-16: 64px;
+
+// ---- radii --------------------------------------------------------------
+
+$radius-xs: 2px;
+$radius-sm: 4px;
+$radius-md: 6px;
+$radius-lg: 10px;
+$radius-pill: 999px;
+
+// ---- elevation ----------------------------------------------------------
+
+$shadow-1: 0 2px 6px rgba(0, 0, 0, 0.35);
+$shadow-2: 0 8px 24px rgba(0, 0, 0, 0.4);
+$shadow-3: 0 20px 60px rgba(0, 0, 0, 0.55);
+$shadow-glow: 0 0 0 1px rgba(110, 195, 255, 0.45),
+              0 0 24px rgba(33, 150, 243, 0.45);
+$shadow-glow-strong: 0 0 0 1px rgba(110, 195, 255, 0.7),
+                     0 0 36px rgba(33, 150, 243, 0.65);
+
+// ---- motion -------------------------------------------------------------
+
+$dur-fast: 120ms;
+$dur-base: 180ms;
+$dur-slow: 320ms;
+$ease-out: cubic-bezier(0.16, 0.84, 0.32, 1);
+$ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+// ---- layout -------------------------------------------------------------
+
+$shell-rail-width: 240px;
+$shell-command-height: 72px;
+$shell-content-max: 1440px;
+$shell-gutter: $sp-6;

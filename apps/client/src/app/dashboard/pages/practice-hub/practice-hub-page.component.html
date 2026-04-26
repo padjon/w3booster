@@ -1,0 +1,50 @@
+<section class="page">
+    <header class="page__header">
+        <div>
+            <p class="bn-eyebrow bn-eyebrow--accent">Practice Hub</p>
+            <h1>Diagnose, drill, repeat</h1>
+            <p>Your recent replay signals, active goals, and build-order drills are assembled into one player workflow.</p>
+        </div>
+        <a class="bn-btn bn-btn--primary" [routerLink]="['/dashboard/build-orders']"><i class="fa fa-list-ol"></i> Open builds</a>
+    </header>
+
+    <div class="grid grid--4">
+        <div class="stat"><span>Weekly APM</span><strong>151</strong></div>
+        <div class="stat"><span>Supply block avg</span><strong>0:35</strong></div>
+        <div class="stat"><span>Build drift</span><strong>-0:18</strong></div>
+        <div class="stat"><span>Replay percentile</span><strong>72</strong></div>
+    </div>
+
+    <div class="grid grid--2">
+        <article class="bn-card">
+            <div class="bn-card__header"><h2 class="bn-card__title">Current goals</h2></div>
+            <div class="bn-card__body list">
+                <div class="list-item"><b>Keep first supply block under 20s</b><span>3 matches left</span></div>
+                <div class="list-item"><b>Hit tier 2 before 6:10</b><span>On pace</span></div>
+                <div class="list-item"><b>Scout natural by 3:00</b><span>Needs work</span></div>
+            </div>
+        </article>
+
+        <article class="bn-card">
+            <div class="bn-card__header"><h2 class="bn-card__title">Drill suggestion</h2></div>
+            <div class="bn-card__body">
+                <p class="bn-text-muted">Your last Orc matchup drifted late at the second burrow and shop. Run the FS expand punish drill twice before queueing.</p>
+                <div *ngFor="let build of buildOrders" class="list-item">
+                    <b>{{build.name}}</b>
+                    <span>{{build.race}} {{build.matchup}} · {{build.completion}}%</span>
+                </div>
+            </div>
+        </article>
+    </div>
+
+    <article class="bn-card">
+        <div class="bn-card__header"><h2 class="bn-card__title">Last replay summary</h2></div>
+        <div class="bn-card__body grid grid--3">
+            <a *ngFor="let replay of replays" class="stat" [routerLink]="['/dashboard/insights/replay', replay.id]">
+                <span>{{replay.race}} {{replay.matchup}}</span>
+                <strong>{{replay.result}}</strong>
+                <span>{{replay.opponent}} · {{replay.duration}} · P{{replay.percentile}}</span>
+            </a>
+        </div>
+    </article>
+</section>

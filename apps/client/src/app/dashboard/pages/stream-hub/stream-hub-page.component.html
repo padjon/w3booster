@@ -1,0 +1,62 @@
+<section class="page">
+    <header class="page__header">
+        <div>
+            <p class="bn-eyebrow bn-eyebrow--accent">Stream Hub</p>
+            <h1>Live production command center</h1>
+            <p>Overlay health, OBS setup, automation status, and stream story previews are collected here.</p>
+        </div>
+        <div class="page__actions">
+            <a class="bn-btn bn-btn--primary" [routerLink]="['/dashboard/overlays']"><i class="fa fa-layer-group"></i> Overlays</a>
+            <a class="bn-btn" [routerLink]="['/dashboard/automation']"><i class="fa fa-robot"></i> Rules</a>
+        </div>
+    </header>
+
+    <div class="grid grid--4">
+        <div class="stat"><span>Overlay health</span><strong>Live</strong></div>
+        <div class="stat"><span>Browser source</span><strong>1080p</strong></div>
+        <div class="stat"><span>Active rules</span><strong>{{rules.length}}</strong></div>
+        <div class="stat"><span>Win preview</span><strong>63%</strong></div>
+    </div>
+
+    <div class="grid grid--2">
+        <article class="bn-card">
+            <div class="bn-card__header">
+                <h2 class="bn-card__title">Setup checklist</h2>
+                <span class="bn-badge bn-badge--ok">3/4</span>
+            </div>
+            <div class="bn-card__body list">
+                <div class="list-item"><b>Connect Twitch</b><span>Done</span></div>
+                <div class="list-item"><b>Add OBS browser source</b><span>Done</span></div>
+                <div class="list-item"><b>Attach running Warcraft III</b><span>Desktop only</span></div>
+                <div class="list-item"><b>Enable story card</b><span>Preview</span></div>
+            </div>
+        </article>
+
+        <article class="bn-card">
+            <div class="bn-card__header">
+                <h2 class="bn-card__title">Story-so-far preview</h2>
+                <span class="bn-badge bn-badge--gold">Pro</span>
+            </div>
+            <div class="bn-card__body">
+                <app-pro-lock feature="Live story card">
+                    <div class="grid grid--3">
+                        <div class="stat"><span>Streak</span><strong>4W</strong></div>
+                        <div class="stat"><span>Best timing</span><strong>5:42</strong></div>
+                        <div class="stat"><span>Matchup</span><strong>68%</strong></div>
+                    </div>
+                </app-pro-lock>
+            </div>
+        </article>
+    </div>
+
+    <article class="bn-card">
+        <div class="bn-card__header"><h2 class="bn-card__title">Recent presets</h2></div>
+        <div class="bn-card__body grid grid--4">
+            <div *ngFor="let preset of presets" class="stat">
+                <div class="preset-thumb" [style.background]="preset.thumbnail"></div>
+                <b>{{preset.name}}</b>
+                <span>{{preset.widgets.join(' / ')}}</span>
+            </div>
+        </div>
+    </article>
+</section>

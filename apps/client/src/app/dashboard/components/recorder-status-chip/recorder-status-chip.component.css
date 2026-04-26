@@ -1,0 +1,27 @@
+.recorder-chip {
+    align-items: center;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(110, 158, 210, 0.22);
+    border-radius: 6px;
+    color: #eaf3ff;
+    display: inline-flex;
+    gap: 10px;
+    min-height: 40px;
+    padding: 6px 10px;
+}
+
+.recorder-chip em,
+.recorder-chip strong {
+    display: block;
+    font-style: normal;
+    line-height: 1.2;
+}
+
+.recorder-chip em {
+    color: #94adc8;
+    font-size: 11px;
+}
+
+.recorder-chip.is-web {
+    border-color: rgba(241, 163, 59, 0.45);
+}

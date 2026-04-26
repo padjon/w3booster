@@ -1,43 +1,155 @@
-.lds-ring {
-  display: inline-block;
-  position: relative;
-  width: 64px;
-  height: 64px;
-}
-.lds-ring div {
-  box-sizing: border-box;
+:host {
+  background: #04070d;
+  color: #eaf3ff;
   display: block;
+  min-height: 100vh;
+}
+
+.login-shell {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 28px;
+  position: relative;
+}
+
+.login-brand {
+  left: 28px;
   position: absolute;
-  width: 51px;
-  height: 51px;
-  margin: 6px;
-  border: 6px solid #fff;
-  border-radius: 50%;
-  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-  border-color: #666 transparent transparent transparent;
+  top: 28px;
 }
-.lds-ring div:nth-child(1) {
-  animation-delay: -0.45s;
+
+.login-brand img {
+  display: block;
+  width: 158px;
 }
-.lds-ring div:nth-child(2) {
-  animation-delay: -0.3s;
+
+.login-panel {
+  background: rgba(15, 34, 54, 0.86);
+  border: 1px solid rgba(110, 195, 255, 0.35);
+  border-radius: 8px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  max-width: 520px;
+  padding: 30px;
+  width: 100%;
 }
-.lds-ring div:nth-child(3) {
-  animation-delay: -0.15s;
+
+.login-panel--center {
+  text-align: center;
 }
-@keyframes lds-ring {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+
+.login-panel h1 {
+  color: #fff;
+  font-size: 34px;
+  letter-spacing: 0;
+  line-height: 1.1;
+  margin: 8px 0 12px;
+}
+
+.login-panel p {
+  color: #c6d8f0;
+  line-height: 1.6;
+  margin: 0 0 22px;
+}
+
+.twitch-button {
+  align-items: center;
+  background: #6441a4;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  font-size: 15px;
+  font-weight: 800;
+  gap: 14px;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 18px;
+  width: 100%;
+}
+
+.twitch-button:hover {
+  background: #7650ba;
+}
+
+.twitch-button img {
+  height: 24px;
+  width: 24px;
+}
+
+.login-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+.login-links a {
+  color: #94adc8;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
 }
 
 .login-error {
-  background: rgba(180, 36, 36, 0.12);
-  border-left: 3px solid #b42424;
-  color: #9f2020;
-  margin-top: 16px;
+  background: rgba(223, 92, 82, 0.1);
+  border-left: 3px solid #df5c52;
+  border-radius: 4px;
+  color: #ffd5d2;
+  margin-bottom: 18px;
   padding: 10px 12px;
+}
+
+.lds-ring {
+  display: inline-block;
+  height: 64px;
+  margin-bottom: 16px;
+  position: relative;
+  width: 64px;
+}
+
+.lds-ring div {
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border: 6px solid #6ec3ff;
+  border-color: #6ec3ff transparent transparent transparent;
+  border-radius: 50%;
+  box-sizing: border-box;
+  display: block;
+  height: 51px;
+  margin: 6px;
+  position: absolute;
+  width: 51px;
+}
+
+.lds-ring div:nth-child(1) { animation-delay: -0.45s; }
+.lds-ring div:nth-child(2) { animation-delay: -0.3s; }
+.lds-ring div:nth-child(3) { animation-delay: -0.15s; }
+
+@keyframes lds-ring {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 560px) {
+  .login-shell {
+    align-items: flex-start;
+    padding: 92px 18px 18px;
+  }
+
+  .login-brand {
+    left: 18px;
+    top: 18px;
+  }
+
+  .login-brand img {
+    width: 136px;
+  }
+
+  .login-panel {
+    padding: 22px;
+  }
 }

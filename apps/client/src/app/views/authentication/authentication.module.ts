@@ -9,6 +9,9 @@ import { AuthenticationRoutes } from '@app/views/authentication/authentication.r
 import { LoginComponent } from '@app/views/authentication/login/login.component';
 import { SharedModule } from '@app/shared';
 import { UserService } from '@app/data/modelservices';
+import { DeveloperPortalPageComponent } from '../public/developer-portal/developer-portal-page.component';
+import { GiftPageComponent } from '../public/gift/gift-page.component';
+import { PublicProfilePageComponent } from '../public/public-profile/public-profile-page.component';
 
 @NgModule({
   imports: [
@@ -19,7 +22,13 @@ import { UserService } from '@app/data/modelservices';
     SharedModule,
     RouterModule.forChild(AuthenticationRoutes)
   ],
-  declarations: [NotFoundComponent, LoginComponent],
+  declarations: [
+    NotFoundComponent,
+    LoginComponent,
+    GiftPageComponent,
+    DeveloperPortalPageComponent,
+    PublicProfilePageComponent
+  ],
   providers: [UserService]
 })
 export class AuthenticationModule {}

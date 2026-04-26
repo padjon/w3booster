@@ -1,0 +1,125 @@
+<section class="page">
+    <header class="page__header">
+        <div>
+            <p class="bn-eyebrow bn-eyebrow--accent">Build Orders</p>
+            <h1>Training program library</h1>
+            <p>Create, duplicate, delete, import, export, activate, and edit locally stored build orders. This uses the same storage keys as the legacy dashboard.</p>
+        </div>
+        <div class="page__actions">
+            <button class="bn-btn" type="button" (click)="create()"><i class="fa fa-plus"></i> New</button>
+            <button class="bn-btn" type="button" (click)="duplicate()"><i class="fa fa-copy"></i> Duplicate</button>
+            <button class="bn-btn bn-btn--danger" type="button" (click)="remove()"><i class="fa fa-trash"></i> Delete</button>
+        </div>
+    </header>
+
+    <div class="grid grid--3">
+        <article class="bn-card">
+            <div class="bn-card__header">
+                <h2 class="bn-card__title">Library</h2>
+                <span class="bn-badge">{{orders.length}}</span>
+            </div>
+            <div class="bn-card__body list">
+                <button *ngFor="let order of orders"
+                        class="list-item build-order-row"
+                        [class.is-selected]="order.id === selectedId"
+                        type="button"
+                        (click)="selectedId = order.id; persist()">
+                    <span>
+                        <b>{{order.name}}</b>
+                        <span>{{order.race}} · {{order.matchup}} · {{order.steps.length}} steps</span>
+                    </span>
+                    <span class="bn-badge" [class.bn-badge--ok]="order.id === activeId">{{order.id === activeId ? 'Active' : order.visibility}}</span>
+                </button>
+            </div>
+        </article>
+
+        <article class="bn-card" style="grid-column: span 2;" *ngIf="selected">
+            <div class="bn-card__header">
+                <h2 class="bn-card__title">Editor</h2>
+                <div class="page__actions">
+                    <button *ngIf="activeId !== selected.id" class="bn-btn bn-btn--sm bn-btn--primary" type="button" (click)="activate()"><i class="fa fa-play"></i> Activate</button>
+                    <button *ngIf="activeId === selected.id" class="bn-btn bn-btn--sm" type="button" (click)="stop()"><i class="fa fa-stop"></i> Stop</button>
+                </div>
+            </div>
+            <div class="bn-card__body">
+                <div class="grid grid--3">
+                    <label class="bn-field">
+                        <span class="bn-field__label">Name</span>
+                        <input class="bn-input" [(ngModel)]="selected.name" (ngModelChange)="persist()">
+                    </label>
+                    <label class="bn-field">
+                        <span class="bn-field__label">Race</span>
+                        <select class="bn-select" [(ngModel)]="selected.race" (ngModelChange)="persist()">
+                            <option *ngFor="let race of buildOrderService.races" [ngValue]="race">{{race}}</option>
+                        </select>
+                    </label>
+                    <label class="bn-field">
+                        <span class="bn-field__label">Matchup</span>
+                        <input class="bn-input" [(ngModel)]="selected.matchup" (ngModelChange)="persist()" placeholder="any">
+                    </label>
+                </div>
+
+                <div class="grid grid--3" style="margin-top: 14px;">
+                    <label class="bn-field">
+                        <span class="bn-field__label">Visibility</span>
+                        <select class="bn-select" [(ngModel)]="selected.visibility" (ngModelChange)="persist()">
+                            <option ngValue="private">private</option>
+                            <option ngValue="shared">shared</option>
+                        </select>
+                    </label>
+                    <label class="bn-toggle" style="align-self: end; min-height: 38px;">
+                        <input type="checkbox" [(ngModel)]="selected.autoSelect" (ngModelChange)="persist()">
+                        <span class="bn-toggle__track"></span>
+                        <span>Auto-select</span>
+                    </label>
+                    <div class="stat">
+                        <span>Completion</span>
+                        <strong>{{completion(selected)}}%</strong>
+                    </div>
+                </div>
+
+                <label class="bn-field" style="margin-top: 14px;">
+                    <span class="bn-field__label">Description</span>
+                    <textarea class="bn-textarea" [(ngModel)]="selected.description" (ngModelChange)="persist()"></textarea>
+                </label>
+            </div>
+        </article>
+    </div>
+
+    <article class="bn-card" *ngIf="selected">
+        <div class="bn-card__header">
+            <h2 class="bn-card__title">Timeline</h2>
+            <button class="bn-btn bn-btn--sm" type="button" (click)="addStep()"><i class="fa fa-plus"></i> Step</button>
+        </div>
+        <div class="bn-card__body timeline">
+            <div *ngFor="let step of selected.steps" class="timeline__row build-step-row">
+                <input class="bn-input" [ngModel]="buildOrderService.formatTime(step.atSeconds)" (ngModelChange)="updateStepTime(step, $event)">
+                <select class="bn-select" [(ngModel)]="step.action" (ngModelChange)="persist()">
+                    <option *ngFor="let action of buildOrderService.actions" [ngValue]="action">{{action}}</option>
+                </select>
+                <input class="bn-input" [(ngModel)]="step.target" (ngModelChange)="persist()" placeholder="target">
+                <input class="bn-input" [(ngModel)]="step.label" (ngModelChange)="persist()" placeholder="instruction">
+                <input class="bn-input" type="number" [(ngModel)]="step.toleranceSeconds" (ngModelChange)="persist()">
+                <button class="bn-icon-btn" type="button" title="Remove step" (click)="removeStep(step)"><i class="fa fa-trash"></i></button>
+            </div>
+        </div>
+    </article>
+
+    <div class="grid grid--2">
+        <article class="bn-card">
+            <div class="bn-card__header"><h2 class="bn-card__title">Export share code</h2></div>
+            <div class="bn-card__body">
+                <textarea class="bn-textarea code-block" readonly [value]="shareCode"></textarea>
+            </div>
+        </article>
+
+        <article class="bn-card">
+            <div class="bn-card__header"><h2 class="bn-card__title">Import share code</h2></div>
+            <div class="bn-card__body">
+                <textarea class="bn-textarea code-block" [(ngModel)]="importCode" placeholder="Paste a build order share code"></textarea>
+                <div *ngIf="importError" class="bn-alert bn-alert--error" style="margin-top: 12px;"><i class="fa fa-exclamation-triangle"></i>{{importError}}</div>
+                <button class="bn-btn bn-btn--primary" style="margin-top: 12px;" type="button" (click)="importOrder()">Import</button>
+            </div>
+        </article>
+    </div>
+</section>

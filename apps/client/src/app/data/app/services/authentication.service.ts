@@ -3,11 +3,13 @@ import { ActivatedRouteSnapshot, Router } from '@angular/router';
 import { RoleService } from 'app/data/modelservices';
 import {
     User,
+    EUserPlan,
     Role,
     RolePrivilegeEnum,
     RoleRestrictionEnum
 } from 'app/data/models';
 import { ParseService, Parse } from 'app/data/common/services/parse.service';
+import { environment } from '@env/environment';
 
 @Injectable()
 export class AuthenticationService  {
@@ -17,6 +19,7 @@ export class AuthenticationService  {
     private restrictions = new Set<string>();
     private isSU: boolean;
     private initialized = false;
+    private e2eUser: User = null;
 
     constructor(
         private router: Router,
@@ -31,6 +34,12 @@ export class AuthenticationService  {
             this.restrictions.clear();
             this.isSU = false;
             this.mainRole = null;
+
+            if (this.isE2EMode()) {
+                this.initialized = true;
+                resolve();
+                return;
+            }
 
             if (this.isAuthenticated()) {
                 this.roleService
@@ -114,6 +123,8 @@ export class AuthenticationService  {
     public logout() {
         localStorage.removeItem('TWITCH_ACCESS_TOKEN');
         localStorage.removeItem('TWITCH_ID');
+        localStorage.removeItem('W3B_E2E_AUTH');
+        this.e2eUser = null;
         Parse.User.logOut().then(() => this.initialize());
     }
 
@@ -147,10 +158,50 @@ export class AuthenticationService  {
     }
 
     public getAuthenticatedUser(): User {
+        if (this.isE2EMode()) {
+            return this.getE2EUser();
+        }
         return this.parseService.patchSubclass(Parse.User.current()) as User;
     }
 
     public isAuthenticated(): boolean {
+        if (this.isE2EMode()) {
+            return true;
+        }
         return this.getAuthenticatedUser() !== null;
+    }
+
+    private isE2EMode(): boolean {
+        if (environment.production || typeof window === 'undefined') {
+            return false;
+        }
+
+        const host = window.location.hostname;
+        const localHost = host === 'localhost' || host === '127.0.0.1' || host === '0.0.0.0';
+        return localHost && localStorage.getItem('W3B_E2E_AUTH') === 'true';
+    }
+
+    private getE2EUser(): User {
+        if (this.e2eUser) {
+            return this.e2eUser;
+        }
+
+        const user = new User();
+        user.id = 'e2e-user';
+        user.username = 'e2e_user';
+        user.displayName = 'E2E Tester';
+        user.email = 'e2e@w3booster.local';
+        user.broadcasterSecret = 'e2e-secret';
+        user.plan = localStorage.getItem('W3B_E2E_PRO') === 'true' ? EUserPlan.PRO : EUserPlan.BASIC;
+        user.planUntil = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
+        user.settings['uiPersona'] = localStorage.getItem('w3b.persona.value') || 'both';
+        user.settings['developer'] = localStorage.getItem('w3b.persona.developer') !== 'false';
+
+        user.save = (() => Promise.resolve(user)) as any;
+        user.playerOverlaySettings.save = (() => Promise.resolve(user.playerOverlaySettings)) as any;
+        user.obsOverlaySettings.save = (() => Promise.resolve(user.obsOverlaySettings)) as any;
+
+        this.e2eUser = user;
+        return user;
     }
 }

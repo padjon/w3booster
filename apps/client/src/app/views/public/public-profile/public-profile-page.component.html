@@ -1,0 +1,30 @@
+<main class="public-shell">
+  <nav class="public-nav">
+    <a routerLink="/web"><img src="assets/images/logo.png" alt="W3Booster"></a>
+    <div class="public-nav__links">
+      <a class="bn-btn bn-btn--gold" [routerLink]="['/gift', handle]"><i class="fa fa-gift"></i> Gift Pro</a>
+      <a class="bn-btn" routerLink="/login">Login</a>
+    </div>
+  </nav>
+
+  <section class="public-hero">
+    <div class="public-hero__copy">
+      <p class="bn-eyebrow bn-eyebrow--accent">Public profile</p>
+      <h1>{{handle}}</h1>
+      <p>Mock public profile showing streamer now-playing context and player progress highlights. Privacy controls wire in later.</p>
+    </div>
+    <aside class="public-media">
+      <img src="assets/images/tutorial.png" alt="W3Booster overlay preview">
+      <div class="public-media__overlay">
+        <strong>Now playing: Human vs Orc</strong>
+        <span>Overlay source online · Build tracker active</span>
+      </div>
+    </aside>
+  </section>
+
+  <section class="public-grid public-grid--3">
+    <article class="public-card"><span>Recent matchup</span><strong>68% Human vs Orc</strong></article>
+    <article class="public-card"><span>Practice goal</span><strong>Supply block under 20s</strong></article>
+    <article class="public-card"><span>Streamer status</span><strong>Overlay live</strong></article>
+  </section>
+</main>
