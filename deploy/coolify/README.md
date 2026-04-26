@@ -27,11 +27,13 @@ Configured resource:
 
 The service pulls `ghcr.io/padjon/w3booster-{client,master,overlay}:main`.
 The `Docker Images` GitHub Actions workflow restarts this Coolify service after
-new `main` images are pushed.
+new `main` images are pushed, then calls the start endpoint as a recovery step
+because Coolify can leave the compose service stopped after a failed restart.
 
 Required GitHub secrets:
 
 - `COOLIFY_PREVIEW_RESTART_URL`
+- `COOLIFY_PREVIEW_START_URL`
 - `COOLIFY_TOKEN`
 
 Dashboard credentials are stored as Coolify environment variables. The generated
