@@ -1,7 +1,8 @@
 # E2E Testing
 
-The client now has a Playwright harness for browser-visible UI and payment
-handoff states without requiring Twitch, Parse, Electron, or live PayPal.
+The client now has a Playwright harness for browser-visible UI, mobile/desktop
+responsive checks, screenshots, and payment handoff states without requiring
+Twitch, Parse, Electron, live PayPal, or live Stripe.
 
 ## Commands
 
@@ -28,6 +29,12 @@ This mode is blocked in production builds.
 
 ## Payment Providers
 
-Tests do not call live PayPal. They create the same `PAYPAL_PENDING_STATE`
-used by the app and mock `GET /paypal/state/:state` responses for approved,
-cancelled, or error states.
+Tests do not call live PayPal or Stripe. They mock the gift checkout endpoints
+and create the same pending handoff states used by the app, then assert that
+the UI reaches the provider redirect state.
+
+## Visual And Mobile Coverage
+
+The authenticated dashboard suite runs in desktop Chromium and Mobile Chrome.
+It captures screenshots for the main persona routes and verifies that mobile
+dashboard pages can scroll without horizontal overflow.

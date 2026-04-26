@@ -101,6 +101,12 @@ test.describe('authenticated dashboard shell', () => {
       await expect(page.locator('.dashboard-shell__rail')).toBeVisible();
       await expectNoVisibleOverflow(page);
 
+      const railBox = await page.locator('.dashboard-shell__rail').boundingBox();
+      const headingBox = await page.getByRole('heading', { name: route.heading }).boundingBox();
+      expect(railBox).not.toBeNull();
+      expect(headingBox).not.toBeNull();
+      expect(railBox!.y + railBox!.height).toBeLessThanOrEqual(headingBox!.y + 2);
+
       const scrollState = await page.evaluate(() => {
         window.scrollTo(0, 0);
         const before = window.scrollY;

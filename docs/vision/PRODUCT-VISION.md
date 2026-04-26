@@ -31,9 +31,10 @@ that reacts to game events, and tools that give viewers *agency*.
 External developers who want to read the live game state to build their own
 overlays, bots, dashboards, or research tools. Mostly also streamers/players.
 
-A user picks their primary persona once at first run; **Both** is allowed for
-the player-streamer crossover. The Developer persona is a **facet**, not a mode
-— a streamer or player can opt-in to seeing developer surfaces.
+A user picks their primary persona once at first run and can switch between
+Player and Streamer later from the top-shell toggle. The Developer persona is a
+**facet**, not a mode — a streamer or player can opt-in to seeing developer
+surfaces.
 
 ## 3. Business model
 
@@ -71,8 +72,9 @@ richness* ("you see your supply curve; Pro sees the cohort percentile").
 3. **One picker, then it's their app.** Persona is set once. The UI does not
    constantly ask the user what they want to do.
 4. **Locked previews, never blank gates.** Every Pro feature shows what it is.
-5. **Persona-aware navigation.** A streamer never sees the player nav (and
-   vice versa) unless they are Both.
+5. **Persona-aware navigation.** A streamer never sees the player nav, and a
+   player never sees the streamer nav, unless they switch persona from the
+   top-shell toggle.
 6. **Data depth ladder, not feature exclusion.** Every page exists for free
    users in shallow form.
 7. **Speed and density.** This is a power-user tool. Information per pixel is
@@ -309,8 +311,8 @@ Beyond the existing overlays, narrative and agency for viewers.
 
 ## 8. Glossary
 
-- **Persona** — Player / Streamer / Both / (Developer facet). Set once at first
-  run, edited in Account.
+- **Persona** — Player / Streamer / (Developer facet). Set once at first run,
+  switchable from the dashboard shell.
 - **Quick preset** — The built-in default overlay preset that maps to today's
   toggle behavior. Always free.
 - **Cohort** — The anonymized population of W3Booster matches we benchmark

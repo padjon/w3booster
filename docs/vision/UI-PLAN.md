@@ -6,8 +6,10 @@
 
 ## 1. Information architecture
 
-The shell is **persona-aware**. After the first-run picker, the user's persona
-determines what nav items render and which "Hub" is the default landing.
+The shell is **persona-aware**. After the first-run picker, the user's selected
+persona determines what nav items render and which "Hub" is the default
+landing. Users can always switch between Player and Streamer from the top-shell
+toggle; only the selected persona's options are visible in the rail.
 
 ### Streamer mode
 
@@ -37,12 +39,6 @@ Match Insights
 Account
 ```
 
-### Both
-
-Both rails are visible. A subtle persona-mode pill in the shell cluster lets
-the user temporarily focus the nav to one side without changing their default.
-This pill is **only** rendered for users on the Both persona.
-
 ### Developer facet
 
 If `user.settings.developer === true`, an extra `Developers` item appears in
@@ -69,14 +65,14 @@ stats, and a link to the public dev portal.
 | Path | Page | Persona |
 |---|---|---|
 | `/dashboard` | Persona-routed home | redirects → `/dashboard/stream` or `/dashboard/practice` |
-| `/dashboard/stream` | Stream Hub | streamer / both |
-| `/dashboard/practice` | Practice Hub | player / both |
-| `/dashboard/overlays` | Overlay library | streamer / both |
-| `/dashboard/overlays/editor/:id` | Overlay editor | streamer / both |
-| `/dashboard/build-orders` | Build orders | player / both |
-| `/dashboard/insights` | Match Insights | player / both |
-| `/dashboard/insights/replay/:id` | Replay detail | player / both |
-| `/dashboard/automation` | Automation | streamer / both |
+| `/dashboard/stream` | Stream Hub | streamer |
+| `/dashboard/practice` | Practice Hub | player |
+| `/dashboard/overlays` | Overlay library | streamer |
+| `/dashboard/overlays/editor/:id` | Overlay editor | streamer |
+| `/dashboard/build-orders` | Build orders | player |
+| `/dashboard/insights` | Match Insights | player |
+| `/dashboard/insights/replay/:id` | Replay detail | player |
+| `/dashboard/automation` | Automation | streamer |
 | `/dashboard/account` | Account | all |
 | `/dashboard/developers` | Developers (in-app) | dev facet only |
 | `/dashboard/legacy` | Legacy fat dashboard | fallback during migration |
@@ -89,7 +85,8 @@ stats, and a link to the public dev portal.
 
 - `ShellComponent` — chrome (brand, top nav, status cluster) + side rail +
   child router-outlet.
-- `PersonaToggleComponent` — Both-only mode switch in the shell cluster.
+- `PersonaToggleComponent` — always-visible Player / Streamer switch in the
+  shell cluster.
 - `NotificationBellComponent` — bell with badge; opens a panel of unread
   notifications (gifts received, automation rule errors, replay analyzed).
 - `RecorderStatusChipComponent` — extracted from current dashboard chrome.
@@ -125,7 +122,8 @@ stats, and a link to the public dev portal.
 
 ### Onboarding
 
-- `PersonaPickerModalComponent` — three cards: Player / Streamer / Both.
+- `PersonaPickerModalComponent` — two cards: Player / Streamer. It explains
+  the difference and states that users can switch later from the top toggle.
   Triggered by `PersonaService` when no persona is set.
 
 ### Shared widgets (used across pages, all design-system based)
@@ -162,18 +160,19 @@ We are building the entire UI ahead of the backend. Until features land:
 A single source of truth for the persona state.
 
 ```ts
-type Persona = 'player' | 'streamer' | 'both';
+type Persona = 'player' | 'streamer';
 
 interface PersonaState {
   persona: Persona | null;       // null = first-run picker should fire
   developer: boolean;            // facet
-  activeFocus?: 'player' | 'streamer'; // Both-only inline toggle
 }
 ```
 
 - Persisted via the existing `User.settings` field if available, else
   localStorage with `w3b.persona.*` keys. Migration plan: when a backend
   field exists, sync localStorage → backend on next save.
+- Old stored `both` values are migrated to the last active focus when present,
+  otherwise to `player`.
 - Exposes `state$: Observable<PersonaState>` and helpers `isPlayer()`,
   `isStreamer()`, `isDev()`, `setPersona(p)`.
 - Drives:
@@ -228,6 +227,8 @@ Each notification has `id`, `type`, `title`, `body`, `createdAt`, `read`,
    - Implemented: `PersonaService`, `MockDataService`, `PersonaGuard`, new
      dashboard shell, notification bell, recorder chip, persona toggle,
      persona picker, Pro lock, and mocked dashboard pages.
+   - Updated: Player/Streamer are the only persona modes; the shell toggle is
+     always visible and the rail only shows the selected persona.
 3. **Stage 3.** Public landing redesign + login redesign + public gift +
    public developer portal. These have no functional dependency on the new
    shell, so they ship in parallel.
@@ -241,12 +242,12 @@ Each notification has `id`, `type`, `title`, `body`, `createdAt`, `read`,
 5. **Stage 5.** Wire mocked features to real backends behind feature flags,
    one at a time. Drop mock methods as they get replaced. Eventually delete
    the legacy dashboard.
+   - In progress: account-level external account linking lets one W3Booster
+     account connect Twitch and Battle.net identities. Gift Pro lookup uses
+     connected Twitch handles and checkout supports PayPal and Stripe.
 
 ## 9. Open questions (intentional unknowns)
 
-- **Is "Both" the default for new users?** Probably no — it weakens onboarding
-  by forcing a choice that the picker is supposed to short-circuit. Lean on
-  picker analytics post-launch.
 - **Does the Developer facet auto-enable on first API key creation?** Probably
   yes — fewer settings to find.
 - **How do we surface trials?** Most likely a one-shot ribbon on the locked

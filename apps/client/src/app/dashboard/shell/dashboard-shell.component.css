@@ -113,12 +113,12 @@
         overflow-x: auto;
         overscroll-behavior-x: contain;
         padding: 10px 12px;
-        position: relative;
+        position: static;
         scrollbar-width: none;
         scroll-padding: 12px;
         scroll-snap-type: x proximity;
+        top: auto;
         width: 100%;
-        z-index: 40;
         -webkit-overflow-scrolling: touch;
     }
 
