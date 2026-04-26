@@ -74,6 +74,11 @@
   background: #7650ba;
 }
 
+.twitch-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.52;
+}
+
 .twitch-button img {
   height: 24px;
   width: 24px;

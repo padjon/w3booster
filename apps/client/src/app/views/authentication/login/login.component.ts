@@ -89,6 +89,10 @@ export class LoginComponent implements OnInit {
     }
 
     public openTwitchLoginInExternalBrowser() {
+        if (!this.canStartTwitchLogin()) {
+            return;
+        }
+
         this.runningAuthStateID = this.nodeService.isAvailable() ? this.createAuthId() : this.createBrowserAuthState();
         localStorage.setItem('TWITCH_STATE', this.runningAuthStateID);
 
@@ -104,6 +108,10 @@ export class LoginComponent implements OnInit {
         } else {
             window.location.assign(loginUrl);
         }
+    }
+
+    public canStartTwitchLogin() {
+        return Boolean(this.oauthClientId && this.oauthRedirectTo);
     }
 
     private wait(timeInMS: number) {

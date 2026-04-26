@@ -24,6 +24,30 @@ test.describe('public web surfaces', () => {
     await expectNoVisibleOverflow(page);
   });
 
+  test('landing login starts browser Twitch auth from the rendered page', async ({ page }) => {
+    await page.route('https://id.twitch.tv/oauth2/authorize**', async route => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'text/html',
+        body: '<title>Twitch auth intercepted</title><main>Twitch auth intercepted</main>'
+      });
+    });
+
+    await page.goto('/web');
+    await page.getByRole('link', { name: /^Login$/i }).click();
+    await expect(page).toHaveURL(/\/login$/);
+
+    const twitchButton = page.getByRole('button', { name: /Continue with Twitch/i });
+    await expect(twitchButton).toBeEnabled();
+    await twitchButton.click();
+    await expect(page).toHaveURL(/id\.twitch\.tv\/oauth2\/authorize/);
+
+    const authUrl = new URL(page.url());
+    expect(authUrl.searchParams.get('client_id')).toBeTruthy();
+    expect(authUrl.searchParams.get('redirect_uri')).toContain('/twitch-auth/register');
+    expect(authUrl.searchParams.get('state')).toMatch(/^w3b:/);
+  });
+
   test('gift checkout can drive mocked PayPal approval in E2E mode', async ({ page }) => {
     await enableE2EAuth(page, true);
     await mockApprovedPayPal(page);

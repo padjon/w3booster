@@ -11,7 +11,11 @@
             <div *ngIf="loginError" class="login-error">{{loginError}}</div>
         </div>
 
-        <button type="button" class="twitch-button" (click)="openTwitchLoginInExternalBrowser()">
+        <button
+            type="button"
+            class="twitch-button"
+            [disabled]="!canStartTwitchLogin()"
+            (click)="openTwitchLoginInExternalBrowser()">
             <img src="assets/images/twitch-ico.png" alt="">
             <span>Continue with Twitch</span>
         </button>

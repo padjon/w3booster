@@ -203,24 +203,101 @@ a:hover {
 
 @media (max-width: 560px) {
   .landing-shell {
-    padding: 18px;
+    padding: 16px;
   }
 
   .landing-nav {
     align-items: flex-start;
     flex-direction: column;
-    gap: 18px;
+    gap: 14px;
+    margin-bottom: 22px;
   }
 
   .brand img {
-    width: 138px;
+    width: 132px;
   }
 
-  .hero-media {
-    min-height: 340px;
+  .nav-actions {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .nav-actions a {
+    align-items: center;
+    display: inline-flex;
+    font-size: 11px;
+    justify-content: center;
+    min-height: 38px;
+    padding: 0 6px;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .download-small {
+    grid-column: 1 / -1;
+    padding: 0 12px;
+  }
+
+  .hero {
+    gap: 20px;
+  }
+
+  .hero h1 {
+    font-size: 40px;
+    margin-bottom: 14px;
+  }
+
+  .hero p {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+
+  .hero-actions {
+    gap: 10px;
   }
 
   .hero-actions .bn-btn {
+    font-size: 12px;
+    letter-spacing: 0;
+    min-height: 46px;
+    padding: 12px 14px;
+    white-space: normal;
     width: 100%;
+  }
+
+  .hero-media {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .hero-media img {
+    aspect-ratio: 16 / 9;
+    background: #2b2d31;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .hero-media figcaption {
+    background: #060b15;
+    padding: 16px;
+    position: static;
+  }
+
+  .hero-media strong {
+    font-size: 18px;
+  }
+
+  .persona-grid,
+  .feature-band {
+    gap: 10px;
+  }
+
+  .persona-card,
+  .feature-band article {
+    padding: 16px;
   }
 }
