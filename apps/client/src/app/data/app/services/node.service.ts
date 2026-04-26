@@ -1,18 +1,17 @@
 import { Injectable } from '@angular/core';
-import * as __fs from 'fs';
-import * as __os from 'os';
-import * as __process from 'process';
-import * as __electron from 'electron';
-import * as __net from 'net';
-import * as __path from 'path';
-import * as __ffi from 'ffi';
-import * as __refStruct from 'ref-struct';
-import * as __ref from 'ref';
-import * as __http from 'http';
-import * as __remote from '@electron/remote';
-import * as __child_process from 'child_process'
-import * as __WebSocket from 'ws';
-import {bundled} from '@app/data/app/services/bundler';
+import type * as __fs from 'fs';
+import type * as __os from 'os';
+import type * as __process from 'process';
+import type * as __electron from 'electron';
+import type * as __net from 'net';
+import type * as __path from 'path';
+import type * as __ffi from 'ffi';
+import type * as __refStruct from 'ref-struct';
+import type * as __ref from 'ref';
+import type * as __http from 'http';
+import type * as __remote from '@electron/remote';
+import type * as __child_process from 'child_process'
+import type * as __WebSocket from 'ws';
 
 @Injectable()
 export class NodeService {
@@ -115,7 +114,7 @@ export class NodeService {
     }
 
     public get WebSocket() {
-        this._webSocket ??= bundled.WebSocket;
+        this._webSocket ??= this.requireNonNativePkg('ws');
         return this._webSocket;
     }
 
