@@ -10,10 +10,12 @@ import { environment } from '@app/data/common-imports';
 })
 export class FullComponent implements OnInit {
     public version = environment.version;
+    public desktop = false;
 
     constructor(private node: NodeService, public router: Router, private authenticationService: AuthenticationService) { }
 
     ngOnInit() {
+        this.desktop = this.node.isAvailable();
         if (this.router.url === '/') {
             this.router.navigate(['/dashboard']);
         }

@@ -49,4 +49,62 @@ test.describe('authenticated dashboard shell', () => {
     await expect(page.getByText(/OBS browser URL/i)).toBeVisible();
     await expectNoVisibleOverflow(page);
   });
+
+  test('mobile dashboard routes remain scrollable without clipped content', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'mobile-chrome', 'mobile layout regression coverage');
+    await page.setViewportSize({ width: 393, height: 640 });
+
+    const routes = [
+      { path: '/dashboard/practice', heading: 'Diagnose, drill, repeat' },
+      { path: '/dashboard/stream', heading: 'Live production command center' },
+      { path: '/dashboard/build-orders', heading: 'Training program library' },
+      { path: '/dashboard/account', heading: 'E2E Tester' }
+    ];
+
+    let scrollableRouteCount = 0;
+
+    for (const route of routes) {
+      await page.goto(route.path);
+      await expect(page.getByRole('heading', { name: route.heading })).toBeVisible();
+      await expect(page.locator('.dashboard-shell__rail')).toBeVisible();
+      await expectNoVisibleOverflow(page);
+
+      const scrollState = await page.evaluate(() => {
+        window.scrollTo(0, 0);
+        const before = window.scrollY;
+        window.scrollTo(0, document.documentElement.scrollHeight);
+        return {
+          before,
+          after: window.scrollY,
+          maxScroll: document.documentElement.scrollHeight - window.innerHeight
+        };
+      });
+
+      if (scrollState.maxScroll > 0) {
+        scrollableRouteCount++;
+        expect(scrollState.after).toBeGreaterThan(scrollState.before);
+      }
+    }
+
+    expect(scrollableRouteCount).toBeGreaterThan(0);
+  });
+
+  test('dashboard visual screenshots cover core desktop and mobile routes', async ({ page }, testInfo) => {
+    const routes = [
+      { path: '/dashboard/practice', name: 'practice', heading: 'Diagnose, drill, repeat' },
+      { path: '/dashboard/stream', name: 'stream', heading: 'Live production command center' },
+      { path: '/dashboard/build-orders', name: 'build-orders', heading: 'Training program library' },
+      { path: '/dashboard/account', name: 'account', heading: 'E2E Tester' }
+    ];
+
+    for (const route of routes) {
+      await page.goto(route.path);
+      await expect(page.getByRole('heading', { name: route.heading })).toBeVisible();
+      await expectNoVisibleOverflow(page);
+      await page.screenshot({
+        path: testInfo.outputPath(`${testInfo.project.name}-${route.name}.png`),
+        fullPage: true
+      });
+    }
+  });
 });

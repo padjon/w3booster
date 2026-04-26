@@ -18,11 +18,37 @@
 }
 
 .main-frame {
-  left:0px;
+  left: 0px;
   right: 0px;
-  bottom:0px;
-  top:0px;
+  bottom: 0px;
+  top: 0px;
   background-color: #fff;
   position: absolute;
-  overflow: hidden
+  overflow: hidden;
+}
+
+.main-frame.is-web-mode {
+  background: transparent;
+  min-height: 100vh;
+  overflow: visible;
+  position: static;
+}
+
+.main-frame.is-web-mode #main-wrapper,
+.main-frame.is-web-mode .page-wrapper {
+  min-height: 100vh;
+}
+
+.main-frame.is-web-mode #dragbar {
+  display: none;
+}
+
+.main-frame.is-web-mode #content-area {
+  bottom: auto;
+  left: auto;
+  min-height: 100vh;
+  padding: 0;
+  position: static;
+  right: auto;
+  top: auto;
 }
