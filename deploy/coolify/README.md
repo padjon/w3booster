@@ -40,6 +40,8 @@ Required GitHub secrets:
 - `COOLIFY_PREVIEW_API_RESTART_URL`
 - `COOLIFY_PREVIEW_API_START_URL`
 - `COOLIFY_TOKEN`
+- `TWITCH_CLIENT_SECRET` in the Coolify service environment, used by master
+  for the server-side Twitch OAuth code exchange.
 
 Dashboard credentials are stored as Coolify environment variables. The generated
 dashboard password is also on the server at

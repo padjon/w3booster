@@ -33,3 +33,11 @@
     transform: rotate(360deg);
   }
 }
+
+.login-error {
+  background: rgba(180, 36, 36, 0.12);
+  border-left: 3px solid #b42424;
+  color: #9f2020;
+  margin-top: 16px;
+  padding: 10px 12px;
+}

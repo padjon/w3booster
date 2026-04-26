@@ -21,6 +21,8 @@ services:
       PARSE_MOUNT: ${W3BOOSTER_PARSE_MOUNT:-/parse}
       PORT: ${W3BOOSTER_MASTER_PORT:-15469}
       OVERLAY_BROADCAST_PORT: ${W3BOOSTER_OVERLAY_BROADCAST_PORT:-15470}
+      TWITCH_CLIENT_ID: ${TWITCH_CLIENT_ID:-sw2dpxriowzfaqcczg5d8ss3ymz1nu}
+      TWITCH_CLIENT_SECRET: ${TWITCH_CLIENT_SECRET}
       HTTPS_KEY_PATH: ${W3BOOSTER_HTTPS_KEY_PATH:-/run/w3booster-certs/preview.w3booster.com-le.key}
       HTTPS_CERT_PATH: ${W3BOOSTER_HTTPS_CERT_PATH:-/run/w3booster-certs/preview.w3booster.com-le.crt}
       OVERLAY_HTTPS_KEY_PATH: ${W3BOOSTER_OVERLAY_HTTPS_KEY_PATH:-/run/w3booster-certs/preview.w3booster.com-le.key}

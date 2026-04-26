@@ -4,7 +4,8 @@
         style="width:406px; height: 100px; position: absolute; margin-top:-140px; top: 50%; left: 50%; margin-left: -200px; text-align:justify">
         <h2>Login with Twitch</h2>
         <br/>
-        W3Booster uses Twitch for authentication. In the desktop client this opens your default browser. In the web client this page redirects to Twitch and continues automatically after authentication. <br/>
+        W3Booster uses Twitch for authentication. In the desktop client this opens your default browser. In the web client you will return here automatically and continue into the app. <br/>
+        <div *ngIf="loginError" class="login-error">{{loginError}}</div>
         <br/>
         <a style="background-color: #6441a4; display:inline-block;"
         (click)="openTwitchLoginInExternalBrowser()">
