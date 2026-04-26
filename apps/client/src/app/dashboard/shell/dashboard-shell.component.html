@@ -36,7 +36,8 @@
                 <a *ngFor="let item of visibleItems('streamer')"
                    class="bn-rail__item"
                    [routerLink]="item.route"
-                   routerLinkActive="is-active">
+                   routerLinkActive="is-active"
+                   [routerLinkActiveOptions]="{ exact: true }">
                     <i [class]="item.icon"></i>
                     <span>{{item.label}}</span>
                 </a>
@@ -47,7 +48,8 @@
                 <a *ngFor="let item of visibleItems('player')"
                    class="bn-rail__item"
                    [routerLink]="item.route"
-                   routerLinkActive="is-active">
+                   routerLinkActive="is-active"
+                   [routerLinkActiveOptions]="{ exact: true }">
                     <i [class]="item.icon"></i>
                     <span>{{item.label}}</span>
                 </a>
@@ -57,7 +59,8 @@
             <a *ngFor="let item of visibleItems('shared')"
                class="bn-rail__item"
                [routerLink]="item.route"
-               routerLinkActive="is-active">
+               routerLinkActive="is-active"
+               [routerLinkActiveOptions]="{ exact: true }">
                 <i [class]="item.icon"></i>
                 <span>{{item.label}}</span>
             </a>
@@ -67,7 +70,8 @@
                 <a *ngFor="let item of visibleItems('developer')"
                    class="bn-rail__item"
                    [routerLink]="item.route"
-                   routerLinkActive="is-active">
+                   routerLinkActive="is-active"
+                   [routerLinkActiveOptions]="{ exact: true }">
                     <i [class]="item.icon"></i>
                     <span>{{item.label}}</span>
                 </a>

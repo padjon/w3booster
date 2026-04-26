@@ -50,22 +50,30 @@ test.describe('authenticated dashboard shell', () => {
     await expect(page.getByRole('heading', { name: 'API console' })).toBeVisible();
   });
 
-  test('build orders can be created, edited, exported, and imported locally', async ({ page }) => {
+  test('build orders can be created, published, selected, exported, and imported locally', async ({ page }) => {
     await page.goto('/dashboard/build-orders');
-    await expect(page.getByRole('heading', { name: 'Training program library' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Select a training program' })).toBeVisible();
+    await expect(page.getByText(/Released by/i).first()).toBeVisible();
+    await page.getByRole('button', { name: /Select/i }).first().click();
+    await expect(page.getByText(/Selected/i).first()).toBeVisible();
 
+    await page.goto('/dashboard/build-orders/manage');
+    await expect(page.getByRole('heading', { name: 'Build-order manager' })).toBeVisible();
     await page.getByRole('button', { name: 'New', exact: true }).click();
-    await page.getByLabel('Name').fill('E2E Human Drill');
+    await page.getByRole('textbox', { name: 'Name' }).fill('E2E Human Drill');
     await page.getByLabel('Matchup').fill('humanvorc');
     await page.getByRole('button', { name: 'Step', exact: true }).click();
     await expect(page.getByText('E2E Human Drill')).toBeVisible();
+    await page.getByLabel('Public releaser identity').selectOption('twitch:e2e-twitch');
+    await page.getByRole('button', { name: /Publish build/i }).click();
+    await expect(page.getByText(/is public as E2E Caster/i)).toBeVisible();
 
     const shareCode = await page.locator('textarea[readonly]').inputValue();
     expect(shareCode.length).toBeGreaterThan(40);
 
     await page.getByPlaceholder('Paste a build order share code').fill(shareCode);
     await page.getByRole('button', { name: /^Import$/ }).click();
-    await expect(page.getByText('E2E Human Drill')).toHaveCount(2);
+    await expect(page.locator('.build-order-row').filter({ hasText: 'E2E Human Drill' })).toHaveCount(2);
   });
 
   test('overlay quick preset toggles existing settings', async ({ page }) => {
@@ -91,7 +99,8 @@ test.describe('authenticated dashboard shell', () => {
     const routes = [
       { path: '/dashboard/practice', heading: 'Diagnose, drill, repeat', persona: 'player' },
       { path: '/dashboard/stream', heading: 'Live production command center', persona: 'streamer' },
-      { path: '/dashboard/build-orders', heading: 'Training program library', persona: 'player' },
+      { path: '/dashboard/build-orders', heading: 'Select a training program', persona: 'player' },
+      { path: '/dashboard/build-orders/manage', heading: 'Build-order manager', persona: 'player' },
       { path: '/dashboard/account', heading: 'E2E Tester', persona: 'player' }
     ];
 
@@ -134,7 +143,8 @@ test.describe('authenticated dashboard shell', () => {
     const routes = [
       { path: '/dashboard/practice', name: 'practice', heading: 'Diagnose, drill, repeat', persona: 'player' },
       { path: '/dashboard/stream', name: 'stream', heading: 'Live production command center', persona: 'streamer' },
-      { path: '/dashboard/build-orders', name: 'build-orders', heading: 'Training program library', persona: 'player' },
+      { path: '/dashboard/build-orders', name: 'build-orders', heading: 'Select a training program', persona: 'player' },
+      { path: '/dashboard/build-orders/manage', name: 'build-orders-manage', heading: 'Build-order manager', persona: 'player' },
       { path: '/dashboard/account', name: 'account', heading: 'E2E Tester', persona: 'player' }
     ];
 

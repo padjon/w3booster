@@ -56,7 +56,13 @@ export const DashboardRoutes: Routes = [
         path: 'build-orders',
         component: BuildOrdersPageComponent,
         canActivate: [PersonaGuard],
-        data: { title: 'Build Orders', persona: 'player' }
+        data: { title: 'Build Orders', persona: 'player', mode: 'select' }
+      },
+      {
+        path: 'build-orders/manage',
+        component: BuildOrdersPageComponent,
+        canActivate: [PersonaGuard],
+        data: { title: 'Build Manager', persona: 'player', mode: 'manage' }
       },
       {
         path: 'insights',

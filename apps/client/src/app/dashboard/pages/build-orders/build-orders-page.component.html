@@ -1,11 +1,104 @@
-<section class="page">
+<section class="page" *ngIf="mode === 'select'">
     <header class="page__header">
         <div>
             <p class="bn-eyebrow bn-eyebrow--accent">Build Orders</p>
-            <h1>Training program library</h1>
-            <p>Create, duplicate, delete, import, export, activate, and edit locally stored build orders. This uses the same storage keys as the legacy dashboard.</p>
+            <h1>Select a training program</h1>
+            <p>Pick from public build orders released by players and streamers. Creation and publishing live in the build-order manager.</p>
         </div>
         <div class="page__actions">
+            <a class="bn-btn" [routerLink]="['/dashboard/build-orders/manage']"><i class="fa fa-pen"></i> Manage builds</a>
+            <button class="bn-btn bn-btn--primary" type="button" (click)="create()"><i class="fa fa-plus"></i> New build</button>
+        </div>
+    </header>
+
+    <section class="page" style="gap: 14px;">
+        <div class="page__header">
+            <div>
+                <p class="bn-eyebrow">Public builds</p>
+                <h2 class="bn-card__title">Released training programs</h2>
+            </div>
+            <label class="bn-field" style="max-width: 220px;">
+                <span class="bn-field__label">Race filter</span>
+                <select class="bn-select" [(ngModel)]="raceFilter">
+                    <option ngValue="all">all</option>
+                    <option *ngFor="let race of buildOrderService.races" [ngValue]="race">{{race}}</option>
+                </select>
+            </label>
+        </div>
+        <div class="grid grid--3">
+            <article *ngFor="let order of visiblePublicOrders" class="bn-card">
+                <div class="bn-card__body">
+                    <div class="bn-stat__row" style="justify-content: space-between;">
+                        <span class="bn-eyebrow">{{order.race}} · {{order.matchup}}</span>
+                        <span class="bn-badge" [class.bn-badge--ok]="isInstalled(order)">{{isInstalled(order) ? 'Installed' : 'Public'}}</span>
+                    </div>
+                    <h2 class="bn-card__title" style="margin: 10px 0 6px;">{{order.name}}</h2>
+                    <p class="bn-text-muted">{{order.description}}</p>
+                    <p class="bn-text-faint" style="margin: 12px 0 0;">
+                        Released by {{order.publisherDisplayName}} via {{order.publisherProvider}}
+                    </p>
+
+                    <div class="grid grid--2" style="margin-top: 14px;">
+                        <div class="stat stat--gold">
+                            <span>Rating</span>
+                            <strong>{{buildOrderService.formatRating(order.stats.rating)}} ★</strong>
+                            <span>{{order.stats.starCount}} stars</span>
+                        </div>
+                        <div class="stat stat--cyan">
+                            <span>Selected total</span>
+                            <strong>{{order.stats.selectedCount}}</strong>
+                            <span>{{order.stats.selectedLastMonth}} last month</span>
+                        </div>
+                        <div class="stat stat--violet">
+                            <span>Executed last month</span>
+                            <strong>{{order.stats.executedLastMonth}}</strong>
+                            <span>{{order.steps.length}} steps</span>
+                        </div>
+                        <div class="stat">
+                            <span>Published</span>
+                            <strong>{{order.publishedAt | date:'MMM d'}}</strong>
+                            <span>{{order.publisherProvider}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="bn-card__footer">
+                    <button class="bn-btn bn-btn--sm" type="button" (click)="installPublicOrder(order)"><i class="fa fa-download"></i> Install</button>
+                    <button class="bn-btn bn-btn--sm bn-btn--primary" type="button" (click)="activatePublicOrder(order)"><i class="fa fa-play"></i> Select</button>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <article class="bn-card">
+        <div class="bn-card__header">
+            <h2 class="bn-card__title">Your installed builds</h2>
+            <span class="bn-badge">{{orders.length}}</span>
+        </div>
+        <div class="bn-card__body list">
+            <button *ngFor="let order of orders"
+                    class="list-item build-order-row"
+                    [class.is-selected]="order.id === selectedId"
+                    type="button"
+                    (click)="selectedId = order.id; activate()">
+                <span>
+                    <b>{{order.name}}</b>
+                    <span>{{order.race}} · {{order.matchup}} · {{order.steps.length}} steps · {{order.visibility}}</span>
+                </span>
+                <span class="bn-badge" [class.bn-badge--ok]="order.id === activeId">{{order.id === activeId ? 'Selected' : 'Ready'}}</span>
+            </button>
+        </div>
+    </article>
+</section>
+
+<section class="page" *ngIf="mode === 'manage'">
+    <header class="page__header">
+        <div>
+            <p class="bn-eyebrow bn-eyebrow--accent">Build Orders</p>
+            <h1>Build-order manager</h1>
+            <p>Create, edit, test, and publish build orders. The selection screen is kept separate for players who only want to pick a training program.</p>
+        </div>
+        <div class="page__actions">
+            <a class="bn-btn" [routerLink]="['/dashboard/build-orders']"><i class="fa fa-list"></i> Select builds</a>
             <button class="bn-btn" type="button" (click)="create()"><i class="fa fa-plus"></i> New</button>
             <button class="bn-btn" type="button" (click)="duplicate()"><i class="fa fa-copy"></i> Duplicate</button>
             <button class="bn-btn bn-btn--danger" type="button" (click)="remove()"><i class="fa fa-trash"></i> Delete</button>
@@ -15,7 +108,7 @@
     <div class="grid grid--3">
         <article class="bn-card">
             <div class="bn-card__header">
-                <h2 class="bn-card__title">Library</h2>
+                <h2 class="bn-card__title">My builds</h2>
                 <span class="bn-badge">{{orders.length}}</span>
             </div>
             <div class="bn-card__body list">
@@ -64,7 +157,8 @@
                         <span class="bn-field__label">Visibility</span>
                         <select class="bn-select" [(ngModel)]="selected.visibility" (ngModelChange)="persist()">
                             <option ngValue="private">private</option>
-                            <option ngValue="shared">shared</option>
+                            <option ngValue="shared">share code only</option>
+                            <option ngValue="public">public</option>
                         </select>
                     </label>
                     <label class="bn-toggle" style="align-self: end; min-height: 38px;">
@@ -85,6 +179,41 @@
             </div>
         </article>
     </div>
+
+    <article class="bn-card" *ngIf="selected">
+        <div class="bn-card__header">
+            <div>
+                <h2 class="bn-card__title">Publish</h2>
+                <p class="bn-text-muted" style="margin: 4px 0 0;">Choose which linked account is shown publicly as the releaser.</p>
+            </div>
+            <span class="bn-badge" [class.bn-badge--ok]="selected.visibility === 'public'">{{selected.visibility === 'public' ? 'Public' : 'Draft'}}</span>
+        </div>
+        <div class="bn-card__body">
+            <div class="grid grid--3">
+                <label class="bn-field">
+                    <span class="bn-field__label">Public releaser identity</span>
+                    <select class="bn-select" [(ngModel)]="publisherIdentityId">
+                        <option *ngFor="let identity of publisherIdentities" [value]="identity.id">{{identity.label}} · {{identity.provider}}</option>
+                    </select>
+                    <span class="bn-field__hint">Connect more accounts on Account to publish under another visible name.</span>
+                </label>
+                <div class="stat stat--gold">
+                    <span>Stars</span>
+                    <strong>{{selected.stats?.starCount || 0}}</strong>
+                    <span>{{buildOrderService.formatRating(selected.stats?.rating || 0)}} rating</span>
+                </div>
+                <div class="stat stat--cyan">
+                    <span>Last month</span>
+                    <strong>{{selected.stats?.executedLastMonth || 0}}</strong>
+                    <span>{{selected.stats?.selectedLastMonth || 0}} selections</span>
+                </div>
+            </div>
+            <div class="page__actions" style="margin-top: 14px;">
+                <button class="bn-btn bn-btn--primary" type="button" (click)="publishSelected()"><i class="fa fa-upload"></i> Publish build</button>
+                <span *ngIf="publishMessage" class="bn-badge bn-badge--ok">{{publishMessage}}</span>
+            </div>
+        </div>
+    </article>
 
     <article class="bn-card" *ngIf="selected">
         <div class="bn-card__header">

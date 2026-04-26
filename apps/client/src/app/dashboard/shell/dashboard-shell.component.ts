@@ -1,6 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 import { User } from 'app/data/models';
 import { AuthenticationService, NodeService } from 'app/data/services';
@@ -20,7 +21,7 @@ interface NavItem {
     templateUrl: './dashboard-shell.component.html',
     styleUrls: ['./dashboard-shell.component.css']
 })
-export class DashboardShellComponent implements OnInit, OnDestroy {
+export class DashboardShellComponent implements OnInit, AfterViewInit, OnDestroy {
     public user: User;
     public desktop = false;
     public state: PersonaState;
@@ -29,18 +30,20 @@ export class DashboardShellComponent implements OnInit, OnDestroy {
         { label: 'Overlays', icon: 'fa fa-layer-group', route: '/dashboard/overlays', group: 'streamer', persona: 'streamer' },
         { label: 'Automation', icon: 'fa fa-robot', route: '/dashboard/automation', group: 'streamer', persona: 'streamer' },
         { label: 'Practice Hub', icon: 'fa fa-crosshairs', route: '/dashboard/practice', group: 'player', persona: 'player' },
-        { label: 'Build Orders', icon: 'fa fa-list-ol', route: '/dashboard/build-orders', group: 'player', persona: 'player' },
+        { label: 'Find Builds', icon: 'fa fa-list-ol', route: '/dashboard/build-orders', group: 'player', persona: 'player' },
+        { label: 'Build Manager', icon: 'fa fa-pen', route: '/dashboard/build-orders/manage', group: 'player', persona: 'player' },
         { label: 'Match Insights', icon: 'fa fa-chart-line', route: '/dashboard/insights', group: 'player', persona: 'player' },
         { label: 'Account', icon: 'fa fa-user', route: '/dashboard/account', group: 'shared' },
         { label: 'Developers', icon: 'fa fa-code', route: '/dashboard/developers', group: 'developer', developer: true },
         { label: 'Legacy dashboard', icon: 'fa fa-th-large', route: '/dashboard/legacy', group: 'shared' }
     ];
 
-    private subscription: Subscription;
+    private subscription = new Subscription();
 
     constructor(
         public persona: PersonaService,
         private authentication: AuthenticationService,
+        private element: ElementRef<HTMLElement>,
         private node: NodeService,
         private router: Router
     ) {}
@@ -48,13 +51,21 @@ export class DashboardShellComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.user = this.authentication.getAuthenticatedUser();
         this.desktop = this.node.isAvailable();
-        this.subscription = this.persona.state$.subscribe(state => this.state = state);
+        this.subscription.add(this.persona.state$.subscribe(state => {
+            this.state = state;
+            this.scrollActiveRailItemIntoView();
+        }));
+        this.subscription.add(this.router.events.pipe(
+            filter(event => event instanceof NavigationEnd)
+        ).subscribe(() => this.scrollActiveRailItemIntoView()));
+    }
+
+    public ngAfterViewInit(): void {
+        this.scrollActiveRailItemIntoView();
     }
 
     public ngOnDestroy(): void {
-        if (this.subscription) {
-            this.subscription.unsubscribe();
-        }
+        this.subscription.unsubscribe();
     }
 
     public visibleItems(group: NavItem['group']): NavItem[] {
@@ -82,5 +93,12 @@ export class DashboardShellComponent implements OnInit, OnDestroy {
     public logout(): void {
         this.authentication.logout();
         this.router.navigate(['/login']);
+    }
+
+    private scrollActiveRailItemIntoView(): void {
+        window.requestAnimationFrame(() => {
+            const active = this.element.nativeElement.querySelector('.dashboard-shell__rail .bn-rail__item.is-active');
+            active?.scrollIntoView({ block: 'nearest', inline: 'center' });
+        });
     }
 }

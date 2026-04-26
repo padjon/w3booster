@@ -194,6 +194,22 @@ export class AuthenticationService  {
         user.displayName = 'E2E Tester';
         user.email = 'e2e@w3booster.local';
         user.broadcasterSecret = 'e2e-secret';
+        user.connectedAccounts = [
+            {
+                provider: 'twitch',
+                id: 'e2e-twitch',
+                login: 'e2ecaster',
+                displayName: 'E2E Caster',
+                connectedAt: new Date().toISOString()
+            },
+            {
+                provider: 'battlenet',
+                id: 'e2e-bnet',
+                login: 'E2E#1234',
+                displayName: 'E2E#1234',
+                connectedAt: new Date().toISOString()
+            }
+        ];
         user.plan = localStorage.getItem('W3B_E2E_PRO') === 'true' ? EUserPlan.PRO : EUserPlan.BASIC;
         user.planUntil = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
         const e2ePersona = localStorage.getItem('w3b.persona.value');
