@@ -1,6 +1,6 @@
 :host {
-  background: #04070d;
-  color: #eaf3ff;
+  background: #0d0e12;
+  color: #eaeaec;
   display: block;
   min-height: 100vh;
 }
@@ -27,7 +27,7 @@
 
 .login-panel {
   background: rgba(15, 34, 54, 0.86);
-  border: 1px solid rgba(110, 195, 255, 0.35);
+  border: 1px solid rgba(160, 142, 255, 0.35);
   border-radius: 8px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.04);
   max-width: 520px;
@@ -48,7 +48,7 @@
 }
 
 .login-panel p {
-  color: #c6d8f0;
+  color: #bdbec7;
   line-height: 1.6;
   margin: 0 0 22px;
 }
@@ -112,7 +112,7 @@
 }
 
 .login-links a {
-  color: #94adc8;
+  color: #888994;
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 0;
@@ -138,8 +138,8 @@
 
 .lds-ring div {
   animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-  border: 6px solid #6ec3ff;
-  border-color: #6ec3ff transparent transparent transparent;
+  border: 6px solid #a08eff;
+  border-color: #a08eff transparent transparent transparent;
   border-radius: 50%;
   box-sizing: border-box;
   display: block;

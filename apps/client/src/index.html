@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" style="background-color: #000; height:100%">
+<html lang="en" style="background-color: #0d0e12; height:100%">
 
 <head>
   <meta charset="utf-8">
@@ -8,7 +8,8 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <meta name="theme-color" content="#0090E3" />
+  <link rel="icon" type="image/svg+xml" href="assets/images/icon.svg">
+  <meta name="theme-color" content="#7c5cfc" />
   <link rel="manifest" href="./manifest.json" />
   <!--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">-->
   <script src="./runtime-config.js"></script>
@@ -26,20 +27,21 @@ circle-progress text{
 
   .boot-landing {
     background:
-      radial-gradient(circle at 18% 14%, rgba(48, 119, 187, 0.42), transparent 28rem),
-      radial-gradient(circle at 85% 18%, rgba(17, 201, 214, 0.18), transparent 30rem),
-      linear-gradient(135deg, #07101c 0%, #0c1727 48%, #05070c 100%);
-    color: #edf6ff;
-    font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      radial-gradient(circle at 15% 10%, rgba(124, 92, 252, 0.12), transparent 30rem),
+      radial-gradient(circle at 88% 8%,  rgba(160, 142, 255, 0.06), transparent 24rem),
+      linear-gradient(135deg, #0d0e12 0%, #111215 48%, #0d0e12 100%);
+    color: #eaeaec;
+    font-family: "Inter", "Segoe UI", "Trebuchet MS", sans-serif;
     min-height: 100vh;
     overflow: hidden;
     padding: 64px 28px;
   }
 
   .boot-landing__inner {
-    background: linear-gradient(135deg, rgba(13, 31, 52, 0.92), rgba(5, 9, 17, 0.94));
-    border: 1px solid rgba(128, 188, 255, 0.28);
-    box-shadow: 0 32px 90px rgba(0, 0, 0, 0.42);
+    background: linear-gradient(135deg, rgba(28, 29, 35, 0.92), rgba(17, 18, 21, 0.96));
+    border: 1px solid rgba(160, 142, 255, 0.22);
+    border-radius: 12px;
+    box-shadow: 0 32px 90px rgba(0, 0, 0, 0.52);
     margin: 0 auto;
     max-width: 1180px;
     min-height: 520px;
@@ -49,11 +51,12 @@ circle-progress text{
   .boot-landing__logo {
     display: block;
     margin-bottom: 72px;
-    width: 168px;
+    width: 160px;
+    height: auto;
   }
 
   .boot-landing__eyebrow {
-    color: #62c8ff;
+    color: #a08eff;
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 0.18em;
@@ -63,16 +66,16 @@ circle-progress text{
 
   .boot-landing h1 {
     color: #ffffff;
-    font-size: clamp(42px, 6vw, 78px);
+    font-size: clamp(38px, 6vw, 72px);
     font-weight: 800;
-    letter-spacing: -0.055em;
-    line-height: 0.92;
+    letter-spacing: -0.04em;
+    line-height: 1.02;
     margin: 0 0 24px;
     max-width: 760px;
   }
 
   .boot-landing p {
-    color: #c6d9ef;
+    color: #bdbec7;
     font-size: 18px;
     line-height: 1.7;
     margin: 0 0 32px;
@@ -86,7 +89,7 @@ circle-progress text{
   }
 
   .boot-landing__actions a {
-    border-radius: 4px;
+    border-radius: 6px;
     color: #fff;
     font-weight: 800;
     letter-spacing: 0.08em;
@@ -96,13 +99,13 @@ circle-progress text{
   }
 
   .boot-landing__primary {
-    background: linear-gradient(180deg, #27a8ff, #0864c8);
-    box-shadow: 0 16px 28px rgba(4, 89, 177, 0.38);
+    background: linear-gradient(160deg, #7c5cfc, #4730c0);
+    box-shadow: 0 16px 28px rgba(99, 71, 232, 0.42);
   }
 
   .boot-landing__secondary {
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(143, 202, 255, 0.35);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(160, 142, 255, 0.28);
   }
 
   @media (max-width: 860px) {
@@ -122,7 +125,7 @@ circle-progress text{
   <app-root>
     <main class="boot-landing">
       <section class="boot-landing__inner">
-        <img class="boot-landing__logo" src="assets/images/logo.png" alt="W3Booster" />
+        <img class="boot-landing__logo" src="assets/images/logo.svg" alt="W3Booster" />
         <div class="boot-landing__eyebrow">Warcraft III streaming command center</div>
         <h1>One W3Booster. Desktop power. Web access.</h1>
         <p>

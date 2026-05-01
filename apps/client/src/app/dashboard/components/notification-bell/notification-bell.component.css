@@ -24,7 +24,7 @@
 
 .notification__panel {
     background: linear-gradient(180deg, rgba(15, 34, 54, 0.98), rgba(8, 17, 31, 0.98));
-    border: 1px solid rgba(110, 195, 255, 0.45);
+    border: 1px solid rgba(160, 142, 255, 0.40);
     border-radius: 6px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
     min-width: 320px;
@@ -37,7 +37,7 @@
 
 .notification__header {
     align-items: center;
-    color: #eaf3ff;
+    color: #eaeaec;
     display: flex;
     justify-content: space-between;
     padding: 8px 10px 12px;
@@ -45,13 +45,13 @@
 
 .notification__header span,
 .notification__item small {
-    color: #94adc8;
+    color: #888994;
     font-size: 12px;
 }
 
 .notification__item {
     border-radius: 4px;
-    color: #c6d8f0;
+    color: #bdbec7;
     display: grid;
     gap: 10px;
     grid-template-columns: 8px 1fr;
@@ -59,7 +59,7 @@
 }
 
 .notification__item:hover {
-    background: rgba(33, 150, 243, 0.08);
+    background: rgba(124, 92, 252, 0.08);
 }
 
 .notification__item b,
@@ -75,7 +75,7 @@
 }
 
 .notification__dot {
-    background: #67809b;
+    background: #5b5c66;
     border-radius: 50%;
     height: 8px;
     margin-top: 6px;
@@ -83,6 +83,6 @@
 }
 
 .notification__item.is-unread .notification__dot {
-    background: #6ec3ff;
-    box-shadow: 0 0 12px rgba(110, 195, 255, 0.8);
+    background: #a08eff;
+    box-shadow: 0 0 12px rgba(160, 142, 255, 0.75);
 }

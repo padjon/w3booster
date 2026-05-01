@@ -1,9 +1,9 @@
 .recorder-chip {
     align-items: center;
     background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(110, 158, 210, 0.22);
+    border: 1px solid rgba(255, 255, 255, 0.10);
     border-radius: 6px;
-    color: #eaf3ff;
+    color: #eaeaec;
     display: inline-flex;
     gap: 10px;
     min-height: 40px;
@@ -18,7 +18,7 @@
 }
 
 .recorder-chip em {
-    color: #94adc8;
+    color: #888994;
     font-size: 11px;
 }
 
