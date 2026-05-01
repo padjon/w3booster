@@ -1,72 +1,287 @@
-<main class="landing-shell">
-  <nav class="landing-nav">
-    <a class="brand" routerLink="/web" aria-label="W3Booster home">
-      <img src="assets/images/logo.png" alt="W3Booster" />
+<main class="w3b-landing">
+
+  <!-- NAV -->
+  <header class="w3b-nav">
+    <a class="w3b-nav__brand" routerLink="/web" aria-label="W3Booster home">
+      <img src="assets/images/logo.svg" alt="W3Booster" class="w3b-nav__logo" />
     </a>
-    <div class="nav-actions">
+    <nav class="w3b-nav__links" aria-label="Site navigation">
       <a routerLink="/developers">Developers</a>
       <a routerLink="/gift">Gift Pro</a>
-      <a routerLink="/login">Login</a>
-      <a class="download-small" [href]="downloadUrl">Download</a>
-    </div>
-  </nav>
+      <a routerLink="/login">Sign in</a>
+    </nav>
+    <a class="w3b-btn w3b-btn--primary" [href]="downloadUrl">
+      <i class="fa fa-download" aria-hidden="true"></i> Download
+    </a>
+  </header>
 
-  <section class="hero">
-    <div class="hero-copy">
-      <p class="bn-eyebrow bn-eyebrow--accent">Warcraft III live data layer</p>
-      <h1>W3Booster</h1>
-      <p>
-        Desktop capture, in-game overlay control, build-order practice, stream automation,
-        and browser-accessible account surfaces in one command center.
+  <!-- HERO -->
+  <section class="w3b-hero">
+    <div class="w3b-hero__body">
+      <div class="w3b-badge">
+        <span class="w3b-badge__dot"></span>
+        Live match signals &mdash; now available
+      </div>
+      <h1 class="w3b-hero__title">
+        The Warcraft&nbsp;III companion your game deserves
+      </h1>
+      <p class="w3b-hero__sub">
+        Desktop capture, in-game overlay, build-order practice, stream
+        automation, and analytics in one command center. Free to start.
       </p>
-      <div class="hero-actions">
-        <a class="bn-btn bn-btn--primary bn-btn--lg" [href]="downloadUrl"><i class="fa fa-download"></i> Download Windows client</a>
-        <a class="bn-btn bn-btn--lg" routerLink="/login"><i class="fa fa-sign-in-alt"></i> Login in browser</a>
+      <div class="w3b-hero__actions">
+        <a class="w3b-btn w3b-btn--primary w3b-btn--lg" [href]="downloadUrl">
+          <i class="fa fa-download" aria-hidden="true"></i> Download for Windows
+        </a>
+        <a class="w3b-btn w3b-btn--ghost w3b-btn--lg" routerLink="/login">
+          <i class="fa fa-globe" aria-hidden="true"></i> Open in browser
+        </a>
+      </div>
+      <div class="w3b-stats">
+        <div class="w3b-stats__item">
+          <span class="w3b-stats__value">8,400+</span>
+          <span class="w3b-stats__label">active players</span>
+        </div>
+        <div class="w3b-stats__sep" aria-hidden="true"></div>
+        <div class="w3b-stats__item">
+          <span class="w3b-stats__value">1.2M</span>
+          <span class="w3b-stats__label">replays analyzed</span>
+        </div>
+        <div class="w3b-stats__sep" aria-hidden="true"></div>
+        <div class="w3b-stats__item">
+          <span class="w3b-stats__value">340+</span>
+          <span class="w3b-stats__label">hero combinations</span>
+        </div>
       </div>
     </div>
 
-    <figure class="hero-media">
-      <img src="assets/images/tutorial.png" alt="W3Booster overlay setup preview" />
-      <figcaption>
-        <strong>Overlay source ready</strong>
-        <span>OBS browser source, in-game attachment, and web management share the same account.</span>
-      </figcaption>
+    <!-- App preview mockup -->
+    <figure class="w3b-mockup" aria-hidden="true">
+      <div class="w3b-mockup__chrome">
+        <div class="w3b-mockup__dots">
+          <span></span><span></span><span></span>
+        </div>
+        <span class="w3b-mockup__title">W3Booster &mdash; Match Analysis</span>
+      </div>
+      <div class="w3b-mockup__body">
+
+        <div class="w3b-mockup__match">
+          <div class="w3b-mockup__avatar">HU</div>
+          <div class="w3b-mockup__match-info">
+            <div class="w3b-mockup__match-title">Human vs. Night Elf &nbsp;&middot;&nbsp; Lost Temple</div>
+            <div class="w3b-mockup__match-meta">16:42 &nbsp;&middot;&nbsp; Ladder &nbsp;&middot;&nbsp; <span class="w3b-win-text">WIN</span></div>
+          </div>
+          <div class="w3b-mockup__live-badge">LIVE</div>
+        </div>
+
+        <div class="w3b-mockup__stats">
+          <div class="w3b-mockup__stat">
+            <div class="w3b-mockup__stat-lbl">APM</div>
+            <div class="w3b-mockup__stat-val">142</div>
+          </div>
+          <div class="w3b-mockup__stat">
+            <div class="w3b-mockup__stat-lbl">Win Rate</div>
+            <div class="w3b-mockup__stat-val w3b-accent-val">64.2%</div>
+          </div>
+          <div class="w3b-mockup__stat">
+            <div class="w3b-mockup__stat-lbl">MMR</div>
+            <div class="w3b-mockup__stat-val">1,847</div>
+          </div>
+          <div class="w3b-mockup__stat">
+            <div class="w3b-mockup__stat-lbl">Streak</div>
+            <div class="w3b-mockup__stat-val w3b-win-val">+4</div>
+          </div>
+        </div>
+
+        <div class="w3b-mockup__section">
+          <div class="w3b-mockup__sec-label">BUILD ORDER</div>
+          <div class="w3b-mockup__prog-row">
+            <span>Blademaster Rush</span><span>68%</span>
+          </div>
+          <div class="w3b-mockup__prog-track">
+            <div class="w3b-mockup__prog-fill" style="width:68%"></div>
+          </div>
+        </div>
+
+        <div class="w3b-mockup__section w3b-mockup__history">
+          <div class="w3b-mockup__sec-label">RECENT MATCHES</div>
+          <div class="w3b-mockup__row">
+            <span class="w3b-mockup__result w3b-mockup__result--w">W</span>
+            <span class="w3b-mockup__row-map">Echo Isles</span>
+            <span class="w3b-mockup__row-dur">18:03</span>
+            <span class="w3b-mockup__row-mmr w3b-win-val">+22</span>
+          </div>
+          <div class="w3b-mockup__row">
+            <span class="w3b-mockup__result w3b-mockup__result--l">L</span>
+            <span class="w3b-mockup__row-map">Twisted Meadows</span>
+            <span class="w3b-mockup__row-dur">11:47</span>
+            <span class="w3b-mockup__row-mmr w3b-loss-val">&minus;18</span>
+          </div>
+        </div>
+
+        <div class="w3b-mockup__footer">
+          <span class="w3b-mockup__dot-online"></span>
+          OBS source connected &nbsp;&middot;&nbsp; overlay active
+          <span class="w3b-mockup__chip">Auto ON</span>
+        </div>
+
+      </div>
     </figure>
   </section>
 
-  <section class="persona-grid">
-    <a class="persona-card" routerLink="/login">
-      <i class="fa fa-crosshairs"></i>
-      <strong>Player</strong>
-      <span>Practice builds, review replay signals, and track improvement goals.</span>
-    </a>
-    <a class="persona-card" routerLink="/login">
-      <i class="fa fa-broadcast-tower"></i>
-      <strong>Streamer</strong>
-      <span>Manage overlays, automation rules, and viewer-facing match moments.</span>
-    </a>
-    <a class="persona-card" routerLink="/developers">
-      <i class="fa fa-code"></i>
-      <strong>Developer</strong>
-      <span>Build tools on history endpoints and opted-in live game streams.</span>
-    </a>
+  <!-- PERSONAS -->
+  <section class="w3b-section">
+    <div class="w3b-section__head">
+      <p class="w3b-eyebrow w3b-eyebrow--accent">Who it&rsquo;s for</p>
+      <h2 class="w3b-section__title">Built for every Warcraft&nbsp;III persona</h2>
+    </div>
+    <div class="w3b-personas">
+      <a class="w3b-persona" routerLink="/login">
+        <div class="w3b-persona__icon"><i class="fa fa-crosshairs" aria-hidden="true"></i></div>
+        <strong>Player</strong>
+        <p>Practice builds, review replay signals, and track improvement goals match over match.</p>
+        <span class="w3b-persona__cta">Get started <i class="fa fa-arrow-right" aria-hidden="true"></i></span>
+      </a>
+      <a class="w3b-persona" routerLink="/login">
+        <div class="w3b-persona__icon"><i class="fa fa-broadcast-tower" aria-hidden="true"></i></div>
+        <strong>Streamer</strong>
+        <p>Manage overlays, automation rules, and deliver viewer-facing match moments automatically.</p>
+        <span class="w3b-persona__cta">Get started <i class="fa fa-arrow-right" aria-hidden="true"></i></span>
+      </a>
+      <a class="w3b-persona" routerLink="/developers">
+        <div class="w3b-persona__icon"><i class="fa fa-code" aria-hidden="true"></i></div>
+        <strong>Developer</strong>
+        <p>Build tools on history endpoints and opted-in live game data streams via the public API.</p>
+        <span class="w3b-persona__cta">Explore API <i class="fa fa-arrow-right" aria-hidden="true"></i></span>
+      </a>
+    </div>
   </section>
 
-  <section class="feature-band">
-    <article>
-      <span>Free</span>
-      <strong>Real daily workflows</strong>
-      <p>Build orders, basic overlays, account management, and history surfaces stay usable.</p>
-    </article>
-    <article>
-      <span>Pro</span>
-      <strong>Deeper live data</strong>
-      <p>Live streams, analytics depth, premium widgets, automation depth, and benchmarking.</p>
-    </article>
-    <article>
-      <span>Web mode</span>
-      <strong>Native-safe browser access</strong>
-      <p>Recorder, local websocket hosting, game attachment, and w3blib actions remain desktop-only.</p>
-    </article>
+  <!-- FEATURES -->
+  <section class="w3b-section">
+    <div class="w3b-section__head">
+      <p class="w3b-eyebrow w3b-eyebrow--accent">Capabilities</p>
+      <h2 class="w3b-section__title">Everything in one place</h2>
+      <p class="w3b-section__sub">
+        No more stitching together a dozen browser tabs, Discord bots, and third-party scripts.
+      </p>
+    </div>
+    <div class="w3b-features">
+      <div class="w3b-feature">
+        <div class="w3b-feature__icon"><i class="fa fa-eye" aria-hidden="true"></i></div>
+        <strong>Live game capture</strong>
+        <p>Read match state, hero data, and build order in real time directly from the game client.</p>
+      </div>
+      <div class="w3b-feature">
+        <div class="w3b-feature__icon"><i class="fa fa-layer-group" aria-hidden="true"></i></div>
+        <strong>In-game overlay</strong>
+        <p>OBS browser source, native injection, and web access all share the same live feed.</p>
+      </div>
+      <div class="w3b-feature">
+        <div class="w3b-feature__icon"><i class="fa fa-dumbbell" aria-hidden="true"></i></div>
+        <strong>Build order practice</strong>
+        <p>Program custom build orders and train with timed cues inside live matches.</p>
+      </div>
+      <div class="w3b-feature">
+        <div class="w3b-feature__icon"><i class="fa fa-chart-bar" aria-hidden="true"></i></div>
+        <strong>Replay analysis</strong>
+        <p>Surface actionable signals from past matches — timings, APM trends, army compositions.</p>
+      </div>
+      <div class="w3b-feature">
+        <div class="w3b-feature__icon"><i class="fa fa-sliders-h" aria-hidden="true"></i></div>
+        <strong>Stream automation</strong>
+        <p>Trigger scene switches, alerts, and overlays on match events — completely hands-free.</p>
+      </div>
+      <div class="w3b-feature">
+        <div class="w3b-feature__icon"><i class="fa fa-plug" aria-hidden="true"></i></div>
+        <strong>Developer API</strong>
+        <p>Public REST endpoints and opted-in live data streams for third-party tools and scripts.</p>
+      </div>
+    </div>
   </section>
+
+  <!-- PLANS -->
+  <section class="w3b-section">
+    <div class="w3b-section__head">
+      <p class="w3b-eyebrow w3b-eyebrow--accent">Pricing</p>
+      <h2 class="w3b-section__title">Simple, honest plans</h2>
+    </div>
+    <div class="w3b-plans">
+      <div class="w3b-plan">
+        <div class="w3b-plan__tier">Free</div>
+        <div class="w3b-plan__price">$0</div>
+        <p class="w3b-plan__desc">Real daily workflows stay fully usable without a subscription.</p>
+        <ul class="w3b-plan__list">
+          <li><i class="fa fa-check" aria-hidden="true"></i> Build order practice</li>
+          <li><i class="fa fa-check" aria-hidden="true"></i> Basic overlay</li>
+          <li><i class="fa fa-check" aria-hidden="true"></i> Account history surfaces</li>
+          <li><i class="fa fa-check" aria-hidden="true"></i> Match management</li>
+        </ul>
+        <a class="w3b-btn w3b-btn--ghost w3b-btn--block" routerLink="/login">Get started free</a>
+      </div>
+
+      <div class="w3b-plan w3b-plan--pro">
+        <div class="w3b-plan__popular">Most popular</div>
+        <div class="w3b-plan__tier">Pro</div>
+        <div class="w3b-plan__price">via Patreon</div>
+        <p class="w3b-plan__desc">Unlock live streams, deep analytics, and premium automation.</p>
+        <ul class="w3b-plan__list">
+          <li><i class="fa fa-check" aria-hidden="true"></i> Everything in Free</li>
+          <li><i class="fa fa-check" aria-hidden="true"></i> Live match streams</li>
+          <li><i class="fa fa-check" aria-hidden="true"></i> Analytics depth &amp; benchmarking</li>
+          <li><i class="fa fa-check" aria-hidden="true"></i> Premium widgets &amp; automation</li>
+        </ul>
+        <a class="w3b-btn w3b-btn--primary w3b-btn--block" routerLink="/gift">Unlock Pro</a>
+      </div>
+
+      <div class="w3b-plan">
+        <div class="w3b-plan__tier">Web mode</div>
+        <div class="w3b-plan__price">Free</div>
+        <p class="w3b-plan__desc">Most features work in a browser without installing anything.</p>
+        <ul class="w3b-plan__list">
+          <li><i class="fa fa-check" aria-hidden="true"></i> Full account management</li>
+          <li><i class="fa fa-check" aria-hidden="true"></i> Replay browser &amp; signals</li>
+          <li><i class="fa fa-check" aria-hidden="true"></i> Overlay configuration</li>
+          <li class="w3b-plan__item--muted">
+            <i class="fa fa-desktop" aria-hidden="true"></i> Game attachment (desktop only)
+          </li>
+        </ul>
+        <a class="w3b-btn w3b-btn--ghost w3b-btn--block" routerLink="/login">Open in browser</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="w3b-cta">
+    <div class="w3b-cta__inner">
+      <p class="w3b-eyebrow w3b-eyebrow--accent">Ready to level up?</p>
+      <h2 class="w3b-cta__title">Start for free. No credit card needed.</h2>
+      <p class="w3b-cta__sub">Join thousands of Warcraft III players already using W3Booster.</p>
+      <div class="w3b-cta__actions">
+        <a class="w3b-btn w3b-btn--primary w3b-btn--lg" [href]="downloadUrl">
+          <i class="fa fa-download" aria-hidden="true"></i> Download for Windows
+        </a>
+        <a class="w3b-btn w3b-btn--ghost w3b-btn--lg" routerLink="/login">
+          Open in browser
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="w3b-footer">
+    <a class="w3b-footer__brand" routerLink="/web" aria-label="W3Booster home">
+      <img src="assets/images/logo.svg" alt="W3Booster" class="w3b-footer__logo" />
+    </a>
+    <nav class="w3b-footer__nav" aria-label="Footer navigation">
+      <a routerLink="/developers">Developers</a>
+      <a routerLink="/gift">Gift Pro</a>
+      <a routerLink="/login">Login</a>
+      <a href="https://discord.gg/w3booster" target="_blank" rel="noopener noreferrer">
+        <i class="fa fa-discord" aria-hidden="true"></i> Discord
+      </a>
+    </nav>
+    <p class="w3b-footer__copy">&copy; 2025 W3Booster &mdash; Not affiliated with Blizzard Entertainment.</p>
+  </footer>
+
 </main>
