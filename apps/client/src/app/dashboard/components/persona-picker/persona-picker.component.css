@@ -11,7 +11,7 @@
 
 .persona-picker__dialog {
     background: linear-gradient(180deg, rgba(15, 34, 54, 0.98), rgba(8, 17, 31, 0.98));
-    border: 1px solid rgba(110, 195, 255, 0.45);
+    border: 1px solid rgba(160, 142, 255, 0.40);
     border-radius: 8px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
     max-width: 900px;
@@ -26,7 +26,7 @@
 }
 
 .persona-picker__copy {
-    color: #c6d8f0;
+    color: #bdbec7;
     line-height: 1.55;
     margin: 0 0 20px;
     max-width: 760px;
@@ -40,9 +40,9 @@
 
 .persona-picker__option {
     background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(110, 158, 210, 0.22);
+    border: 1px solid rgba(255, 255, 255, 0.10);
     border-radius: 6px;
-    color: #c6d8f0;
+    color: #bdbec7;
     cursor: pointer;
     min-height: 180px;
     padding: 18px;
@@ -50,12 +50,12 @@
 }
 
 .persona-picker__option:hover {
-    background: rgba(33, 150, 243, 0.1);
-    border-color: rgba(110, 195, 255, 0.45);
+    background: rgba(124, 92, 252, 0.10);
+    border-color: rgba(160, 142, 255, 0.40);
 }
 
 .persona-picker__option i {
-    color: #6ec3ff;
+    color: #a08eff;
     font-size: 24px;
     margin-bottom: 20px;
 }

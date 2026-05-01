@@ -1,6 +1,6 @@
 :host {
-  background: #04070d;
-  color: #eaf3ff;
+  background: #0d0e12;
+  color: #eaeaec;
   display: block;
   min-height: 100vh;
 }
@@ -32,7 +32,7 @@
 }
 
 .nav-actions a {
-  color: #c6d8f0;
+  color: #bdbec7;
   font-size: 13px;
   font-weight: 800;
   letter-spacing: 0;
@@ -40,7 +40,7 @@
 }
 
 .download-small {
-  border: 1px solid rgba(110, 195, 255, 0.45);
+  border: 1px solid rgba(160, 142, 255, 0.40);
   border-radius: 4px;
   padding: 9px 13px;
 }
@@ -66,7 +66,7 @@
 }
 
 .hero p {
-  color: #c6d8f0;
+  color: #bdbec7;
   font-size: 18px;
   line-height: 1.6;
   margin: 0 0 26px;
@@ -81,8 +81,8 @@
 
 .hero-media {
   align-self: stretch;
-  background: #060b15;
-  border: 1px solid rgba(110, 195, 255, 0.35);
+  background: #111215;
+  border: 1px solid rgba(160, 142, 255, 0.35);
   border-radius: 8px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
   margin: 0;
@@ -118,7 +118,7 @@
 }
 
 .hero-media span {
-  color: #c6d8f0;
+  color: #bdbec7;
   max-width: 620px;
 }
 
@@ -133,20 +133,20 @@
 .persona-card,
 .feature-band article {
   background: rgba(15, 34, 54, 0.78);
-  border: 1px solid rgba(110, 158, 210, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.10);
   border-radius: 6px;
-  color: #c6d8f0;
+  color: #bdbec7;
   padding: 20px;
 }
 
 .persona-card:hover {
-  border-color: rgba(110, 195, 255, 0.45);
+  border-color: rgba(160, 142, 255, 0.40);
   color: #fff;
   text-decoration: none;
 }
 
 .persona-card i {
-  color: #6ec3ff;
+  color: #a08eff;
   font-size: 22px;
   margin-bottom: 18px;
 }
@@ -166,7 +166,7 @@
 }
 
 .feature-band span {
-  color: #6ec3ff;
+  color: #a08eff;
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 0;
@@ -175,7 +175,7 @@
 }
 
 .feature-band p {
-  color: #94adc8;
+  color: #888994;
   line-height: 1.55;
   margin: 8px 0 0;
 }
@@ -282,7 +282,7 @@ a:hover {
   }
 
   .hero-media figcaption {
-    background: #060b15;
+    background: #111215;
     padding: 16px;
     position: static;
   }

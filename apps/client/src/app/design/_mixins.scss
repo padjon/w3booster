@@ -2,8 +2,7 @@
 @use 'sass:color';
 @use 'tokens' as *;
 
-// Etched panel: dark navy fill, hairline border, subtle inner top highlight.
-// Use for cards, tiles, and any raised surface.
+// Etched panel: dark charcoal fill, hairline border, subtle inner top highlight.
 @mixin bn-panel($bg: $bg-panel, $border: $border-soft) {
   background: $bg;
   border: 1px solid $border;
@@ -22,7 +21,7 @@
   }
 }
 
-// Diagonal cut-corner effect using clip-path. BNet uses these on hero CTAs.
+// Diagonal cut-corner effect using clip-path.
 @mixin bn-cut-corners($size: 10px, $corners: top-right bottom-left) {
   $tl: 0; $tr: 0; $br: 0; $bl: 0;
   @each $c in $corners {
@@ -64,9 +63,9 @@
 
 // Glass overlay (frosted dark sheet for modals & dropdowns).
 @mixin bn-glass {
-  background: linear-gradient(180deg, rgba(15, 34, 54, 0.92), rgba(8, 17, 31, 0.96));
-  backdrop-filter: blur(18px) saturate(140%);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  background: linear-gradient(180deg, rgba(28, 29, 36, 0.94), rgba(17, 18, 21, 0.97));
+  backdrop-filter: blur(18px) saturate(130%);
+  -webkit-backdrop-filter: blur(18px) saturate(130%);
   border: 1px solid $border-strong;
   box-shadow: $shadow-3;
 }
@@ -83,7 +82,7 @@
     background: linear-gradient(
       120deg,
       transparent 30%,
-      rgba(255, 255, 255, 0.08) 50%,
+      rgba(255, 255, 255, 0.06) 50%,
       transparent 70%
     );
     transform: translateX(-100%);
@@ -96,16 +95,16 @@
   }
 }
 
-// Fancy scrollbar matching the dark theme.
+// Fancy scrollbar matching the dark gray theme.
 @mixin bn-scrollbar {
   &::-webkit-scrollbar { width: 8px; height: 8px; }
-  &::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.25); }
+  &::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.20); }
   &::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #1b3556, #0a5ba4);
+    background: linear-gradient(180deg, #2e2f3a, #4730c0);
     border-radius: $radius-pill;
   }
   &::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, #234262, #2196f3);
+    background: linear-gradient(180deg, #383944, #7c5cfc);
   }
 }
 
@@ -125,6 +124,6 @@
 // Focus ring that matches the system.
 @mixin bn-focus-ring {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.35),
-              0 0 0 4px rgba(15, 34, 54, 0.9);
+  box-shadow: 0 0 0 2px rgba(124, 92, 252, 0.35),
+              0 0 0 4px rgba(28, 29, 36, 0.9);
 }

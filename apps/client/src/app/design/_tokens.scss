@@ -1,34 +1,33 @@
 // W3Booster Design Tokens
-// Battle.net 2020-inspired dark UI: deep navy panels, electric BNet-blue
-// accents, soft glow, etched borders.
+// Blitz.gg-inspired dark UI: neutral charcoal panels, purple accent, clean grays.
 //
 // All visual surfaces in the app should consume these — never hand-roll
 // colors or shadows in feature code.
 
 // ---- color base ---------------------------------------------------------
 
-$bn-ink-900: #04070d;   // deepest background
-$bn-ink-850: #060b15;
-$bn-ink-800: #08111f;   // app shell
-$bn-ink-750: #0b1929;
-$bn-ink-700: #0f2236;   // raised panel
-$bn-ink-650: #142a44;
-$bn-ink-600: #1b3556;   // hover panel
-$bn-ink-500: #234262;
+$bn-ink-900: #0d0e12;   // deepest background
+$bn-ink-850: #111215;
+$bn-ink-800: #17181d;   // app shell
+$bn-ink-750: #1c1d22;
+$bn-ink-700: #212228;   // raised panel
+$bn-ink-650: #272831;
+$bn-ink-600: #2e2f3a;   // hover panel
+$bn-ink-500: #383944;
 
 $bn-frost-100: #ffffff;
-$bn-frost-200: #eaf3ff;  // primary text
-$bn-frost-300: #c6d8f0;  // secondary text
-$bn-frost-400: #94adc8;  // tertiary text / labels
-$bn-frost-500: #67809b;  // disabled / hint
-$bn-frost-600: #46596f;  // dividers
+$bn-frost-200: #eaeaec;  // primary text
+$bn-frost-300: #bdbec7;  // secondary text
+$bn-frost-400: #888994;  // tertiary text / labels
+$bn-frost-500: #5b5c66;  // disabled / hint
+$bn-frost-600: #3a3b44;  // dividers
 
-// Electric blue — the BNet 2020 signature.
-$bn-blue-400: #6ec3ff;
-$bn-blue-500: #2196f3;
-$bn-blue-600: #0d7ad6;   // CTA base
-$bn-blue-700: #0a5ba4;
-$bn-blue-800: #073b6c;
+// Purple — the Blitz.gg-style signature accent.
+$bn-blue-400: #a08eff;
+$bn-blue-500: #7c5cfc;
+$bn-blue-600: #6347e8;   // CTA base
+$bn-blue-700: #4730c0;
+$bn-blue-800: #2b1a85;
 
 // Warning gold — for "pro" / featured / live highlights.
 $bn-gold-400: #ffd166;
@@ -36,10 +35,9 @@ $bn-gold-500: #f1a33b;
 $bn-gold-600: #c87a16;
 
 // Vivid accents — used for data viz, hero numbers, tier coding.
-// Inspired by the modern gaming-companion vocabulary (blitz.gg etc.).
-$bn-violet-300: #a594ff;
-$bn-violet-500: #7b5cf5;
-$bn-violet-700: #4b2fc2;
+$bn-violet-300: #c4aeff;
+$bn-violet-500: #9b7eff;
+$bn-violet-700: #5e3fc2;
 
 $bn-cyan-300: #7df0ff;
 $bn-cyan-500: #00d2ff;
@@ -56,36 +54,35 @@ $bn-loss-500: #ff5b73;
 $bn-loss-700: #a8142a;
 
 // Tier ramp (Warcraft III ladder analogue).
-// Use via .bn-tier--{slug} or directly through $tier-* maps.
 $bn-tier-iron:        #6c7488;
 $bn-tier-bronze:      #c08956;
 $bn-tier-silver:      #cdd5e0;
 $bn-tier-gold:        #ffcd5e;
 $bn-tier-platinum:    #6ee0c5;
-$bn-tier-diamond:     #6ec3ff;
-$bn-tier-master:      #b694ff;
+$bn-tier-diamond:     #a08eff;
+$bn-tier-master:      #c4aeff;
 $bn-tier-grandmaster: #ff7c66;
 $bn-tier-champion:    #ffe27a;
 
 // Status palette
 $bn-status-online:  #42c483;
 $bn-status-busy:    #f1a33b;
-$bn-status-offline: #67809b;
+$bn-status-offline: #5b5c66;
 $bn-status-error:   #df5c52;
 
 // ---- semantic aliases ---------------------------------------------------
 
-$bg-app:        $bn-ink-900;
-$bg-shell:      $bn-ink-800;
-$bg-panel:      rgba(15, 34, 54, 0.78);
-$bg-panel-raised: rgba(27, 53, 86, 0.85);
-$bg-panel-hover:  rgba(33, 66, 100, 0.9);
-$bg-input:      rgba(4, 9, 18, 0.72);
+$bg-app:          $bn-ink-900;
+$bg-shell:        $bn-ink-800;
+$bg-panel:        rgba(28, 29, 35, 0.85);
+$bg-panel-raised: rgba(39, 40, 49, 0.90);
+$bg-panel-hover:  rgba(46, 48, 60, 0.93);
+$bg-input:        rgba(10, 10, 14, 0.72);
 
-$border-subtle: rgba(110, 158, 210, 0.12);
-$border-soft:   rgba(110, 158, 210, 0.22);
-$border-strong: rgba(110, 195, 255, 0.45);
-$border-glow:   rgba(110, 195, 255, 0.85);
+$border-subtle: rgba(255, 255, 255, 0.06);
+$border-soft:   rgba(255, 255, 255, 0.10);
+$border-strong: rgba(160, 142, 255, 0.40);
+$border-glow:   rgba(160, 142, 255, 0.80);
 
 $text-primary:   $bn-frost-200;
 $text-secondary: $bn-frost-300;
@@ -154,22 +151,22 @@ $radius-xs: 2px;
 $radius-sm: 4px;
 $radius-md: 6px;
 $radius-lg: 10px;
-$radius-card: 12px;   // softer surface — used by data-dense cards
+$radius-card: 12px;
 $radius-xl: 16px;
 $radius-pill: 999px;
 
 // ---- elevation ----------------------------------------------------------
 
-$shadow-1: 0 2px 6px rgba(0, 0, 0, 0.35);
-$shadow-2: 0 8px 24px rgba(0, 0, 0, 0.4);
-$shadow-3: 0 20px 60px rgba(0, 0, 0, 0.55);
-$shadow-glow: 0 0 0 1px rgba(110, 195, 255, 0.45),
-              0 0 24px rgba(33, 150, 243, 0.45);
-$shadow-glow-strong: 0 0 0 1px rgba(110, 195, 255, 0.7),
-                     0 0 36px rgba(33, 150, 243, 0.65);
-$shadow-lift: 0 12px 28px rgba(0, 0, 0, 0.45),
+$shadow-1: 0 2px 6px rgba(0, 0, 0, 0.40);
+$shadow-2: 0 8px 24px rgba(0, 0, 0, 0.48);
+$shadow-3: 0 20px 60px rgba(0, 0, 0, 0.62);
+$shadow-glow: 0 0 0 1px rgba(160, 142, 255, 0.40),
+              0 0 24px rgba(124, 92, 252, 0.38);
+$shadow-glow-strong: 0 0 0 1px rgba(160, 142, 255, 0.65),
+                     0 0 36px rgba(124, 92, 252, 0.58);
+$shadow-lift: 0 12px 28px rgba(0, 0, 0, 0.52),
               0 2px 0 rgba(255, 255, 255, 0.04) inset;
-$shadow-lift-violet: 0 14px 32px rgba(123, 92, 245, 0.35),
+$shadow-lift-violet: 0 14px 32px rgba(124, 92, 252, 0.32),
                      0 2px 0 rgba(255, 255, 255, 0.05) inset;
 
 // ---- motion -------------------------------------------------------------

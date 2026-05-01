@@ -1,7 +1,7 @@
 .persona-toggle {
     align-items: center;
     background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(110, 158, 210, 0.22);
+    border: 1px solid rgba(255, 255, 255, 0.10);
     border-radius: 999px;
     display: inline-flex;
     padding: 3px;
@@ -11,7 +11,7 @@
     background: transparent;
     border: 0;
     border-radius: 999px;
-    color: #94adc8;
+    color: #888994;
     cursor: pointer;
     font-size: 12px;
     font-weight: 700;
